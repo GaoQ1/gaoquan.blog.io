@@ -1,0 +1,655 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="javascript,语法和数据类型," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="GaoQ's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="By plucking her petals you do not gather the beauty of the flower.  本章讨论Javascript的基本语法(basic grammar)，变量声明(variable declarations)，数据类型(data types)和字面量(literals)。  基础知识(Basic)Javascript很多语法借鉴自Java，但也">
+<meta name="keywords" content="javascript,语法和数据类型">
+<meta property="og:type" content="article">
+<meta property="og:title" content="语法和数据类型">
+<meta property="og:url" content="http://gaoquan.wang/2016/05/16/语法和数据类型/index.html">
+<meta property="og:site_name" content="GaoQ&#39;s blog">
+<meta property="og:description" content="By plucking her petals you do not gather the beauty of the flower.  本章讨论Javascript的基本语法(basic grammar)，变量声明(variable declarations)，数据类型(data types)和字面量(literals)。  基础知识(Basic)Javascript很多语法借鉴自Java，但也">
+<meta property="og:updated_time" content="2017-06-04T12:54:20.335Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="语法和数据类型">
+<meta name="twitter:description" content="By plucking her petals you do not gather the beauty of the flower.  本章讨论Javascript的基本语法(basic grammar)，变量声明(variable declarations)，数据类型(data types)和字面量(literals)。  基础知识(Basic)Javascript很多语法借鉴自Java，但也">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title>
+  
+
+  
+    语法和数据类型 | GaoQ's blog
+  
+</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?b902fa08b28044c55da6c70921955ecb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left  ">
+    <div class="headband"></div>
+
+
+<a href="https://github.com/GaoQ1"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/8b6b8ccc6da3aa5722903da7b58eb5ab1081adee/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_orange_ff7600.png"></a>
+
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">GaoQ's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">There are no shortcuts to any place worth going</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            关于我
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+    
+      <blockquote>
+<p>By plucking her petals you do not gather the beauty of the flower. </p>
+<p>本章讨论Javascript的基本语法(basic grammar)，变量声明(variable declarations)，数据类型(data types)和字面量(literals)。</p>
+</blockquote>
+<h2 id="基础知识-Basic"><a href="#基础知识-Basic" class="headerlink" title="基础知识(Basic)"></a>基础知识(Basic)</h2><p>Javascript很多语法借鉴自Java，但也受Awk, Perl和Python影响。</p>
+<p>Javascript是大小写敏感的，使用Unicode字符集。</p>
+<p>在Javascript中，语句被称为statements，并用分号分隔(;)。空格、制表符和换行符被称为空白。<br>Javascript的脚本的源文件从左到右扫描，并转换成由令牌，控制字符，行结束符，注释或空白组成的输入元素序列。<br>ECMAScript中还定义了某些关键字和字面量，并具有分号自动插入功能(ASI)来结束语句。但是，建议随时添加分号结束你的语句以避免副作用。</p>
+<h2 id="注释-Comments"><a href="#注释-Comments" class="headerlink" title="注释(Comments)"></a>注释(Comments)</h2><p>注释语法和C++和其他语言相同：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//单行注释</span></div><div class="line"><span class="comment">/* 这是一个多行注释*/</span></div></pre></td></tr></table></figure></p>
+<h2 id="声明-Declarations"><a href="#声明-Declarations" class="headerlink" title="声明(Declarations)"></a>声明(Declarations)</h2><p>Javascript有三种声明。</p>
+<p>var 声明变量，可选择将其初始化为一个值<br>let 声明块范围局部变量(block scope local variable)，可选择将其初始化为一个值。<br>const 声明一个只读(read-only)命名常量。</p>
+<h3 id="变量-variables"><a href="#变量-variables" class="headerlink" title="变量(variables)"></a>变量(variables)</h3><p>在应用程序中，使用变量来为值命名。变量的名称称为identifiers，需要遵守一定的规则。</p>
+<p>在Javascript语言中，一个标识符(identifier)必须以字母、下划线(_)或者美元($)符号开头；后续的字符可以包含数字(0-9)。因为Javascript语言中是区分大小写的，这里所指的字母可以是(大写的)”A”到字母”Z”和小写的”a”到”z”。<br>从JavaScript 1.5版开始，你可以使用ISO 8859-1或Unicode编码的字符作标识符。你也可以使用\uXXXX字样的转义序列Unicode escape sequences作标识符。</p>
+<h3 id="声明变量-Declaring-variables"><a href="#声明变量-Declaring-variables" class="headerlink" title="声明变量(Declaring variables)"></a>声明变量(Declaring variables)</h3><p>你可以用以下三种方式声明变量：</p>
+<ul>
+<li>使用关键词var.例如，var x = 42。这个语法可以同时用来声明局部和全局变量。</li>
+<li>直接赋值。</li>
+<li>使用关键词let。例如let y = 13。这个语法可以用来声明语句块代码段的局部变量(block scope local variable)。</li>
+</ul>
+<h3 id="对变量求值-Evaluation-variables"><a href="#对变量求值-Evaluation-variables" class="headerlink" title="对变量求值(Evaluation variables)"></a>对变量求值(Evaluation variables)</h3><p>用var或let声明的未赋初值的变量，值会被定义为undefined（即未定义值，本身也是一个值）。</p>
+<p>试图访问一个未初始化的变量会导致一个ReferenceError异常被抛出：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a;</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"The value of a is "</span>+a); <span class="comment">//logs的值未定义</span></div><div class="line"><span class="built_in">console</span>.log(<span class="string">"The value of b is "</span>+b); <span class="comment">//抛出ReferenceError异常</span></div></pre></td></tr></table></figure>
+<p>你可以使用undefined来确定变量是否已赋值。以下的代码中，变量input未被赋值，因而if条件语句的求值结果是true。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> input;</div><div class="line"><span class="keyword">if</span>(input === <span class="literal">undefined</span>)&#123;</div><div class="line">    doThis();</div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line">    doThat();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>undefined值在布尔类型环境中会被当做false。例如，下面的代码将运行函数myFunction，因为数组myArray中的元素未被赋值：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> myArray = <span class="keyword">new</span> <span class="built_in">Array</span>();</div><div class="line"><span class="keyword">if</span>(!myArray[<span class="number">0</span>])&#123;</div><div class="line">    myFunction();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>数值类型环境中undefined值会被转换为NaN。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a;</div><div class="line">a + <span class="number">2</span>; <span class="comment">// Evaluates to NaN</span></div></pre></td></tr></table></figure>
+<p>当你对一个空变量求值时，空值null在数值类型环境中会被当作0来对待，而布尔类型环境中会被当作false</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> n = <span class="literal">null</span>;</div><div class="line"><span class="built_in">console</span>.log(n * <span class="number">32</span>); <span class="comment">//logs 0</span></div></pre></td></tr></table></figure>
+<h3 id="变量的域-Variable-scope"><a href="#变量的域-Variable-scope" class="headerlink" title="变量的域(Variable scope)"></a>变量的域(Variable scope)</h3><p>在所有函数之外声明的变量，叫做全局变量，因为它可被当前文档中的其他代码所访问。在函数内部声明的变量，叫做局部变量，因为它只能在该函数内部访问。</p>
+<p>ECMAScript6之前的Javascript没有语句块作用域；相反，语句块中声明的变量将成为语句块所在代码段的局部变量。例如，如下的代码将在控制台输出5，因为x的作用域是声明了x的那个函数(或全局范围)，而不是if语句块。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(<span class="literal">true</span>)&#123;</div><div class="line">    <span class="keyword">var</span> x = <span class="number">5</span>;</div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(x); <span class="comment">//5</span></div></pre></td></tr></table></figure>
+<p>如果使用ECMAScript6中的let声明，上述行为将发生变化。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(<span class="literal">true</span>)&#123;</div><div class="line">    <span class="keyword">let</span> x = <span class="number">5</span>;</div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(x); <span class="comment">//ReferenceError: y is not defined.</span></div></pre></td></tr></table></figure>
+<h3 id="变量声明提升-Variable-hoisting"><a href="#变量声明提升-Variable-hoisting" class="headerlink" title="变量声明提升(Variable hoisting)"></a>变量声明提升(Variable hoisting)</h3><p>JavaScript变量的另一个特别之处是，你可以引用稍后声明的变量，而不会引发异常。这一概念称为变量声明提升(hoisting)；JavaScript变量感觉上是被“举起”或提升到了所有函数和语句之前。然而提升后的变量将返回undefined值，所以即使在使用或引用某个变量之后存在声明和初始化操作，仍将得到undefined值。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Example 1</div><div class="line"> */</div><div class="line"><span class="built_in">console</span>.log(x === <span class="literal">undefined</span>); <span class="comment">//logs "true"</span></div><div class="line"><span class="keyword">var</span> x = <span class="number">3</span>;</div><div class="line"><span class="comment">/**</span></div><div class="line"> * Example 2</div><div class="line"> */</div><div class="line"><span class="comment">// will return a value of undefined</span></div><div class="line"><span class="keyword">var</span> myvar = <span class="string">"my value"</span>;</div><div class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(myvar); <span class="comment">//undefined</span></div><div class="line">    <span class="keyword">var</span> myvar = <span class="string">"local value"</span>;</div><div class="line">&#125;)();</div></pre></td></tr></table></figure>
+<p>上面的例子，也可写作：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Example 1</div><div class="line"> */</div><div class="line"><span class="keyword">var</span> x;</div><div class="line"><span class="built_in">console</span>.log(x === <span class="literal">undefined</span>); <span class="comment">// logs "true"</span></div><div class="line">x = <span class="number">3</span>;</div><div class="line"><span class="comment">/**</span></div><div class="line"> * Example 2</div><div class="line"> */</div><div class="line"><span class="keyword">var</span> myvar = <span class="string">"my value"</span>;</div><div class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> myvar;</div><div class="line">  <span class="built_in">console</span>.log(myvar); <span class="comment">// undefined</span></div><div class="line">  myvar = <span class="string">"local value"</span>;</div><div class="line">&#125;)();</div></pre></td></tr></table></figure>
+<p>由于存在变量声明提升，一个函数中所有的var语句应尽可能地放在接近函数顶部的地方。这大大地提升了程序代码的清晰度。</p>
+<h3 id="全局变量-Global-variables"><a href="#全局变量-Global-variables" class="headerlink" title="全局变量(Global variables)"></a>全局变量(Global variables)</h3><p>全局变量实际上是全局对象的属性。在网页中，全局对象是window，所以你可以用形如window.variable的语法来设置和访问全局变量。</p>
+<p>因此，你可以通过制定window或frame的名字，从一个window或frame访问另一个window或frame中声明的变量。例如，设想一个叫phoneNumber的变量在文档里被声明，你可以在子框架里用phone.phoneNumber来引用它。</p>
+<h2 id="常量-Constants"><a href="#常量-Constants" class="headerlink" title="常量(Constants)"></a>常量(Constants)</h2><p>你可以用关键字const创建一个只读(read-only)的常量。常量标识符的命名规则和变量的相同：必须以字母、下划线或美元符号开头并可以包含有字母、数字或下划线。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> prefix = <span class="string">'212'</span>;</div></pre></td></tr></table></figure>
+<p>常量不可以通过赋值改变其值，也不可以在脚本运行时重新声明。<strong>它必须被初始化为某个值。</strong></p>
+<p>常量的作用域规则与let会计作用域变量相同。若const关键字被省略了，该标识符将被视为变量。</p>
+<p>在同一个作用域下，不能用于变量或函数同样的名字来命名常量。例如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//THIS WILL CAUSE AN ERROR</span></div><div class="line"> <span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>)</span>&#123;&#125;;</div><div class="line"> <span class="keyword">const</span> f = <span class="number">5</span>;</div><div class="line"><span class="comment">// THIS WILL CAUSE AN ERROR ALSO</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">const</span> g = <span class="number">5</span>;</div><div class="line">    <span class="keyword">var</span> g;</div><div class="line">    <span class="comment">//statements</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="数据结构和类型"><a href="#数据结构和类型" class="headerlink" title="数据结构和类型"></a>数据结构和类型</h2><p>JavaScript语言可以识别下面7中不同类型的值：</p>
+<ul>
+<li>六种是原型的数据类型：<ol>
+<li>Boolean. 布尔值，true和false.</li>
+<li>null. 一个表明null值得特殊关键字。JavaScript是大小敏感的，因此null与Null、NULL或其他变量完全不同。</li>
+<li>undefined. 变量未定义时的属性。</li>
+<li>Number. 表示数字，例如：42或者3.14.</li>
+<li>String. 表示字符串，例如：”Hello”。</li>
+<li>Symbol(在ECMAScript6中新添加的类型)。一种数据类型，它的实例是唯一且不可改变的。</li>
+</ol>
+</li>
+<li>以及Object对象</li>
+</ul>
+<p>仅凭这些为数不多的数据类型，在你的应用程序中他们就能够执行有用的功能。</p>
+<p>Objects和functions是本语言的其他两个基本元素。你可以将对象视为存放值得命名容器，而将函数视为你的应用程序能够执行的过程(procedures)。</p>
+<h3 id="数据类型的转换-Data-type-conversion"><a href="#数据类型的转换-Data-type-conversion" class="headerlink" title="数据类型的转换(Data type conversion)"></a>数据类型的转换(Data type conversion)</h3><p>JavaScript是一种动态类型语言(dynamically typed language)。这意味着你声明变量时可以不指定数据类型，而数据会在脚本执行需要时自动转换。那么，你可以这样来定义变量：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> answer = <span class="number">42</span>;</div></pre></td></tr></table></figure>
+<p>然后，你还可以给同一个变量分配一个字符串值，例如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">answer = <span class="string">"hello world!"</span>;</div></pre></td></tr></table></figure>
+<p>因为JavaScript是动态类型的，这样的指定并不会提示出错。</p>
+<p>再涉及加法运算符(+)的数字和字符串表达式中，JavaScript会把数字值转换为字符串。例如，假设有如下的语句：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">x = <span class="string">"The answer is "</span> + <span class="number">42</span> <span class="comment">// "The answer is 42"</span></div><div class="line">y = <span class="number">42</span> + <span class="string">" is the answer"</span> <span class="comment">// "42 is the answer"</span></div></pre></td></tr></table></figure>
+<p>在涉及其他运算符(如下面的减号)时，JavaScript语言不会把数字变为字符。例如(第一例是数字运算符，第二例是字符串运算符):</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="string">"37"</span> - <span class="number">7</span> <span class="comment">// 30</span></div><div class="line"><span class="string">"37"</span> + <span class="number">7</span> <span class="comment">// "377"</span></div></pre></td></tr></table></figure>
+<h3 id="字符串转化为数字-converting-strings-to-numbers"><a href="#字符串转化为数字-converting-strings-to-numbers" class="headerlink" title="字符串转化为数字(converting strings to numbers)"></a>字符串转化为数字(converting strings to numbers)</h3><p>有一些方法可以将内存中表示一个数字的字符串转换为对应的数字<br>parseInt()和parseFloat()</p>
+<p>parseInt仅能够返回整数，所以使用它会丢失小数部分。另外，调用parseInt时最好总是带上进制(radix)参数，这个参数用于指定使用哪一种数制。</p>
+<h4 id="单目加法运算符"><a href="#单目加法运算符" class="headerlink" title="单目加法运算符"></a>单目加法运算符</h4><p><strong>将字符串转换为数字的另一种方法是使用单目加法运算符。</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="string">"1.1"</span> + <span class="string">"1.1"</span> = <span class="string">"1.11.1"</span></div><div class="line">(+<span class="string">"1.1"</span>) + (+<span class="string">"1.1"</span>) = <span class="number">2.2</span>   <span class="comment">// 注：加入括号为清楚起见，不是必需的。</span></div></pre></td></tr></table></figure>
+<h2 id="字面值-Literals"><a href="#字面值-Literals" class="headerlink" title="字面值(Literals)"></a>字面值(Literals)</h2><p>(注：字面值是由语法表达式定义的常量；或通过一定字辞组成的语词表达式定义的常量)</p>
+<p>在JavaScript中，你可以使用各种字面值。这些字面值是脚本中按字面意思给出的固定的值，而不是变量。(字面值是常量，其值是固定的，而且在程序脚本运行中不可更改，比如false,3.1415,thisStringOfHelloWorld,invokedFunction: myFunction(“myArgument”))</p>
+<h3 id="数组字面值-Array-Literals"><a href="#数组字面值-Array-Literals" class="headerlink" title="数组字面值(Array Literals)"></a>数组字面值(Array Literals)</h3><p>数组字面值是一个封闭在方括号对([])中的包含有零个或多个表达式的列表，其中每个表达式代表数组的一个元素。当你使用数组字面值创建一个数组时，该数组将会以指定的值作为它的元素进行初始化，而其长度被设定为元素的个数。</p>
+<p>下面的示例用3个元素生成数组coffees，它的长度是3。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> coffees = [<span class="string">"French Roast"</span>, <span class="string">"Colombian"</span>, <span class="string">"Kona"</span>];</div><div class="line"><span class="keyword">var</span> a=[<span class="number">3</span>];</div><div class="line"><span class="built_in">console</span>.log(a.length); <span class="comment">// 1</span></div><div class="line"><span class="built_in">console</span>.log(a[<span class="number">0</span>]); <span class="comment">// 3</span></div></pre></td></tr></table></figure>
+<p>若在顶层（全局）脚本里用字面值创建数组，JavaScript语言会在每次对包含该数组字面值的表达式时解释该数组。另一方面，在函数中使用的数组，将在每次调用函数时被创建一次。</p>
+<p>数组字面值同时也是数组对象。</p>
+<p><strong>数组字面值中的多余逗号</strong><br>你不必列举数组字面值中的所有元素。若你在同一行中连写两个逗号（,），数组中就会产生一个没被指定的元素，其初始值是undefined。以下示例创建了一个名为fish的数组：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> fish = [<span class="string">"Lion"</span>, , <span class="string">"Angel"</span>];</div></pre></td></tr></table></figure>
+<p>这个数组中，有两个已被赋值的元素，和一个空元素，此时的数组的长度是3.</p>
+<p>若你在元素列表的尾部添加了一个逗号，它会被忽略。在下面的例子中，该数组的长度是3.并不存在myList[3]这个元素。元素列表中所有其他的逗号都表示一个新元素（的开始）。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> myList = [<span class="string">'home'</span>, , <span class="string">'school'</span>, ];</div></pre></td></tr></table></figure>
+<p>在下面的例子中，数组的长度是4，元素myList[0]和myList[2]缺失（译注：没被赋值，因而是undefined）。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> myList = [ , <span class="string">'home'</span>, , <span class="string">'school'</span>];</div></pre></td></tr></table></figure>
+<p>又一个例子，在这里该数组的长度是4，元素myList[1]和myList[3]被漏掉了。（但是）只有最后的那个逗号被忽略。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> myList = [<span class="string">'home'</span>, , <span class="string">'school'</span>, , ];</div></pre></td></tr></table></figure>
+<p>理解多余的逗号（在脚本运行时会被如何处理）的含义，对于从语言层面理解JavaScript是十分重要的。但是，你自己写代码时：<strong>显式地将缺失的元素声明为undefined，将大大增加你的代码的清晰度和可维护性</strong>。</p>
+<h3 id="布尔字面值-Boolean-literals"><a href="#布尔字面值-Boolean-literals" class="headerlink" title="布尔字面值(Boolean literals)"></a>布尔字面值(Boolean literals)</h3><p>布尔类型有两种字面值：true和false。</p>
+<p>不要混淆作为布尔对象的真和假与布尔类型的原始值true和false。布尔对象是原始布尔数据类型的一个包装器。</p>
+<h3 id="整数-Intergers"><a href="#整数-Intergers" class="headerlink" title="整数(Intergers)"></a>整数(Intergers)</h3><p>整数可以被表示成十进制(基数为10)、十六进制(基数为16)以及八进制(基数为8)。</p>
+<ul>
+<li>十进制整数字组成的数字序列，不带前导0.</li>
+<li>带前导0、0O、0o的整数字面值表明它是八进制。八进制整数只能包括数字0-7。</li>
+<li>前缀0x或0X表示十六进制。十六进制整数，可以包含数字（0-9）和字母a~f或A~F。</li>
+</ul>
+<h3 id="浮点数字面值-Floating-point-literal"><a href="#浮点数字面值-Floating-point-literal" class="headerlink" title="浮点数字面值(Floating-point literal)"></a>浮点数字面值(Floating-point literal)</h3><p>浮点数字面值可以有以下的组成部分：</p>
+<ul>
+<li>一个十进制整数，它可以带符号（即前面的”+”或”-“号），</li>
+<li>一个小数点（”.”），</li>
+<li>一个小数部分（由一串十进制数表示），</li>
+<li>一个指数部分</li>
+</ul>
+<p>指数部分是以”e”或”E”开头后面跟着一个整数，可以有正负号（即前面写”+”或”-“）。一个浮点数字面值必须至少有一位数字，后接小数点或者”e”(“E”)组成。</p>
+<p>一些浮点数字面值的例子，如3.1415,-3.1415,1e12以及2E-12。</p>
+<p>简而言之，其语法是：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[(+|-)][digits][.digits][(E|e)[(+|-)]digits]</div></pre></td></tr></table></figure></p>
+<h3 id="对象字面量-Object-literals"><a href="#对象字面量-Object-literals" class="headerlink" title="对象字面量(Object literals)"></a>对象字面量(Object literals)</h3><p>对象字面值是封闭在花括号对({})中的一个对象的零个或多个”属性名-值”对的（元素）列表。你不能在一条语句的开头就使用对象字面值，这将导致错误或非你所预想的行为，因为此时左花括号({)会被认为一个语句块的齐师傅好。</p>
+<p>以下是一个对象字面值的例子。对象car的第一个元素（译注：即一个属性双值对）定义了属性myCar；第二个元素，属性getCar，引用了一个函数（即CarTypes(“Honda”)）；第三个元素，属性special，使用了一个已有的变量（即Sales）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> Sales = <span class="string">"Toyota"</span>;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">CarTypes</span>(<span class="params">name</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> (name === <span class="string">"Honda"</span>) ?</div><div class="line">    name :</div><div class="line">    <span class="string">"Sorry, we don't sell "</span> + name + <span class="string">"."</span> ;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> car = &#123; <span class="attr">myCar</span>: <span class="string">"Saturn"</span>, <span class="attr">getCar</span>: CarTypes(<span class="string">"Honda"</span>), <span class="attr">special</span>: Sales &#125;;</div><div class="line"><span class="built_in">console</span>.log(car.myCar);   <span class="comment">// Saturn</span></div><div class="line"><span class="built_in">console</span>.log(car.getCar);  <span class="comment">// Honda</span></div><div class="line"><span class="built_in">console</span>.log(car.special); <span class="comment">// Toyota</span></div></pre></td></tr></table></figure>
+<p>更进一步的，你可以使用数字或字符串字面值作为属性的名字，或者在另一个字面值内嵌套上一个字面值。如下的示例中使用了这些可选项</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> car = &#123; <span class="attr">manyCars</span>: &#123;<span class="attr">a</span>: <span class="string">"Saab"</span>, <span class="string">"b"</span>: <span class="string">"Jeep"</span>&#125;, <span class="number">7</span>: <span class="string">"Mazda"</span> &#125;;</div><div class="line"><span class="built_in">console</span>.log(car.manyCars.b); <span class="comment">// Jeep</span></div><div class="line"><span class="built_in">console</span>.log(car[<span class="number">7</span>]); <span class="comment">// Mazda</span></div></pre></td></tr></table></figure>
+<p>对象属性名字可以是任意字符串，包括空串。如果对象属性名字不是合法的javascript标识符，它必须用””包裹。属性的名字不合法，那么便不能用.访问属性值，而是通过类数组标记(“[]”)访问和赋值。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> unusualPropertyNames = &#123;</div><div class="line">  <span class="string">""</span>: <span class="string">"An empty string"</span>,</div><div class="line">  <span class="string">"!"</span>: <span class="string">"Bang!"</span></div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(unusualPropertyNames.<span class="string">""</span>);   <span class="comment">// 语法错误: Unexpected string</span></div><div class="line"><span class="built_in">console</span>.log(unusualPropertyNames[<span class="string">""</span>]);  <span class="comment">// An empty string</span></div><div class="line"><span class="built_in">console</span>.log(unusualPropertyNames.!);    <span class="comment">// 语法错误: Unexpected token !</span></div><div class="line"><span class="built_in">console</span>.log(unusualPropertyNames[<span class="string">"!"</span>]); <span class="comment">// Bang!</span></div></pre></td></tr></table></figure>
+<p>在ES2015，对象文本扩展到支持在原型设置建造，简写foo:foo分配，界定方法，得到很好的名称，并与表达式计算属性名。总之，这些也带来了对象文字和类声明紧密联系起来，让基于对象的设计得益于一些同样的便利。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = &#123;</div><div class="line">    <span class="comment">//__proto__</span></div><div class="line">    __proto__: theProtoObj,</div><div class="line">    <span class="comment">// Shorthand for 'handler:handler'</span></div><div class="line">    handler,</div><div class="line">    <span class="comment">//Methods</span></div><div class="line">    toString()&#123;</div><div class="line">        <span class="comment">//super calls</span></div><div class="line">        <span class="keyword">return</span> <span class="string">"d"</span> + <span class="keyword">super</span>.toString();</div><div class="line">    &#125;,</div><div class="line">    <span class="comment">//Computed (dynamic) property names</span></div><div class="line">    [ <span class="string">'prop_'</span> + <span class="function">(<span class="params">(</span>) =&gt;</span> <span class="number">42</span>)() ]:<span class="number">42</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<h3 id="RegExp-literals"><a href="#RegExp-literals" class="headerlink" title="RegExp literals"></a>RegExp literals</h3><p>一个正则表达式是字符被斜线围成的表达式。下面是一个正则表达式文字的一个例子。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> re = <span class="regexp">/ab+c/</span>;</div></pre></td></tr></table></figure>
+<h3 id="字符串字面值"><a href="#字符串字面值" class="headerlink" title="字符串字面值"></a>字符串字面值</h3><p>字符串字面值可以包含零个或多个字符，由双引号对或单引号对包围。字符串被限定在同种引号之间。<br>你可以在字符串字面值上使用字符串对象的所有方法–JavaScript会自动将字符串字面值转换为一个临时字符串对象，调用该方法，然后废弃掉那个临时的字符串变量。你也能对字符串字面值使用类似String.length的属性：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">"John's cat"</span>.length</div></pre></td></tr></table></figure>
+<p>除非有特别需要使用字符串对象，否则，你应当始终使用字符串字面值。</p>
+<p>在字符串中使用的特殊字符<br>作为一般字符的扩展，你可以在字符串中使用特殊字符</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">"one line \n another line"</span></div></pre></td></tr></table></figure>
+<p>以下表格列举了你能在JavaScript的字符串中使用的特殊字符。</p>
+<table>
+<thead>
+<tr>
+<th>Character</th>
+<th style="text-align:center">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\0</td>
+<td style="text-align:center">空字符</td>
+</tr>
+<tr>
+<td>\b</td>
+<td style="text-align:center">退格</td>
+</tr>
+<tr>
+<td>\f</td>
+<td style="text-align:center">换页符</td>
+</tr>
+<tr>
+<td>\n</td>
+<td style="text-align:center">换行符</td>
+</tr>
+<tr>
+<td>\r</td>
+<td style="text-align:center">回车符</td>
+</tr>
+<tr>
+<td>\t</td>
+<td style="text-align:center">Tab制表符</td>
+</tr>
+<tr>
+<td>\v</td>
+<td style="text-align:center">垂直制表符</td>
+</tr>
+<tr>
+<td>\’</td>
+<td style="text-align:center">单引号</td>
+</tr>
+<tr>
+<td>\”</td>
+<td style="text-align:center">双引号</td>
+</tr>
+<tr>
+<td>\</td>
+<td style="text-align:center">反斜杠字符()</td>
+</tr>
+<tr>
+<td>\XXX</td>
+<td style="text-align:center">通过最多三个八进制位数x377.例如在0和指定的Latin-1编码的字符，\251是版本符号八进制序列。</td>
+</tr>
+<tr>
+<td>\xXX</td>
+<td style="text-align:center">由00和FF之间的两个十六进制数字XX指定的Latin-1编码的字符。例如，版权所有\ xA9为版权符号十六进制序列。</td>
+</tr>
+<tr>
+<td>\uXXXX</td>
+<td style="text-align:center">由四个十六进制数字XXXX规定的Unicode字符。例如，\ u00A9为版权符号的Unicode序列。见Unicode转义序列。</td>
+</tr>
+<tr>
+<td>\u{XXXXX}</td>
+<td style="text-align:center">Unicode code point escapes. For example, \u{2F804} is the same as the simple Unicode escapes \uD87E\uDC04.</td>
+</tr>
+</tbody>
+</table>
+<p>转义字符<br>对于那些未出现在表2.1中的字符，其所带的前导反斜线’\’将被忽略。但是，这一用法已被废弃，应当避免使用。</p>
+<p>通过在引号前加上反斜线’\’，可以在字符串中插入引号，这就是引号转义。例如:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> quote = <span class="string">"He read \"The Cremation of Sam McGee\" by R.W. Service."</span>;</div><div class="line"><span class="built_in">console</span>.log(quote); <span class="comment">// He read "The Cremation of Sam McGee" by R.W. Service.</span></div></pre></td></tr></table></figure></p>
+<p>要在字符串中插入’\’字面值，必须转义反斜线。例如，要把文件路径 c:\temp 赋值给一个字符串，可以采用如下方式:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> home = <span class="string">"c:\\temp"</span>;</div></pre></td></tr></table></figure></p>
+<p>也可以在换行之前加上反斜线以转义换行（译注：实际上就是一条语句拆成多行书写），这样反斜线和换行都不会出现在字符串的值中。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> str = <span class="string">"this string \</span></div><div class="line">is broken \</div><div class="line">across multiple\</div><div class="line">lines."</div><div class="line"><span class="built_in">console</span>.log(str);   <span class="comment">// this string is broken across multiplelines.</span></div></pre></td></tr></table></figure></p>
+<p>Javascript没有“heredoc”语法，但可以用行末的换行符转义和转义的换行来近似实现<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> poem = </div><div class="line"><span class="string">"Roses are red,\n\</span></div><div class="line">Violets are blue.\n\</div><div class="line">I'm schizophrenic,\n\</div><div class="line">And so am I."</div></pre></td></tr></table></figure></p>
+
+    
+  </div>
+
+
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/05/16/语法和数据类型/"
+           data-title="语法和数据类型" data-url="http://gaoquan.wang/2016/05/16/语法和数据类型/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="GaoQ" />
+          <p class="site-author-name" itemprop="name">GaoQ</p>
+          <p class="site-description motion-element" itemprop="description">There are no shortcuts to any place worth going</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">40</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">GaoQ</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"gaoquan"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+
+  
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/MathJax.js"></script>
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/config/TeX-AMS-MML_HTMLorMML.js"></script>
+  
+
+
+  
+
+
+</body>
+</html>

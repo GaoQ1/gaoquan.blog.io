@@ -1,0 +1,504 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="javascript,函数式编程," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="GaoQ's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="这是月影谈函数式编程系列的第2篇文章，上一篇文章讲的是：函数式编程离我们有多远？  纯函数指的是函数的输出完全有输入所决定，运行过程不宜开与系统的状态和上下文环境，运行过程不改变它作用域之外的环境状态。 纯函数对设计可靠、稳定、易于调试和易于测试的系统有着非常重要的作用。在Javascript程序设计中有一个基本的原则就是尽可能限制副作用，执行过程尽量不要依赖与环境。这是非常好的原则，纯函数的好">
+<meta name="keywords" content="javascript,函数式编程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="函数式编程(月影)">
+<meta property="og:url" content="http://gaoquan.wang/2016/05/18/函数式编程-月影/index.html">
+<meta property="og:site_name" content="GaoQ&#39;s blog">
+<meta property="og:description" content="这是月影谈函数式编程系列的第2篇文章，上一篇文章讲的是：函数式编程离我们有多远？  纯函数指的是函数的输出完全有输入所决定，运行过程不宜开与系统的状态和上下文环境，运行过程不改变它作用域之外的环境状态。 纯函数对设计可靠、稳定、易于调试和易于测试的系统有着非常重要的作用。在Javascript程序设计中有一个基本的原则就是尽可能限制副作用，执行过程尽量不要依赖与环境。这是非常好的原则，纯函数的好">
+<meta property="og:updated_time" content="2017-06-04T12:54:20.281Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="函数式编程(月影)">
+<meta name="twitter:description" content="这是月影谈函数式编程系列的第2篇文章，上一篇文章讲的是：函数式编程离我们有多远？  纯函数指的是函数的输出完全有输入所决定，运行过程不宜开与系统的状态和上下文环境，运行过程不改变它作用域之外的环境状态。 纯函数对设计可靠、稳定、易于调试和易于测试的系统有着非常重要的作用。在Javascript程序设计中有一个基本的原则就是尽可能限制副作用，执行过程尽量不要依赖与环境。这是非常好的原则，纯函数的好">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title>
+  
+
+  
+    函数式编程(月影) | GaoQ's blog
+  
+</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?b902fa08b28044c55da6c70921955ecb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left  ">
+    <div class="headband"></div>
+
+
+<a href="https://github.com/GaoQ1"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/8b6b8ccc6da3aa5722903da7b58eb5ab1081adee/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_orange_ff7600.png"></a>
+
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">GaoQ's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">There are no shortcuts to any place worth going</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            关于我
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+    
+      <blockquote>
+<p>这是月影谈函数式编程系列的第2篇文章，上一篇文章讲的是：函数式编程离我们有多远？</p>
+</blockquote>
+<p><strong>纯函数</strong>指的是函数的输出完全有输入所决定，运行过程不宜开与系统的状态和上下文环境，运行过程不改变它作用域之外的环境状态。</p>
+<p>纯函数对<em>设计可靠、稳定、易于调试和易于测试的系统有着非常重要的作用。</em>在Javascript程序设计中有一个基本的原则就是尽可能限制副作用，执行过程尽量不要依赖与环境。这是非常好的原则，纯函数的好处是非常明显的。</p>
+<p>不过，我们有时候也还是要用到非纯函数，显而易见的例子就是，Javascript总是在特定环境中运行的，浏览器中的Javascript不可能不操作DOM，Node.js也不可能永远不操作文件或者数据库，这些都会改变“环境状态”，还有诸如 Array.sort、Math.random、setTimeout、setInterval这些内置的函数也都是非纯的函数。</p>
+<p>纯函数和非纯函数的几个例子：</p>
+<p>//纯函数<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">x,y</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> x+ y;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>//纯函数<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">sub</span>(<span class="params">x, y</span>)</span>&#123;    </div><div class="line">  <span class="keyword">return</span> x - y;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>//非纯函数，依赖于系统时间<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">now</span>(<span class="params"></span>)</span>&#123;    </div><div class="line">  <span class="keyword">return</span> data.now();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>//非纯函数，依赖于作用域外的变量<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> idx = <span class="number">0</span>;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">inc</span>(<span class="params"></span>)</span>&#123;    </div><div class="line">      <span class="keyword">return</span> ++idx;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>//非纯函数，依赖于随机数生成<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">random</span>(<span class="params"></span>)</span>&#123;    </div><div class="line">  <span class="keyword">return</span> <span class="built_in">Math</span>.random();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>//非纯函数，操作改变 DOM<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">addItem</span>(<span class="params"></span>)</span>&#123;    </div><div class="line">  <span class="keyword">var</span> li = <span class="built_in">document</span>.createElement(<span class="string">"li"</span>);</div><div class="line">  <span class="built_in">document</span>.body.appendChild(li);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>有一种观点认为，纯函数是函数式编程的一个支柱。由于函数式编程将函数本身也作为数据看来对待，纯函数的返回值只依赖于参数，这看起来对将函数作为数据的“运算”的函数式编程思想是十分重要的。除了以上直接的原因之外，函数式编程思想与纯函数之间究竟还有什么关联？针对纯函数，我们还能应用函数式编程做些什么？</p>
+<h3 id="“不纯度”污染"><a href="#“不纯度”污染" class="headerlink" title="“不纯度”污染"></a>“不纯度”污染</h3><p>纯函数的组合依然是纯函数，然而只要有一个函数不纯，那么调用了它的其他函数也是“不纯的”。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//setColor 不是纯函数，它改变外部环境(DOM)</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">setColor</span>(<span class="params">el,color</span>)</span>&#123;</div><div class="line">    el.style.color = color;</div><div class="line">    <span class="keyword">return</span> el;</div><div class="line">&#125;</div><div class="line"><span class="comment">//setColorEls显然也不纯，因为它依赖于setColor</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">setColorEls</span>(<span class="params">els,color</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> els.map(<span class="function">(<span class="params">el</span>) =&gt;</span> setColor(el,color));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面的例子里，我们定义了两个函数，setColor和setColorEls它们都不是纯函数，因为setColorEls依赖了setColor。</p>
+<p>设想一下，如果调试时发现 setColorEls 出错了，我们就要检查 setColorEls 和 setColor 两个函数来确定问题所在。</p>
+<p>上面只是一个简单的例子，如果更加复杂的情况，那么可能一个出错点就需要牵扯出一系列函数，在一大坨代码中寻找问题了 —— 相信很多程序员都遇到过，那绝不是一种愉快的经历。</p>
+<p>有没有办法让 setColorEls 依赖于 setColor， 但同时又能限制造成的纯度污染呢？答案是有的，需要继续往下讨论。</p>
+<h2 id="高阶函数的纯度"><a href="#高阶函数的纯度" class="headerlink" title="高阶函数的纯度"></a>高阶函数的纯度</h2><h3 id="函数可替代性与等价关系"><a href="#函数可替代性与等价关系" class="headerlink" title="函数可替代性与等价关系"></a>函数可替代性与等价关系</h3><p>对于数值来说，我们很容易定义出两个数的等价关系。那么对于两个函数来说，我们如何定义它们的等价关系呢？</p>
+<p>对于“纯函数”来说，判断两个函数等价，只要保证对于任意相同输入，两个函数返回的输出都相同，那么两个函数等价。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//两个纯函数 foo 和 bar 等价</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">arr, obj</span>)</span>&#123;    </div><div class="line">  <span class="keyword">var</span> ret = arr.slice(<span class="number">0</span>);</div><div class="line">  ret.push(obj);    </div><div class="line">  <span class="keyword">return</span> ret;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params">arr, obj</span>)</span>&#123;    </div><div class="line">  <span class="keyword">return</span> arr.concat([obj]);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>函数等价意味着可替换，也就是说，我们可以将系统里所有使用到 foo 的地方都用 bar 替换，系统的运行结果不会有任何问题。换句话说，如果确保 foo 没问题，那么将来系统出了问题，也可以直接排除是 bar 引起的问题。</p>
+<p>注意 JavaScript 函数纯度要考虑 this 上下文：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> point = &#123;<span class="attr">x</span>:<span class="number">1</span>, <span class="attr">y</span>:<span class="number">2</span>&#125;;</div><div class="line"><span class="comment">//这个函数其实是不纯的，因为它依赖了 this 上下文</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">pointAdd</span>(<span class="params">x, y</span>)</span>&#123;    </div><div class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.x + <span class="keyword">this</span>.y;</div><div class="line">&#125;</div><div class="line">point.add = pointAdd;</div><div class="line">point.add2 = pointAdd.bind(point);</div></pre></td></tr></table></figure></p>
+<p>上面的代码，point.add和point.add2不等价，通常情况下的替换不会有问题，但是我们难以保证系统里面没有point.add.call、point.add.apply或者point2 = point.add 之类的代码存在，如果有那些代码存在，用point.add2代替point.add就会出大问题了。</p>
+<p>那么上面的例子是否说明只有纯函数才可以判定等价和可替换呢？</p>
+<p>答案显然不是：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//不论 foo 是任何函数，不论 foo 的纯度如何， bar 始终和 foo 可替换</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;    </div><div class="line">  <span class="comment">//blablabla....</span></div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params">...args</span>)</span>&#123;    </div><div class="line">  <span class="keyword">return</span> foo.apply(<span class="keyword">this</span>, args);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>考虑上面的代码，毫无疑问地，不管 foo 内部是个什么鬼，不管它有没有副作用，有不管它没有 bind this，不管它在调用时的 this 是什么，我们都可以无比肯定，十分确定地下结论：bar和foo完全可以相互替换，任意替换 foo 为 bar 或者替换 bar为 foo，系统不会有任何问题（除开一些小小的性能开销，因为bar多了一层调用）。</p>
+<p>到这一步，我们可以给出一个定义：</p>
+<blockquote>
+<p>定义：JavaScript 函数 f 与 g 相等的充分必要条件是 f 与 g 是可替换的。</p>
+</blockquote>
+<p>好了，我们在上面给出了判定两个函数相等的一般性定义，而这个定义和函数本身的纯度无关。</p>
+<p>这个定义有什么意义呢？这个定义的意义就是，既然我们有了判定函数相等的一般性法则，我们就可以唯一确定一个函数了，就像确定数据一样，1是1，2-1，-1+2，0.5*2也都是1，1是唯一的。</p>
+<p>既然我们可以唯一确定一个函数，那么我们就能说如果一个高阶函数的参数确定，返回一组确定的函数，那么这个高阶函数是纯函数。</p>
+<p>使用高阶纯函数</p>
+<p>现在我们该回到前面 setColor 的例子了：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//高阶函数multicast是纯函数，它只依赖于不同的参数，返回确定的结果。</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">multicast</span>(<span class="params">fn</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">list,...rest</span>)</span>&#123;</div><div class="line">        <span class="keyword">if</span>(<span class="built_in">Array</span>.isArray(list))&#123;</div><div class="line">            <span class="keyword">return</span> list.map(<span class="function">(<span class="params">o</span>) =&gt;</span> fn.apply(<span class="keyword">this</span>,[o,...rest]));</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            <span class="keyword">return</span> fn.apply(<span class="keyword">this</span>,<span class="built_in">arguments</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//setColor 不是纯函数，它改变外部环境（DOM）</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">setColor</span>(<span class="params">el, color</span>)</span>&#123;</div><div class="line">  el.style.color = color;    </div><div class="line">  <span class="keyword">return</span> el;</div><div class="line">&#125;</div><div class="line"><span class="keyword">let</span> setColorEls = multicast(setColor);</div><div class="line"><span class="keyword">var</span> list = <span class="built_in">document</span>.querySelectorAll(<span class="string">"li:nth-child(2n+1)"</span>);</div><div class="line">setColorEls(<span class="built_in">Array</span>.from(list), <span class="string">"red"</span>);</div></pre></td></tr></table></figure></p>
+<p>上面的代码有几个好处：</p>
+<ul>
+<li>multicast 是纯函数，它简单灵活，对系统的影响很小。</li>
+<li>multicast 对任意函数返回确定的函数，不影响外部环境和状态。</li>
+<li>setColorEls 在 multicast 保证可靠的情况下，完全依赖于 setColor，如果它出错，只需要检查 setColor 的实现，使得调试变得简单了。</li>
+<li>multicast 是通用的，不管是setColor、setBGColor、setFont还是什么其他的API，都可以用它来统一处理，获得同样的好处。</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>使用函数式编程思想中的高阶函数能够设计出简单可靠的API，这些高阶的API根据确定参数返回确定的函数，它们依然是纯函数，它们拥有纯函数的优点。使用它们对简化系统，提升可扩展性和可维护性都有着非常大的帮助。</p>
+<p>文章里面的例子只是非常简单的小案例，而实际项目中使用高阶函数设计系统能够取得更加不可思议的效果和美妙的开发体验。如果你善于使用这样的技巧，构建小而美却功能强大易于扩展的系统，就不是一件多么难的事情了。</p>
+
+    
+  </div>
+
+
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/05/18/函数式编程-月影/"
+           data-title="函数式编程(月影)" data-url="http://gaoquan.wang/2016/05/18/函数式编程-月影/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="GaoQ" />
+          <p class="site-author-name" itemprop="name">GaoQ</p>
+          <p class="site-description motion-element" itemprop="description">There are no shortcuts to any place worth going</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">40</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">GaoQ</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"gaoquan"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+
+  
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/MathJax.js"></script>
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/config/TeX-AMS-MML_HTMLorMML.js"></script>
+  
+
+
+  
+
+
+</body>
+</html>

@@ -1,0 +1,510 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="javascript,函数式编程," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="GaoQ's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="Experience is the mother of wisdom.  函数组合 在函数式编程中，我们希望一些都是函数，尤其希望是一元函数，如果可能的话。如果可以把多有的函数转换为一元函数，将发生神奇的事情。   一元函数是只接受单个输入的函数。函数如果有多个输入就是多元的，不过我们一般把接受两个输入的叫二元函数，把接受三个输入的叫三元函数。有的函数接受的输入的数量并不确定，我们称它为可变的">
+<meta name="keywords" content="javascript,函数式编程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="函数组合-JS函数式编程">
+<meta property="og:url" content="http://gaoquan.wang/2016/05/22/函数组合-JS函数式编程/index.html">
+<meta property="og:site_name" content="GaoQ&#39;s blog">
+<meta property="og:description" content="Experience is the mother of wisdom.  函数组合 在函数式编程中，我们希望一些都是函数，尤其希望是一元函数，如果可能的话。如果可以把多有的函数转换为一元函数，将发生神奇的事情。   一元函数是只接受单个输入的函数。函数如果有多个输入就是多元的，不过我们一般把接受两个输入的叫二元函数，把接受三个输入的叫三元函数。有的函数接受的输入的数量并不确定，我们称它为可变的">
+<meta property="og:updated_time" content="2017-06-04T12:54:20.283Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="函数组合-JS函数式编程">
+<meta name="twitter:description" content="Experience is the mother of wisdom.  函数组合 在函数式编程中，我们希望一些都是函数，尤其希望是一元函数，如果可能的话。如果可以把多有的函数转换为一元函数，将发生神奇的事情。   一元函数是只接受单个输入的函数。函数如果有多个输入就是多元的，不过我们一般把接受两个输入的叫二元函数，把接受三个输入的叫三元函数。有的函数接受的输入的数量并不确定，我们称它为可变的">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title>
+  
+
+  
+    函数组合-JS函数式编程 | GaoQ's blog
+  
+</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?b902fa08b28044c55da6c70921955ecb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left  ">
+    <div class="headband"></div>
+
+
+<a href="https://github.com/GaoQ1"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/8b6b8ccc6da3aa5722903da7b58eb5ab1081adee/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_orange_ff7600.png"></a>
+
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">GaoQ's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">There are no shortcuts to any place worth going</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            关于我
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+    
+      <blockquote>
+<p>Experience is the mother of wisdom.</p>
+</blockquote>
+<h1 id="函数组合"><a href="#函数组合" class="headerlink" title="函数组合"></a>函数组合</h1><blockquote>
+<p>在函数式编程中，我们希望一些都是函数，尤其希望是一元函数，如果可能的话。如果可以把多有的函数转换为一元函数，将发生神奇的事情。</p>
+</blockquote>
+<p> 一元函数是只接受单个输入的函数。函数如果有多个输入就是多元的，不过我们一般把接受两个输入的叫二元函数，把接受三个输入的叫三元函数。有的函数接受的输入的数量并不确定，我们称它为可变的</p>
+<blockquote>
+<p>操作函数及其可接受数量的输入可以极富表达力。在这一节，我们将探索如何把小的函数组合成新的函数：小的单元逻辑组合成的整个程序比这些函数本身之和还要大。</p>
+</blockquote>
+<h2 id="组合"><a href="#组合" class="headerlink" title="组合"></a>组合</h2><p>组合函数使我们能够从简单的、通用的函数建立复杂的函数。通过把函数作为其它函数的构建单元，我们可以建立真正模块化的应用，使其具有很棒的可读性和维护性。</p>
+<p>在我们定义compose()这个补充函数之前，我们先通过下面的例子看看她是怎么工作的：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> roundedSqrt = <span class="built_in">Math</span>.round.compose(<span class="built_in">Math</span>.sqrt);</div><div class="line"><span class="built_in">console</span>.log(roundedSqrt(<span class="number">5</span>)); <span class="comment">//Returns:2</span></div><div class="line"><span class="keyword">var</span> squaredDate = roundedSqrt.compose(<span class="built_in">Date</span>.parse)</div><div class="line"><span class="built_in">console</span>.log(squaredDate(<span class="string">"January 1, 2014"</span>)); <span class="comment">//Returns: 1178370</span></div></pre></td></tr></table></figure>
+<p>在函数里，函数f和g的组合定义为f(g(x)).在javascript里，可以写成这样：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> compose = <span class="function"><span class="keyword">function</span>(<span class="params">f,g</span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">x</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> f(g(x));</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">compose = (f,g) -&gt; (x) -&gt; f g x</div></pre></td></tr></table></figure>
+<p>不过如果就写成这样的话，我们就失去了对this的跟踪。解决方法是使用call()和apply()。与柯里化相比，compose()这个补充函数相当简单：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Function</span>.prototype.compose = <span class="function"><span class="keyword">function</span>(<span class="params">prevFunc</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> nextFunc = <span class="keyword">this</span>;</div><div class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> nextFunc.call(<span class="keyword">this</span>,prevFunc.apply(<span class="keyword">this</span>,<span class="built_in">arguments</span>));</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>为了展示他怎么用，来建个完整的例子，如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">function1</span>(<span class="params">a</span>)</span>&#123; <span class="keyword">return</span> a + <span class="string">'1'</span>&#125;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">function2</span>(<span class="params">b</span>)</span>&#123; <span class="keyword">return</span> b + <span class="string">'1'</span>&#125;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">function3</span>(<span class="params">c</span>)</span>&#123; <span class="keyword">return</span> c + <span class="string">'1'</span>&#125;</div><div class="line"><span class="keyword">var</span> composition = function3.compose(function2).compose(function1);</div><div class="line"><span class="built_in">console</span>.log(composition(<span class="string">'count'</span>));</div></pre></td></tr></table></figure>
+<p>你是否注意到function1函数最先被应用？这很重要，函数是从右往左应用的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">原文是“Did you notice that the function3 parameter was applied first?”。 意思应该是function3参数最先被应用，这个应该是作者弄错了，显然是funtion1最先被应用， 返回了“count 1”，而且这样顺序也是从右往左的。</div></pre></td></tr></table></figure>
+<h2 id="序列–反向组合"><a href="#序列–反向组合" class="headerlink" title="序列–反向组合"></a>序列–反向组合</h2><p>由于很多人喜欢从左往右读东西，让函数也从左往右可以更通顺些。我们把这叫做序列而不是组合。为了让顺序相反，我们需要交换nextFunc和prevFunc参数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Function</span>.prototype.sequence = <span class="function"><span class="keyword">function</span>(<span class="params">prevFunc</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> nextFunc = <span class="keyword">this</span>;</div><div class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> prevFunc.call(<span class="keyword">this</span>,nextFunc.apply(<span class="keyword">this</span>,<span class="built_in">arguments</span>));</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>现在可以用更加自然的顺序调用这些函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> sequences = function1.sequence(function2).sequence(function3);</div><div class="line"><span class="built_in">console</span>.log(sequences(<span class="string">'count'</span>)); <span class="comment">//returns 'count 1 2 3'</span></div></pre></td></tr></table></figure>
+<h2 id="组合-vs-链"><a href="#组合-vs-链" class="headerlink" title="组合 vs. 链"></a>组合 vs. 链</h2><p>下面是五种实现floorSqrt()函数组合的方式。它们看起来差不多，但是需要仔细观察。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">floorSqrt1</span>(<span class="params">num</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> sqrtNum = <span class="built_in">Math</span>.sqrt(num);</div><div class="line">  <span class="keyword">var</span> floorSqrt = <span class="built_in">Math</span>.floor(sqrtNum);</div><div class="line">  <span class="keyword">var</span> stringNum = <span class="built_in">String</span>(floorSqrt);</div><div class="line">  <span class="keyword">return</span> stringNum;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">floorSqrt2</span>(<span class="params">num</span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="built_in">String</span>(<span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.sqrt(num)));</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">floorSqrt3</span>(<span class="params">num</span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> [num].map(<span class="built_in">Math</span>.sqrt).map(<span class="built_in">Math</span>.floor).toString();</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> floorSqrt4 = <span class="built_in">String</span>.compose(<span class="built_in">Math</span>.floor).compose(<span class="built_in">Math</span>.sqrt);</div><div class="line"><span class="keyword">var</span> floorSqrt5 = <span class="built_in">Math</span>.sqrt.sequence(<span class="built_in">Math</span>.floor).sequence(<span class="built_in">String</span>);</div><div class="line"><span class="comment">//所有的函数都可以这样调用</span></div><div class="line">floorSqrt &lt;N&gt;(<span class="number">17</span>); <span class="comment">//Return:4</span></div></pre></td></tr></table></figure>
+<p>这里有些关键的区别需要仔细看：</p>
+<ul>
+<li>第一种方法很明显冗长且低效。</li>
+<li>第二种方法是个不错的一行代码，但是这种方式只要有几个函数应用就会变得可读性很差。</li>
+<li>我们说代码越少越好其实没说到点上。代码在有效指令越简洁的时候可维护性越好。如果你减少屏幕上的字符数量却没有改变有效指令的实现，这只能得到相反的效果 – 代码难以理解，并且真的更难维护了。比如，当我们使用嵌套在一起的三目运算符时，我们就把许多指令放到了一行里面。这种方式减少了屏幕上的代码总量，但是这并没有减少代码实际的具体步骤。所以其效果就是模糊不清难以理解。让代码易于维护的那种简洁是有效减少具体指令（比如使用更简单的算法靠更少和/或更简单的步骤完成同样的结果），或者只是简单地把代码替换为消息，比如调用一个具有良好文档的API的库。</li>
+<li>第三种方式是一个数组函数的链，尤其是map函数。他工作很好，但并非数学正确的。</li>
+<li>第四个使我们compose()函数的实际应用。所有的方法被强制为一元的，鼓励使用更好、更简单、更小函数的纯函数只做一件事情，并且做的很好。</li>
+<li>最后一种实现使用compose()函数相反的顺序，同样有效。</li>
+</ul>
+<h2 id="使用组合来编程"><a href="#使用组合来编程" class="headerlink" title="使用组合来编程"></a>使用组合来编程</h2><p>组合最重要的一个方面是，除了应用的第一个函数以外，他们使用纯函数、只接受一个参数的一元函数效果最好。 执行的第一个函数的输出传递给第二个函数。也就是函数必须接受前一个函数所传给它的东西。类型签名对其有重要作用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">类型签名用于明确地声明函数接受的输入类型是什么以及输出类型是什么。它首先被Haskell使用，实际上Haskell在函数定义时使用它们是为了编译器使用它们。但是，在javascript里，我们只能把个性签名放在代码注释里。它们看起来是这样：foo::arg1 -&gt; argN -&gt; output</div><div class="line">例如：</div><div class="line">// getStringLength :: String -&gt; Int</div><div class="line">function getStringLength(s)&#123;return s.length&#125;;</div><div class="line">// concatDates :: Date -&gt; Date -&gt; [Date]</div><div class="line">function concatDates(d1,d2)&#123;return [d1, d2]&#125;;</div><div class="line">// pureFunc :: (int -&gt; Bool) -&gt; [int] -&gt; [int]</div><div class="line">pureFunc(func, arr)&#123;return arr.filter(func)&#125;</div></pre></td></tr></table></figure>
+<p>为了能真正尝到组合的甜头，所有应用都需要一个由一元纯函数组成的强大的集合。它们是更大的函数的结构单元，这些大的函数使应用非常模块化、可靠、易维护 来看个例子。首先，我们需要许多结构单元函数。它们中的一些需要依赖于其他函数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//stringToArray :: String -&gt; [Char]</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">stringToArray</span>(<span class="params">s</span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> s.split(<span class="string">''</span>);</div><div class="line">&#125;</div><div class="line"><span class="comment">//arrayToString:: [Char] -&gt; String</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>.<span class="title">join</span>(<span class="params"><span class="string">''</span></span>);</span></div><div class="line">//<span class="title">nextChar</span> :: <span class="title">Char</span> -&gt; <span class="title">Char</span></div><div class="line"><span class="title">function</span> <span class="title">nextChar</span>(<span class="params">c</span>)&#123;</div><div class="line">  <span class="keyword">return</span> <span class="built_in">String</span>.fromCharCode(c.charCodeAt(<span class="number">0</span>) + <span class="number">1</span>);</div><div class="line">&#125;</div><div class="line"><span class="comment">//previousChar :: Char -&gt; Char</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">previousChar</span>(<span class="params">c</span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="built_in">String</span>.fromCharCode(c.charCodeAt(<span class="number">0</span>) - <span class="number">1</span>);</div><div class="line">&#125;</div><div class="line"><span class="comment">//higherColorHex :: Char -&gt; Char</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">higherColorHex</span>(<span class="params">c</span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> c &gt;= <span class="string">'f'</span> ? <span class="string">'f'</span> : c == <span class="string">'9'</span> ? <span class="string">'a'</span> : nextChar(c)</div><div class="line">&#125;</div><div class="line"><span class="comment">// lowerColorHex :: Char -&gt; Char</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">lowerColorHex</span>(<span class="params">c</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> c &lt;= <span class="string">'0'</span> ? <span class="string">'0'</span> :</div><div class="line">    c == <span class="string">'a'</span> ? <span class="string">'9'</span> :</div><div class="line">    previousChar(c);</div><div class="line">&#125;</div><div class="line"><span class="comment">// raiseColorHexes :: String -&gt; String</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">raiseColorHexes</span>(<span class="params">arr</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> arr.map(higherColorHex);</div><div class="line">&#125;</div><div class="line"><span class="comment">// lowerColorHexes :: String -&gt; String</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">lowerColorHexes</span>(<span class="params">arr</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> arr.map(lowerColorHex);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>现在来把它们组合在一起</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> lighterColor = arrayToString</div><div class="line">.compose(raiseColorHexes)</div><div class="line">.compose(stringToArray)</div><div class="line"><span class="keyword">var</span> darkerColor = arrayToString</div><div class="line">.compose(lowerColorHexes)</div><div class="line">.compose(stringToArray)</div><div class="line"><span class="built_in">console</span>.log(lighterColor(<span class="string">'af0189'</span>)); <span class="comment">// Returns: 'bf129a'</span></div><div class="line"><span class="built_in">console</span>.log(darkerColor(<span class="string">'af0189'</span>)); <span class="comment">// Returns: '9e0078'</span></div></pre></td></tr></table></figure>
+<p>我们甚至可以混合使用compse()和curry()。实际上，它们一起工作得很好。我们来借助组合的例子来打造珂理化的例子。 首先我们需要一些前面的辅助函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//compose2hex :: Ints -&gt; String</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">componentToHex</span>(<span class="params">c</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> hex = c.toString(<span class="number">16</span>);</div><div class="line">  <span class="keyword">return</span> hex.length == <span class="number">1</span> ? <span class="string">'0'</span>+hex : hex;</div><div class="line">&#125;</div><div class="line"><span class="comment">//nums2hex :: Ints* -&gt; String</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">nums2hex</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="built_in">Array</span>.prototype.map.call(<span class="built_in">arguments</span>,componentToHex).join(<span class="string">''</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>首先我们需要建立柯里化和部分应用的函数，然后把它们组合成其它组合函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> lighterColors = lighterColor</div><div class="line">  .compose(nums2hex.curry());</div><div class="line"><span class="keyword">var</span> darkerRed = darkerColor</div><div class="line">  .compose(nums2hex.partialApply(<span class="number">255</span>));</div><div class="line"><span class="keyword">var</span> lighterRgb2hex = lighterColor</div><div class="line">  .compose(nums2hex.partialApply());</div><div class="line"><span class="built_in">console</span>.log(lighterColors(<span class="number">123</span>, <span class="number">0</span>, <span class="number">22</span>)); <span class="comment">// Returns: 8cff11 [原书代码错误，实际返回是8c]</span></div><div class="line"><span class="built_in">console</span>.log(darkerRed(<span class="number">123</span>, <span class="number">0</span>)); <span class="comment">// Returns: ee6a00</span></div><div class="line"><span class="built_in">console</span>.log(lighterRgb2hex(<span class="number">123</span>,<span class="number">200</span>,<span class="number">100</span>)); <span class="comment">// Returns: 8cd975</span></div></pre></td></tr></table></figure>
+<p>我们完成了！这些函数易读且直观。我们被迫从只做一件事的小函数开始，然后就能够把函数放在一起形成更多功能。</p>
+<p>我们来看最后一个例子。先有个函数根据一个可变的值来减淡RBG值，然后我们用组合根据它创建一个新函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// lighterColorNumSteps :: string -&gt; num -&gt; string</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">lighterColorNumSteps</span>(<span class="params">color, n</span>) </span>&#123;</div><div class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</div><div class="line">  color = lighterColor(color);</div><div class="line">&#125;</div><div class="line"><span class="keyword">return</span> color;</div><div class="line">&#125;</div><div class="line"><span class="comment">// 现在我们可以这样建立函数:</span></div><div class="line"><span class="keyword">var</span> lighterRedNumSteps =</div><div class="line">lighterColorNumSteps.curry().compose(reds)(<span class="number">0</span>, <span class="number">0</span>);</div><div class="line"><span class="comment">// 然后这样使用:</span></div><div class="line"><span class="built_in">console</span>.log(lighterRedNumSteps(<span class="number">5</span>)); <span class="comment">// Return: 'ff5555'</span></div><div class="line"><span class="built_in">console</span>.log(lighterRedNumSteps(<span class="number">2</span>)); <span class="comment">// Return: 'ff2222'</span></div></pre></td></tr></table></figure>
+<p>用同样的方式，我们可以轻松地创建更多的函数来建立更淡或更深的蓝色、绿色、灰色、紫色等等你所想要的。 这是建立API的一个极好的方式。</p>
+<p>我们仅仅接触了函数组合能做的事情的一个表面。组合所做的是让控制脱离Javascript。一般Javascript是从左到右求值， 但是现在解释器会说”OK，有人来管它了，我来处理别的东西。”现在compose()函数控制了求值顺序！</p>
+<p>这就是Lazy.js和Bacon.js等是如何能够实现惰性求值和无限序列这些东西的。下面我们会看看这些库怎么用。</p>
+
+    
+  </div>
+
+
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/05/22/函数组合-JS函数式编程/"
+           data-title="函数组合-JS函数式编程" data-url="http://gaoquan.wang/2016/05/22/函数组合-JS函数式编程/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="GaoQ" />
+          <p class="site-author-name" itemprop="name">GaoQ</p>
+          <p class="site-description motion-element" itemprop="description">There are no shortcuts to any place worth going</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">40</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">GaoQ</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"gaoquan"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+
+  
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/MathJax.js"></script>
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/config/TeX-AMS-MML_HTMLorMML.js"></script>
+  
+
+
+  
+
+
+</body>
+</html>

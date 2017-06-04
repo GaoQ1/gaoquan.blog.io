@@ -1,0 +1,552 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="javascript,函数式编程," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="GaoQ's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="A book that remains shut is but a block.  Javascript的函数式库据说所有的函数是程序员都会写自己的函数库，函数式Javascript程序员也不例外。随着如今开源代码分享平台如GitHab、Bower和NPM的涌现，对这些函数库进行分享、变得及补充变得越来越容易。 现在已经有很多Javascript的函数式变成库，从小巧的工具集到庞大的模块库都有。">
+<meta name="keywords" content="javascript,函数式编程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Javascript的函数式库">
+<meta property="og:url" content="http://gaoquan.wang/2016/05/19/Javascript的函数式库/index.html">
+<meta property="og:site_name" content="GaoQ&#39;s blog">
+<meta property="og:description" content="A book that remains shut is but a block.  Javascript的函数式库据说所有的函数是程序员都会写自己的函数库，函数式Javascript程序员也不例外。随着如今开源代码分享平台如GitHab、Bower和NPM的涌现，对这些函数库进行分享、变得及补充变得越来越容易。 现在已经有很多Javascript的函数式变成库，从小巧的工具集到庞大的模块库都有。">
+<meta property="og:updated_time" content="2017-06-04T12:54:20.271Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Javascript的函数式库">
+<meta name="twitter:description" content="A book that remains shut is but a block.  Javascript的函数式库据说所有的函数是程序员都会写自己的函数库，函数式Javascript程序员也不例外。随着如今开源代码分享平台如GitHab、Bower和NPM的涌现，对这些函数库进行分享、变得及补充变得越来越容易。 现在已经有很多Javascript的函数式变成库，从小巧的工具集到庞大的模块库都有。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title>
+  
+
+  
+    Javascript的函数式库 | GaoQ's blog
+  
+</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?b902fa08b28044c55da6c70921955ecb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left  ">
+    <div class="headband"></div>
+
+
+<a href="https://github.com/GaoQ1"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/8b6b8ccc6da3aa5722903da7b58eb5ab1081adee/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_orange_ff7600.png"></a>
+
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">GaoQ's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">There are no shortcuts to any place worth going</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            关于我
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+    
+      <blockquote>
+<p>A book that remains shut is but a block.</p>
+</blockquote>
+<h2 id="Javascript的函数式库"><a href="#Javascript的函数式库" class="headerlink" title="Javascript的函数式库"></a>Javascript的函数式库</h2><p>据说所有的函数是程序员都会写自己的函数库，函数式Javascript程序员也不例外。随着如今开源代码分享平台如GitHab、Bower和NPM的涌现，对这些函数库进行分享、变得及补充变得越来越容易。 现在已经有很多Javascript的函数式变成库，从小巧的工具集到庞大的模块库都有。</p>
+<p>每一个库都宣扬着自己的函数式编程风格。从一本正经的数学风格到灵活松散的非正式风格，每一个库都不尽相同， 然而他们他们有一个共同的特点：都是通过抽象的Javascript函数式能力来增进代码的重用行、可读性和健壮性。</p>
+<h3 id="Underscore-js"><a href="#Underscore-js" class="headerlink" title="Underscore.js"></a>Underscore.js</h3><p>Underscore在很多人眼里已经成为函数式Javascript库的标准。它成熟稳定， 其创建者Jeremy Ashkenas也是Backbone.js和Coffeescript的创建者。 Underscore实际上是对Ruby的Enumerable模块的重新实现， 这也解释了为什么Coffeescript也是受Ruby影响。</p>
+<p>与jQuery相似，Underscore并不改变Javascript原生对象，而是用一个符号来定义自己的对象， 就是下划线（underscore）字符“_”。所以使用Underscore会是这个样子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> x = _.map([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>], <span class="built_in">Math</span>.sqrt); <span class="comment">// Underscore的map函数</span></div><div class="line"><span class="built_in">console</span>.log(x.toString());</div></pre></td></tr></table></figure></p>
+<p>我们已经见过Javascript数组原生的map()方法，它是这样用的：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> x = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>].map(<span class="built_in">Math</span>.sqrt);</div></pre></td></tr></table></figure></p>
+<p>不同的是，用underscore时，数组对象和回调函数都是作为参数传入给underscore的map()方法（_.map）的， 而不是像数组原生的map()方法（Array.prototype.map）那样只需传递回调。</p>
+<p>不过underscore除了map()还有很多内建函数，他们都是非常好用的函数， 比如find()、invoke()、pluck()、sortBy()、groupBy()等等。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> greetings = [&#123;</div><div class="line">  <span class="attr">origin</span>: <span class="string">'spanish'</span>,</div><div class="line">  <span class="attr">value</span>: <span class="string">'hola'</span></div><div class="line">&#125;, &#123;</div><div class="line">  <span class="attr">origin</span>: <span class="string">'english'</span>,</div><div class="line">  <span class="attr">value</span>: <span class="string">'hello'</span></div><div class="line">&#125;];</div><div class="line"><span class="built_in">console</span>.log(_.pluck(greetings, <span class="string">'value'</span>));</div><div class="line"><span class="comment">// 获取一个对象的属性.</span></div><div class="line"><span class="comment">// 返回: ['hola', 'hello']</span></div><div class="line"><span class="built_in">console</span>.log(_.find(greetings, <span class="function"><span class="keyword">function</span>(<span class="params">s</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> s.origin ==</div><div class="line">    <span class="string">'spanish'</span>;</div><div class="line">&#125;));</div><div class="line"><span class="comment">// 查找第一个回调函数返回真的元素</span></div><div class="line"><span class="comment">// 返回: &#123;origin: 'spanish', value: 'hola'&#125;</span></div><div class="line">greetings = greetings.concat(_.object([<span class="string">'origin'</span>, <span class="string">'value'</span>], [<span class="string">'french'</span>, <span class="string">'bonjour'</span>]));</div><div class="line"><span class="built_in">console</span>.log(greetings);</div><div class="line"><span class="comment">// _.object通过合并两个数组来建立一个对象</span></div><div class="line"><span class="comment">// 返回: [&#123;origin: 'spanish', value: 'hola'&#125;,</span></div><div class="line"><span class="comment">//&#123;origin: 'english', value: 'hello'&#125;,</span></div><div class="line"><span class="comment">//&#123;origin: 'french', value: 'bonjour'&#125;]</span></div></pre></td></tr></table></figure></p>
+<p>并且它还提供了链式调用方法<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> g = _.chain(greetings)</div><div class="line">  .sortBy(<span class="function"><span class="keyword">function</span>(<span class="params">x</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> x.value.length</div><div class="line">  &#125;)</div><div class="line">  .pluck(<span class="string">'origin'</span>)</div><div class="line">  .map(<span class="function"><span class="keyword">function</span>(<span class="params">x</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> x.charAt(<span class="number">0</span>).toUpperCase() + x.slice(<span class="number">1</span>)</div><div class="line">  &#125;)</div><div class="line">  .reduce(<span class="function"><span class="keyword">function</span>(<span class="params">x, y</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> x + <span class="string">' '</span> + y</div><div class="line">  &#125;, <span class="string">''</span>)</div><div class="line">  .value(); <span class="comment">// 应用这些函数</span></div><div class="line"><span class="comment">// 返回: 'Spanish English French'</span></div><div class="line"><span class="built_in">console</span>.log(g);</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p><em>.chain()方法的返回值被包在了一个拥有Underscore全部函数的对象里。</em>.value方法用于把被包裹的对象提取出来。 包裹的对象对于把Underscore混合到面向对象编程中非常有用。</p>
+</blockquote>
+<p>Underscore也许并没有要追求函数式编程数学上的正确性，不过它也从来没有想要把Javascript扩展或者转变为一个纯函数语言。 它把自己定义为一个提供一大堆有用的函数式编程辅助函数的Javascript库。 也许它比那些伪造得看起来像函数式辅助函数的玩意儿要好些，不过它也不是一个严肃的函数式库。</p>
+<p>那么有没有更好的库呢？一个建立在数学之上的库？</p>
+<h3 id="Lazy-js"><a href="#Lazy-js" class="headerlink" title="Lazy.js"></a>Lazy.js</h3><p>Lazy是一个实用的库，他更大程度上是沿着Underscore的路线，不过它有惰性求值策略。正因为如此，Lazy让即可解释的语言本不可能完成的函数式计算变成了可能。他还会显著提升性能。</p>
+<p>Lazy的主意是，我们能够迭代的所有东西都是一个序列。由于这个库用方法执行的先后来控制顺序，很多很酷的事情就可以实现了：异步循环（并行编程）、无限序列、函数式响应式编程等等。</p>
+<p>下面的例子展示了以下各种情形的代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//获得一首歌歌词的前三行</span></div><div class="line"><span class="keyword">var</span> lyrics = <span class="string">"我徘徊在海之滨山之巅\n越此城镇越彼乡园\n ..."</span></div><div class="line"><span class="comment">//如果没有惰性，整个歌词会先根据换行来分隔</span></div><div class="line"><span class="built_in">console</span>.log(lyrics.split(<span class="string">'\n'</span>).slice(<span class="number">0</span>,<span class="number">3</span>));</div><div class="line"><span class="comment">//有了惰性，可以只文本分割出来前三行</span></div><div class="line"><span class="comment">//歌词甚至可以无限长</span></div><div class="line"><span class="built_in">console</span>.log(Lazy(lyrics).split(<span class="string">'\n'</span>).take(<span class="number">3</span>));</div></pre></td></tr></table></figure></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//前十个能被3整除的平方数</span></div><div class="line"> <span class="keyword">var</span> oneTo1000 = Lazy.range(<span class="number">1</span>,<span class="number">1000</span>).toArray();</div><div class="line"> <span class="keyword">var</span> sequence = Lazy(oneTo1000)</div><div class="line">     .map(<span class="function"><span class="keyword">function</span>(<span class="params">x</span>)</span>&#123;<span class="keyword">return</span> x*x&#125;)</div><div class="line">     .filter(<span class="function"><span class="keyword">function</span>(<span class="params">x</span>)</span>&#123;<span class="keyword">return</span> x % <span class="number">3</span> === <span class="number">0</span>&#125;)</div><div class="line">     .take(<span class="number">10</span>)</div><div class="line">     .each(<span class="function"><span class="keyword">function</span>(<span class="params">x</span>)</span>&#123;<span class="built_in">console</span>.log(x)&#125;);</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//对无限序列的异步循环</span></div><div class="line"><span class="keyword">var</span> asyncSequence = Lazy.generate(<span class="function"><span class="keyword">function</span>(<span class="params">x</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> x++</div><div class="line">&#125;).async(<span class="number">100</span>) <span class="comment">//每两个元素间隔0.1秒</span></div><div class="line">.take(<span class="number">20</span>) <span class="comment">//只计算前20项</span></div><div class="line">.each(<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">new</span> <span class="built_in">Date</span>().getMilliseconds() + <span class="string">": "</span> + e);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>不过Lazy库的这个主意并不能保证它完全的正确性。它还有一个前辈，Bacon.js，他们的工作方式差不多。</p>
+<h3 id="其他的一些库"><a href="#其他的一些库" class="headerlink" title="其他的一些库"></a>其他的一些库</h3><p>Javascript函数式编程的库实在太多了，无法在本书中一一展示。我们再来简单看几个吧。</p>
+<ul>
+<li>Functional<ul>
+<li>这也许是Javascript的第一个函数式编程库，它包括了全面的高阶函数支持和string lambdas。</li>
+</ul>
+</li>
+<li>wu.js<ul>
+<li>因其curryable()函数而饱受赞誉的wu.js库是一个很优秀的函数式编程库。它是第一个（据我所知） 实现了惰性求值的库，这影响了Bacon.js、Lazy.js等库。</li>
+<li>是的，它的名字来源于臭名昭著的摇滚组合“Wu-Tang Clan”</li>
+</ul>
+</li>
+<li>sloth.js<ul>
+<li>和Lazy.js很像，但是更小</li>
+</ul>
+</li>
+<li>stream.js<ul>
+<li>支持无限流，其它没什么</li>
+<li>特别小</li>
+</ul>
+</li>
+<li>Lo-Dash.js<ul>
+<li>就像名字所暗示的那样，它是受underscore.js的启发</li>
+<li>高度优化</li>
+</ul>
+</li>
+<li>Sugar<ul>
+<li>Sugar是Javascript函数式编程技术的支持库，和Underscore相像，但是在实现上有一些关键的不同。</li>
+<li>underscore中的 _.pluck(myObjs, ‘value’)在Suger中仅仅是myObjs.map(‘value’)。 意思是他修改了Javascript原生的对象，所以它在跟其它库混用的时候会有些风险，比如Prototype。</li>
+</ul>
+</li>
+<li>from.js<ul>
+<li>一个新的函数式库，Javascript的LINQ（语言集成查询）引擎，支持.net所提供的大多数LINQ函数。</li>
+<li>100%惰性求值，并支持lambda表达式</li>
+<li>很年轻，但是文档很出色</li>
+</ul>
+</li>
+<li>JSLINQ<ul>
+<li>另一个Javascript的LINQ引擎</li>
+<li>比from.js更老也更成熟</li>
+</ul>
+</li>
+<li>Boiler.js<ul>
+<li>另一个让Javascript扩展的函数式方法更加原生的工具库，包括：字符串、数字、对象、集合和数组</li>
+</ul>
+</li>
+<li>Folktale<ul>
+<li>像Bilby.js那样，Folktable是一个对Fantasy Land实现的新库。并且像他的祖先那样， Folktable也是一个Javascript函数式编程库的集合。它还很年轻，但有光明的前景。</li>
+</ul>
+</li>
+<li>jQuery<ul>
+<li>在这里看到jQuery很吃惊吗？尽管jQuery不是一个用于函数式编程的工具，但它自己是函数式的。 jQuery应该是根植于函数式编程的使用最广泛的库。</li>
+<li>jQuery对象实际是一个monad。jQuery使用了monad的规则来实现方法链式调用： <code>$(&#39;#mydiv&#39;).fadeIn().css(&#39;left&#39;: 50).alert(&#39;hi!&#39;);</code> </li>
+<li>它的一些函数是高阶的 <code>$(&#39;li&#39;).css(&#39;left&#39;: function(index){return index*50});</code> </li>
+<li>jQuery1.8以上的deferred.then实现了函数式概念Promise</li>
+<li>jQuery是一个抽象层，主要是面向DOM。它不是一个框架或工具集， 只是一个使用抽象来提高代码复用和减少丑陋代码的方式。而函数式编程不全都是关于这些的吗？</li>
+</ul>
+</li>
+</ul>
+<h2 id="开发和生产环境"><a href="#开发和生产环境" class="headerlink" title="开发和生产环境"></a>开发和生产环境</h2><h3 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h3><p>编程风格与应用所部属或者将要部署的环境没啥关系。但是库就有关系了。</p>
+<h3 id="浏览器"><a href="#浏览器" class="headerlink" title="浏览器"></a>浏览器</h3><p>主要的Javascript应用还是跑在客户端的，也就是浏览器。基于浏览器的环境对于开发来说非常好， 因为浏览器无处不在，你可以在本地机器上写代码，解释器是浏览器的Javascript引擎， 所有的浏览器都有开发者终端。火狐的FireBug提供了非常有用的错误信息，并支持断点等等， 不过同样的代码运行在Chrome和Safari上的交叉引用的错误输出会很有用。甚至连IE都包含开发者工具。</p>
+<p>浏览器的问题是他们对Javascript的解析不尽相同！尽管不是普遍现象，但是可能有些代码在不同的浏览器上会得到非常不同的结果。 不过主要的差别在于它们如何处理DOM，而不是在原型和函数如何工作上。举个明显的例子，Math.sqrt(4) 在任何浏览器和shell上都会返回2。但是scrollLeft方法依赖于浏览器的布局策略。</p>
+<p>编写针对浏览器的特定代码是在浪费时间，这也是为何要使用库的另外一个原因。</p>
+<h3 id="服务器端Javascript"><a href="#服务器端Javascript" class="headerlink" title="服务器端Javascript"></a>服务器端Javascript</h3><p>Node.js已经成为创建服务器端和基于网络应用的标准平台。函数式编程可以用于服务器端应用的编程吗？ 可以！OK，不过现在的这些函数式库是为这种注重性能的环境设计的吗？答案仍然是肯定的。</p>
+<p>这章提到的所有的函数式库都可以工作在Node.js上，有些需要依赖browserify.js模块来处理浏览器元素。</p>
+<h3 id="服务器端环境的一个函数式用例"><a href="#服务器端环境的一个函数式用例" class="headerlink" title="服务器端环境的一个函数式用例"></a>服务器端环境的一个函数式用例</h3><p>在我们的网络系统这个无畏的新世界里，服务器端应用开发人员总在担心并发问题，这是应该的。 经典的例子就是一个应用允许多个用户修改同一个文件，如果他们打算同时修改这个文件，你将会陷入令人作呕的混乱。 这就是困扰了程序员几十年的状态维持问题。</p>
+<p>假设下面这个情景：<br> 1.一天早晨，亚当打开了一份报告开始编辑，但是出去吃午饭的时候没有保存。<br> 2.比利打开了同一份报告，添加了内容，并且保存了报告。<br> 3.亚当吃完午饭回来，又往这份报告里添加了内容，并且保存，不知情地覆盖了比利的内容。<br> 4.第二天，比利发现他的内容消失了。他的老板冲他咆哮，所有的人都一起冲着开发人员发飙，结果开发人员丢了工作。</p>
+<p>长期以来，解决这个问题的办法就是给文件建立状态。当有人编辑这个文件的时候就把状态切换为加锁， 这就防止其他人编辑这个文件，并在保存这个文件后把状态切换为解锁。在我们的情景里，比利应该无法修改报告， 直到亚当吃完饭回来。并且只要文件没被保存就没有其他人可以编辑它。</p>
+<p>这正是函数式编程关于不可变数据和状态的思想具有实际意义之处。函数式的实现并不是直接修改文件， 而是修改文件的一个拷贝，也就是一个新的版本。如果要保存这个版本而此时一个新的版本已经存在， 我们就知道已经有别人修改了原来的文件。危险规避了。</p>
+<p>现在这个场景可以这样展开了：<br> 1.一天早晨，亚当打开了一份报告开始编辑，但是出去吃午饭的时候没有保存。<br> 2.比利打开了同一份报告，添加了内容，保存为了一个新的版本。<br> 3.亚当吃完饭回来继续添加内容，当他要保存时，系统告诉他现在已经存在一个新版本了。<br> 4.亚当打开了这个新版本，添加了自己的内容，并保存为另一个新版本。<br> 5.通过查看版本历史，老板看到了一切在平稳运行。所有人都很开心，应用的开发人员也得到了晋升和奖赏。</p>
+<p>这个叫做事件源。不需要维护明确的状态，只需要事件。这个过程非常清晰，整个事件的历史都可以回顾。</p>
+<p>这个思想以及其它一些优势是函数式编程在服务器端日益增长的原因。</p>
+<h2 id="第三章总结"><a href="#第三章总结" class="headerlink" title="第三章总结"></a>第三章总结</h2><p>你选择使用哪个数据库取决于你的需要是什么。需要函数响应式编程来处理事件和动态值？使用bacon.js。 需要无限流而不需要别的？用stream.js。想要一个函数式助手来补充jQuery？试试underscore.js。 需要严格特定多态的结构化环境？看看bilby.js。需要面面俱到的函数式编程工具？使用Lazy.js。 用这些都不爽？你自己写一个。</p>
+<p>任何库都只擅长于它所使用的方式。尽管这章提到的库里面有几个缺点很少，大多数错误都会在不经意间就出现。 这取决于你选择的库是否正确，是否符合你的需求。</p>
+
+    
+  </div>
+
+
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/05/19/Javascript的函数式库/"
+           data-title="Javascript的函数式库" data-url="http://gaoquan.wang/2016/05/19/Javascript的函数式库/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="GaoQ" />
+          <p class="site-author-name" itemprop="name">GaoQ</p>
+          <p class="site-description motion-element" itemprop="description">There are no shortcuts to any place worth going</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">40</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">GaoQ</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"gaoquan"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+
+  
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/MathJax.js"></script>
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/config/TeX-AMS-MML_HTMLorMML.js"></script>
+  
+
+
+  
+
+
+</body>
+</html>

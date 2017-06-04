@@ -1,0 +1,534 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="javascript,函数式编程," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="GaoQ's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="这章我们继续下面的内容：  把所有的核心概念放到一个集中的范式里 探索函数式编程之美 一步步跟踪函数式模式相互交织的逻辑 我们将贯穿整章建立一个简单的应用做一些很酷的事情  你可能已经注意到，在上一章我们介绍Javascript的函数式库的时候引入了一些概念， 而不是在第二章《函数式编程基础》里。呃，这是有原因的！组合、柯里化、不全调用…… 让我们来探索这些库为何以及如何实现这些概念。 函数式编程">
+<meta name="keywords" content="javascript,函数式编程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在Javascript中实现函数式编程的技术">
+<meta property="og:url" content="http://gaoquan.wang/2016/05/19/在Javascript中实现函数式编程的技术0/index.html">
+<meta property="og:site_name" content="GaoQ&#39;s blog">
+<meta property="og:description" content="这章我们继续下面的内容：  把所有的核心概念放到一个集中的范式里 探索函数式编程之美 一步步跟踪函数式模式相互交织的逻辑 我们将贯穿整章建立一个简单的应用做一些很酷的事情  你可能已经注意到，在上一章我们介绍Javascript的函数式库的时候引入了一些概念， 而不是在第二章《函数式编程基础》里。呃，这是有原因的！组合、柯里化、不全调用…… 让我们来探索这些库为何以及如何实现这些概念。 函数式编程">
+<meta property="og:updated_time" content="2017-06-04T12:54:20.285Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在Javascript中实现函数式编程的技术">
+<meta name="twitter:description" content="这章我们继续下面的内容：  把所有的核心概念放到一个集中的范式里 探索函数式编程之美 一步步跟踪函数式模式相互交织的逻辑 我们将贯穿整章建立一个简单的应用做一些很酷的事情  你可能已经注意到，在上一章我们介绍Javascript的函数式库的时候引入了一些概念， 而不是在第二章《函数式编程基础》里。呃，这是有原因的！组合、柯里化、不全调用…… 让我们来探索这些库为何以及如何实现这些概念。 函数式编程">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title>
+  
+
+  
+    在Javascript中实现函数式编程的技术 | GaoQ's blog
+  
+</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?b902fa08b28044c55da6c70921955ecb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left  ">
+    <div class="headband"></div>
+
+
+<a href="https://github.com/GaoQ1"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/8b6b8ccc6da3aa5722903da7b58eb5ab1081adee/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_orange_ff7600.png"></a>
+
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">GaoQ's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">There are no shortcuts to any place worth going</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            关于我
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+    
+      <p>这章我们继续下面的内容：</p>
+<ul>
+<li>把所有的核心概念放到一个集中的范式里</li>
+<li>探索函数式编程之美</li>
+<li>一步步跟踪函数式模式相互交织的逻辑</li>
+<li>我们将贯穿整章建立一个简单的应用做一些很酷的事情</li>
+</ul>
+<p>你可能已经注意到，在上一章我们介绍Javascript的函数式库的时候引入了一些概念， 而不是在第二章《函数式编程基础》里。呃，这是有原因的！组合、柯里化、不全调用…… 让我们来探索这些库为何以及如何实现这些概念。</p>
+<p>函数式编程可以出现各种各样的模式，这章会覆盖很多不同风格的函数式编程：</p>
+<ul>
+<li>数据泛型编程</li>
+<li>基本上函数式的编程</li>
+<li>函数式响应式编程等</li>
+</ul>
+<p>然而这章将会避免偏向于任何风格。我们不会花费很大精力学完一个函数式编程风格再学另一个， 总的目标是展示写代码更好的方式，而不是被动接受唯一一个正确的选择。 如果你先人一步感觉到了什么是好的写代码的方法而什么不是，你就可以作任何想做的事情了。 当你像个孩子那样仅凭喜好放纵地写代码时，当你不关心如何去循规蹈矩的做事时，无限的可能就出现了。</p>
+<h2 id="部分函数应用和珂理化"><a href="#部分函数应用和珂理化" class="headerlink" title="部分函数应用和珂理化"></a>部分函数应用和珂理化</h2><blockquote>
+<p>许多语言支持可选参数，但是javascript不支持。javascript采用一种完全不同的模式，它允许任意数量的参数传给函数。这就是一些有趣且非同寻常的设计模式留下了门路。函数可以全部或部分应用。</p>
+</blockquote>
+<p>部分应用在javascript中的处理方式是：给函数一个或多个参数绑定上值，然后返回另一个函数接受剩余的未绑定参数。同样，珂理化的处理方式是把一个有多个参数的函数转换为一个只接受一个参数的函数，它返回的函数接受剩余的参数。</p>
+<p>这两者的差异现在看起来不是很明显，但最后会清楚的。</p>
+<h2 id="函数操作"><a href="#函数操作" class="headerlink" title="函数操作"></a>函数操作</h2><p>在我们进一步解释如何实现部分应用和珂理化之前，我们需要进行一些回顾。如果我们想要扒掉javascript厚重的C风格语法外衣，暴露器函数是本质的话，我们需要理解原始函数、原型在javascript是如何工作的；而如果我们只是想设置一些cookie或验证一些表单的话则永远不用考虑这些。</p>
+<h2 id="apply、call和this关键词"><a href="#apply、call和this关键词" class="headerlink" title="apply、call和this关键词"></a>apply、call和this关键词</h2><p>在纯函数式语言中，函数不会被唤起(invoke)，他们是被应用(apply)。javascript以同样的方式工作，甚至提供了手动调用(call)和应用(apply)函数的工具。这些都是与this关键词有关的，当然this指的是函数所属的那个对象。</p>
+<p>call()函数把第一个参数作为this关键字。它是这样工作的：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log([<span class="string">'Hello'</span>,<span class="string">'world'</span>].join(<span class="string">' '</span>)); <span class="comment">//正常方式</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Array</span>.prototype.join.call([<span class="string">'Hello'</span>,<span class="string">'world'</span>],<span class="string">' '</span>)); <span class="comment">//使用call</span></div></pre></td></tr></table></figure>
+<p>call()函数可以唤起匿名函数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log((<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="keyword">this</span>.length)&#125;).call([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]));</div></pre></td></tr></table></figure>
+<p>apply()函数和call()函数很像，但是更有用一些：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Math</span>.max(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>)); <span class="comment">// 返回3</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Math</span>.max([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])); <span class="comment">// 无法应用于数组</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Math</span>.max.apply(<span class="literal">null</span>, [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])); <span class="comment">// 这样就可以了</span></div></pre></td></tr></table></figure>
+<p>基本的区别是：call()函数接受一列参数，apply函数接受一个数组作为参数。</p>
+<p>call()和apply()让你可以只写一次函数，其它对象可以继承它而无需再写一遍函数。 并且他俩都是Function对象的成员。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//当你对call()自己调用call()的时候，会发生有趣的事情。</span></div><div class="line"><span class="comment">//这两行代码是等价的</span></div><div class="line">func.call(thisValue);</div><div class="line"><span class="built_in">Function</span>.prototype.call.call(func,thisValue);</div></pre></td></tr></table></figure></p>
+<h2 id="绑定函数"><a href="#绑定函数" class="headerlink" title="绑定函数"></a>绑定函数</h2><p>bind()函数让你能够调用一个对象的函数时this指向另一个对象。这跟call()函数差不多，不过他可以让方法链式调用，返回一个新的函数。</p>
+<p>这对于回调非常有用，就像下面的代码那样：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Drum</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">this</span>.noise = <span class="string">'boom'</span>;</div><div class="line">  <span class="keyword">this</span>.duration = <span class="number">1000</span>;</div><div class="line">  <span class="keyword">this</span>.goBoom = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.noise)</div><div class="line">  &#125;;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> drum = <span class="keyword">new</span> Drum();</div><div class="line">setInterval(drum.goBoom.bind(drum), drum.duration);</div></pre></td></tr></table></figure>
+<p>这解决了许多面向对象框架中的问题，比如Dojo，特别是对于那些有自己的handler函数的类处理状态维持的问题。 不过我们也可以用bind()来进行函数式编程。</p>
+<p><code>bind()函数实际上自己实现了部分应用，尽管是通过一种很有限的方式。</code></p>
+<h2 id="函数工厂"><a href="#函数工厂" class="headerlink" title="函数工厂"></a>函数工厂</h2><blockquote>
+<p>还记得第二章《函数式编程基础》中关于闭包的那节吗？闭包使建立函数工厂这种Javascript编程模式成为可能。 它们使你能够手动绑定函数的参数。</p>
+</blockquote>
+<p>首先我们需要一个为另一个函数绑定参数的函数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">bindFirstArg</span>(<span class="params">func,a</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">b</span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> func(a,b);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>现在我们可以用它来创建更多的泛型函数(generic function)</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> powersOfTwo = bindFirstArg(<span class="built_in">Math</span>.pow, <span class="number">2</span>);</div><div class="line"><span class="built_in">console</span>.log(powersOfTwo(<span class="number">3</span>)); <span class="comment">// 8</span></div><div class="line"><span class="built_in">console</span>.log(powersOfTwo(<span class="number">5</span>)); <span class="comment">// 32</span></div></pre></td></tr></table></figure>
+<p>也可以针对于其它参数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">bindSecondArg</span>(<span class="params">func, b</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">a</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> func(a, b);</div><div class="line">  &#125;;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> squareOf = bindSecondArg(<span class="built_in">Math</span>.pow, <span class="number">2</span>);</div><div class="line"><span class="keyword">var</span> cubeOf = bindSecondArg(<span class="built_in">Math</span>.pow, <span class="number">3</span>);</div><div class="line"><span class="built_in">console</span>.log(squareOf(<span class="number">3</span>)); <span class="comment">// 9</span></div><div class="line"><span class="built_in">console</span>.log(squareOf(<span class="number">4</span>)); <span class="comment">// 16</span></div><div class="line"><span class="built_in">console</span>.log(cubeOf(<span class="number">3</span>)); <span class="comment">// 27</span></div><div class="line"><span class="built_in">console</span>.log(cubeOf(<span class="number">4</span>)); <span class="comment">// 64</span></div></pre></td></tr></table></figure>
+<p>在函数式编程中，创建泛型函数的能力十分重要。然而还有更巧妙的方式可以更加一般化的完成这一过程。bindFirstArg()函数接受两个参数，第一个参数是这个函数。如果我们把bindFirstArg本身作为第一个参数的函数传给它自己，我们就可以创建绑定函数。最好用下面的例子来描述：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> makePowersOf = bindFirstArg(bindFirstArg, <span class="built_in">Math</span>.pow);</div><div class="line"><span class="keyword">var</span> powersOfThree = makePowersOf(<span class="number">3</span>);</div><div class="line"><span class="built_in">console</span>.log(powersOfThree(<span class="number">2</span>)); <span class="comment">// 9</span></div><div class="line"><span class="built_in">console</span>.log(powersOfThree(<span class="number">3</span>)); <span class="comment">// 27</span></div></pre></td></tr></table></figure>
+<p>这就是为什么它被叫做函数工厂。</p>
+<h2 id="部分应用"><a href="#部分应用" class="headerlink" title="部分应用"></a>部分应用</h2><p>注意我们函数工厂的例子里bindFirstArg()和bindSecondArg()函数只能有两个参数。我们可以写新的不同数量参数的函数，但是这就违背我们一般化的模型了。</p>
+<p>我们需要部分应用</p>
+<p>部分应用是这样一个过程：它给函数的一个或多个参数绑定上值，返回一个已经部分应用过的函数，这个函数仍然需要接收未绑定的参数。</p>
+<p>与bind()函数等Function对象內建的方法不同，我们需要创建自己的函数来实现部分调用和柯里化。主要有两种方式：</p>
+<ul>
+<li>作为一个单独的函数，也就是，var partial = function(func){…}</li>
+<li>作为补充，也就是，Function.prototype.partial = function(func){…}</li>
+</ul>
+<p>补充的方式视为原型增加新的函数，这会允许我们在为想要部分应用的函数调用我们的新函数的时候作为它的一个方法。就像这样：myfunction.partial(arg1,arg2,…)；</p>
+<h3 id="左端部分应用"><a href="#左端部分应用" class="headerlink" title="左端部分应用"></a>左端部分应用</h3><p>这里Javascript的call()和apply()函数将对我们很有用。我们看看补充Function对象的方式：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Function</span>.prototype.partialApply = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> func = <span class="keyword">this</span>;</div><div class="line">  args = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>);</div><div class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    func.apply(<span class="keyword">this</span>,args.concat(</div><div class="line">      <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>)</div><div class="line">    ))</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如你所见，它的工作方式是对arguments这个特殊的值调用slice</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">每个函数又有一个特殊的内部变量叫做arguments,它是一个类似于数组的对象，包含传入函数的全部参数。从技术层面说，她不是数组，因此他没有slice和forEach这些数组的方法。这儿就是为什么我们需要使用Array的slice.call方法。</div></pre></td></tr></table></figure>
+<p>现在我们通过一个例子看看如何使用它。这次我们不做数学题，来搞点有用的东西。 我们来建立一个把数字转换为16进制的小应用。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">nums2hex</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">componentToHex</span>(<span class="params">component</span>)</span>&#123;</div><div class="line">      <span class="keyword">var</span> hex = component.toString(<span class="number">16</span>);</div><div class="line">      <span class="comment">//确保返回的数值是两位数字，比如0c或12</span></div><div class="line">      <span class="keyword">if</span>(hex.length == <span class="number">1</span>)&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"0"</span> + hex;</div><div class="line">      &#125;<span class="keyword">else</span>&#123;</div><div class="line">        <span class="keyword">return</span> hex;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="built_in">Array</span>.prototype.map.call(<span class="built_in">arguments</span>,componentToHex).join(<span class="string">''</span>);</div><div class="line">  &#125;</div><div class="line">  <span class="comment">//这个函数对多少个数字有效</span></div><div class="line">  <span class="built_in">console</span>.log(nums2hex()); <span class="comment">// ''</span></div><div class="line"><span class="built_in">console</span>.log(nums2hex(<span class="number">100</span>, <span class="number">200</span>)); <span class="comment">// '64c8'</span></div><div class="line"><span class="built_in">console</span>.log(nums2hex(<span class="number">100</span>, <span class="number">200</span>, <span class="number">255</span>, <span class="number">0</span>, <span class="number">123</span>)); <span class="comment">// '64c8ff007b'</span></div><div class="line"><span class="comment">// 不过我们可以用部分函数来对部分参数进行应用，比如mac地址的OUI</span></div><div class="line"><span class="comment">// ( OUI，“组织唯一标识符”，即网卡制造商的唯一标识符。)</span></div><div class="line"><span class="keyword">var</span> myOUI = <span class="number">123</span>;</div><div class="line"><span class="keyword">var</span> getMacAddress = nums2hex.partialApply(myOUI);</div><div class="line"><span class="built_in">console</span>.log(getMacAddress()); <span class="comment">// '7b'</span></div><div class="line"><span class="built_in">console</span>.log(getMacAddress(<span class="number">100</span>, <span class="number">200</span>, <span class="number">2</span>, <span class="number">123</span>, <span class="number">66</span>, <span class="number">0</span>, <span class="number">1</span>));</div><div class="line"><span class="comment">// '7b64c8027b420001'</span></div><div class="line"><span class="comment">// 我们还可以转换全红基础上的颜色rgb十六进制值</span></div><div class="line"><span class="keyword">var</span> shadesOfRed = nums2hex.partialApply(<span class="number">255</span>);</div><div class="line"><span class="built_in">console</span>.log(shadesOfRed(<span class="number">123</span>, <span class="number">0</span>)); <span class="comment">// 'ff7b00'</span></div><div class="line"><span class="built_in">console</span>.log(shadesOfRed(<span class="number">100</span>, <span class="number">200</span>)); <span class="comment">// 'ff64c8'</span></div></pre></td></tr></table></figure>
+<p>这个例子展示出了我们可以应用部分参数而生成一个新的函数。它是左-右的，意思是我们只能部分应用从左边开始的若干参数。</p>
+<h3 id="右部分应用"><a href="#右部分应用" class="headerlink" title="右部分应用"></a>右部分应用</h3><p>为了从右边开始应用参数，我们可以再定义一个补充函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Function</span>.prototype.partialApplyRight = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line"><span class="keyword">var</span> func = <span class="keyword">this</span>;</div><div class="line">args = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>);</div><div class="line"><span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> func.apply(</div><div class="line">    <span class="keyword">this</span>, [].slice.call(<span class="built_in">arguments</span>, <span class="number">0</span>)</div><div class="line">    .concat(args));</div><div class="line">&#125;;</div><div class="line">&#125;;</div><div class="line"><span class="keyword">var</span> shadesOfBlue = nums2hex.partialApplyRight(<span class="number">255</span>);</div><div class="line"><span class="built_in">console</span>.log(shadesOfBlue(<span class="number">123</span>, <span class="number">0</span>));   <span class="comment">// '7b00ff'</span></div><div class="line"><span class="built_in">console</span>.log(shadesOfBlue(<span class="number">100</span>, <span class="number">200</span>)); <span class="comment">// '64c8ff'</span></div><div class="line"><span class="keyword">var</span> someShadesOfGreen = nums2hex.partialApplyRight(<span class="number">255</span>, <span class="number">0</span>);</div><div class="line"><span class="built_in">console</span>.log(shadesOfGreen(<span class="number">123</span>));   <span class="comment">// '7bff00'</span></div><div class="line"><span class="built_in">console</span>.log(shadesOfGreen(<span class="number">100</span>));   <span class="comment">// '64ff00'</span></div></pre></td></tr></table></figure>
+<p>部分应用使我们能够创建非常一般化的函数，并从它提取出更多特殊化的函数。 但是这个方法最大的缺点在于参数传入的方式，也就是参数有多少个，是什么样的顺序，这些不太明确。 不明确性在编程中永远不是个好事儿。还有个更好的方式：珂理化。</p>
+<h2 id="柯里化-currying"><a href="#柯里化-currying" class="headerlink" title="柯里化(currying)"></a>柯里化(currying)</h2><p>柯里化是这样一个过程：他把一个具有多个参数的函数转换为一个只有一个参数的函数并返回另一个函数，这个被返回的函数需要原函数剩余的参数。这是的说法是：一个具有N个参数的函数可以被转换为具有N个函数的函数链，其中每个函数只有一个参数。</p>
+<p>一个普遍的问题是：部分应用和柯里化的区别是什么？实际就是部分应用立刻返回一个值，而柯里化只返回另一个柯里化的函数来获取下一个参数，本质的区别是柯里化可以更好的控制参数传入的方式。</p>
+<p>这里我们再为Function的原型补充一个柯里化的方法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Function</span>.prototype.curry = <span class="function"><span class="keyword">function</span>(<span class="params">numArgs</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> func = <span class="keyword">this</span>;</div><div class="line">  numArgs = numArgs || func.length; <span class="comment">//func.length是调用此方法的函数的形参个数</span></div><div class="line">  <span class="comment">//递归地获取参数</span></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">subCurry</span>(<span class="params">prev</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">arg</span>)</span>&#123;</div><div class="line">      <span class="keyword">if</span>(args.length &lt; numArgs)&#123;</div><div class="line">        <span class="comment">//递归情形：仍需要更多的参数</span></div><div class="line">        <span class="keyword">return</span> subCurry(args);</div><div class="line">      &#125;<span class="keyword">else</span>&#123;</div><div class="line">        <span class="comment">//基准情形：执行函数</span></div><div class="line">        <span class="keyword">return</span> func.apply(<span class="keyword">this</span>,args);</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> subCurry([]);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>numArgs参数让我们可以在被珂理化的函数没有给出确切参数的时候指定参数的个数。</p>
+<p>来看看用它如何处理我们的十六进制应用。我们先写个函数，它会把RGB值转化为适合HTML的16进制字符串。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">rgb2hex</span>(<span class="params">r,g,b</span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="string">'#'</span> + nums2hex(r) + nums2hex(g) + nums2hex(b);</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> hexColors = rgb2hex.curry();</div><div class="line"><span class="built_in">console</span>.log(hexColors(<span class="number">11</span>)) <span class="comment">// 返回一个珂理化的函数</span></div><div class="line"><span class="built_in">console</span>.log(hexColors(<span class="number">11</span>, <span class="number">12</span>, <span class="number">123</span>)) <span class="comment">// 返回一个珂理化的函数</span></div><div class="line"><span class="built_in">console</span>.log(hexColors(<span class="number">11</span>)(<span class="number">12</span>)(<span class="number">123</span>)) <span class="comment">// 返回 #0b0c7b</span></div><div class="line"><span class="built_in">console</span>.log(hexColors(<span class="number">210</span>)(<span class="number">12</span>)(<span class="number">0</span>)) <span class="comment">// 返回 #d20c00</span></div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>注意，curry方法返回的函数只接受一个参数，所以上例倒数第三行传入的三个参数的后两个是没用的。</p>
+</blockquote>
+<p>这样使用柯里化不错。但是如果我们相对nums2hex()这个函数进行柯里化就会有点问题，因为这个函数没有指定参数，你可以传入任意数量的参数。所以我们需要定义参数的个数。我们curry函数的那个可选的参数来设置被柯里化函数的参数个数。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> hexs = nums2hex.curry(<span class="number">2</span>);</div><div class="line"><span class="built_in">console</span>.log(hexs(<span class="number">11</span>)(<span class="number">12</span>));     <span class="comment">// 返回 0b0c</span></div><div class="line"><span class="built_in">console</span>.log(hexs(<span class="number">11</span>));         <span class="comment">// 返回一个函数</span></div><div class="line"><span class="built_in">console</span>.log(hexs(<span class="number">110</span>)(<span class="number">12</span>)(<span class="number">0</span>)); <span class="comment">// 不正确</span></div></pre></td></tr></table></figure></p>
+<p>所以柯里化不太适合可变参数的函数，对于这种情况，建议使用部分应用函数。<br>所有这些不只是利用函数工厂和代码重用，柯里化和部分应用在函数组合中扮演着更重要的角色。</p>
+
+    
+  </div>
+
+
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/05/19/在Javascript中实现函数式编程的技术0/"
+           data-title="在Javascript中实现函数式编程的技术" data-url="http://gaoquan.wang/2016/05/19/在Javascript中实现函数式编程的技术0/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="GaoQ" />
+          <p class="site-author-name" itemprop="name">GaoQ</p>
+          <p class="site-description motion-element" itemprop="description">There are no shortcuts to any place worth going</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">40</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">GaoQ</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"gaoquan"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+
+  
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/MathJax.js"></script>
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/config/TeX-AMS-MML_HTMLorMML.js"></script>
+  
+
+
+  
+
+
+</body>
+</html>

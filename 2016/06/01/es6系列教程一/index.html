@@ -1,0 +1,517 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="javascript,es6," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="GaoQ's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="Our lives stretched out ahead of us, like a perpetual sunrise.  let开门见山我们先来尝尝一个例子： 12345678910111213var list = document.getElementById(&quot;list&quot;);for (var i = 1; i &amp;lt;= 5; i++) &amp;#123;  var item = docum">
+<meta name="keywords" content="javascript,es6">
+<meta property="og:type" content="article">
+<meta property="og:title" content="es6系列教程一">
+<meta property="og:url" content="http://gaoquan.wang/2016/06/01/es6系列教程一/index.html">
+<meta property="og:site_name" content="GaoQ&#39;s blog">
+<meta property="og:description" content="Our lives stretched out ahead of us, like a perpetual sunrise.  let开门见山我们先来尝尝一个例子： 12345678910111213var list = document.getElementById(&quot;list&quot;);for (var i = 1; i &amp;lt;= 5; i++) &amp;#123;  var item = docum">
+<meta property="og:updated_time" content="2017-06-04T12:54:20.274Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="es6系列教程一">
+<meta name="twitter:description" content="Our lives stretched out ahead of us, like a perpetual sunrise.  let开门见山我们先来尝尝一个例子： 12345678910111213var list = document.getElementById(&quot;list&quot;);for (var i = 1; i &amp;lt;= 5; i++) &amp;#123;  var item = docum">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title>
+  
+
+  
+    es6系列教程一 | GaoQ's blog
+  
+</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?b902fa08b28044c55da6c70921955ecb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left  ">
+    <div class="headband"></div>
+
+
+<a href="https://github.com/GaoQ1"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/8b6b8ccc6da3aa5722903da7b58eb5ab1081adee/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_orange_ff7600.png"></a>
+
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">GaoQ's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">There are no shortcuts to any place worth going</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            关于我
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+    
+      <blockquote>
+<p>Our lives stretched out ahead of us, like a perpetual sunrise.</p>
+</blockquote>
+<h1 id="let"><a href="#let" class="headerlink" title="let"></a>let</h1><p>开门见山我们先来尝尝一个例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> list = <span class="built_in">document</span>.getElementById(<span class="string">"list"</span>);</div><div class="line"></div><div class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">1</span>; i &lt;= <span class="number">5</span>; i++) &#123;</div><div class="line">  <span class="keyword">var</span> item = <span class="built_in">document</span>.createElement(<span class="string">"li"</span>);</div><div class="line">  item.appendChild(<span class="built_in">document</span>.createTextNode(<span class="string">"Item "</span> + i));</div><div class="line"></div><div class="line">  <span class="keyword">var</span> j = i; <span class="comment">//注意这里使用的是var</span></div><div class="line"></div><div class="line">  item.onclick = <span class="function"><span class="keyword">function</span> (<span class="params">ev</span>) </span>&#123;</div><div class="line">     <span class="built_in">console</span>.log(<span class="string">"Item "</span> + j + <span class="string">" is clicked."</span>);</div><div class="line">   &#125;;</div><div class="line">  list.appendChild(item);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面这段代码的意图是创建5个li，并且点击它们的时候能够打印出当前的序号。但是由于使用了var定义j变量，所以我们发现打印出来的结果都是<code>Item 5 is clicked.</code>,这是因为这里var定义的j是函数级变量，5个内部函数都指向了同一个j，而j最后一次赋值是5.而我们流弊的前辈们变相的引入了块级作用域，并轻松解决了上面的问题，具体如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> list = <span class="built_in">document</span>.getElementById(<span class="string">"list"</span>);</div><div class="line"></div><div class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">1</span>; i &lt;= <span class="number">5</span>; i++) &#123;</div><div class="line">  <span class="keyword">var</span> item = <span class="built_in">document</span>.createElement(<span class="string">"li"</span>);</div><div class="line">  item.appendChild(<span class="built_in">document</span>.createTextNode(<span class="string">"Item "</span> + i));</div><div class="line"></div><div class="line">  (<span class="function"><span class="keyword">function</span>(<span class="params">i</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> j = i;</div><div class="line">    item.onclick = <span class="function"><span class="keyword">function</span> (<span class="params">ev</span>) </span>&#123;</div><div class="line">       <span class="built_in">console</span>.log(<span class="string">"Item "</span> + j + <span class="string">" is clicked."</span>);</div><div class="line">     &#125;;</div><div class="line">  &#125;)(i)</div><div class="line"></div><div class="line">  list.appendChild(item);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这样的话，问题就迎刃而解。因为每循环一次都会产生新的块级作用域(也就是形如<code>(function(){})()</code>这样的写法，没进入一次就生成新的跨级作用域)，在新的块级作用域中5个内部函数指向了不同的j。</p>
+<p>现在，该我们的主角出场了。为了实现块级作用域，es6引入了let声明变量的方法，这样的话上面的例子，可以直接简化成：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> list = <span class="built_in">document</span>.getElementById(<span class="string">"list"</span>);</div><div class="line"></div><div class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">1</span>; i &lt;= <span class="number">5</span>; i++) &#123;</div><div class="line">  <span class="keyword">var</span> item = <span class="built_in">document</span>.createElement(<span class="string">"li"</span>);</div><div class="line">  item.appendChild(<span class="built_in">document</span>.createTextNode(<span class="string">"Item "</span> + i));</div><div class="line"></div><div class="line">  <span class="keyword">let</span> j = i; <span class="comment">//这里直接使用let</span></div><div class="line"></div><div class="line">  item.onclick = <span class="function"><span class="keyword">function</span> (<span class="params">ev</span>) </span>&#123;</div><div class="line">     <span class="built_in">console</span>.log(<span class="string">"Item "</span> + j + <span class="string">" is clicked."</span>);</div><div class="line">   &#125;;</div><div class="line">  list.appendChild(item);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>由此可以看出let与var的区别，let允许把变量限制在块级域中，而var申明的变量要么是全局的，要么是函数级的，而无法是块级的，这是其中之一的区别。</p>
+<h2 id="作用域规则"><a href="#作用域规则" class="headerlink" title="作用域规则"></a>作用域规则</h2><p>下面我们看看let和var在作用域上规则上的区别。用let定义的变量的作用域是定义在它们的块内，以及包含在这个块中的子块；而var定义的变量的作用域是定义在它们的函数内：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">varTest</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> x = <span class="number">31</span>;</div><div class="line">  <span class="keyword">if</span>(<span class="literal">true</span>)&#123;</div><div class="line">    <span class="keyword">var</span> x = <span class="number">71</span>; <span class="comment">//相同的变量</span></div><div class="line">    <span class="built_in">console</span>.log(x); <span class="comment">//71</span></div><div class="line">  &#125;</div><div class="line">  <span class="built_in">console</span>.log(x); <span class="comment">//71    </span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">letTest</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">let</span> x = <span class="number">31</span>;</div><div class="line">  <span class="keyword">if</span>(<span class="literal">true</span>)&#123;</div><div class="line">    <span class="keyword">let</span> x = <span class="number">71</span>; <span class="comment">//不同的变量</span></div><div class="line">    <span class="built_in">console</span>.log(x); <span class="comment">//71</span></div><div class="line">  &#125;</div><div class="line">  <span class="built_in">console</span>.log(x); <span class="comment">//31</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在程序或函数的顶层，let的表现就像var一样：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> x = <span class="string">'global'</span>;</div><div class="line"><span class="keyword">let</span> y = <span class="string">'global'</span>;</div><div class="line"><span class="built_in">console</span>.log(<span class="keyword">this</span>.x);</div><div class="line"><span class="built_in">console</span>.log(<span class="keyword">this</span>.y);</div></pre></td></tr></table></figure>
+<p>上面这段代码的运行后会显示两次”global”。</p>
+<h2 id="let的暂存死区与错误"><a href="#let的暂存死区与错误" class="headerlink" title="let的暂存死区与错误"></a>let的暂存死区与错误</h2><p>在同一个函数或同一个作用域中用let重复定义一个变量将引起TypeError</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(x)&#123;</div><div class="line">  <span class="keyword">let</span> foo;</div><div class="line">  <span class="keyword">let</span> foo; <span class="comment">//TypeError</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在es6中，let将会提升这个变量到语句块的顶部。然而，在这个语句块中，在变量声明之前引用这个变量会导致一个ReferenceError的结果，因为let变量在“暂存死区”（从块的开始到声明这段）。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">do_something</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(foo); <span class="comment">//ReferenceError</span></div><div class="line">  <span class="keyword">let</span> foo = <span class="number">2</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在switch申明中你可能会遇到这样的错误，因为一个switch只有一个作用快。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">switch</span>(x)&#123;</div><div class="line">  <span class="keyword">case</span> <span class="number">0</span>:</div><div class="line">    <span class="keyword">let</span> foo;</div><div class="line">    <span class="keyword">break</span>;</div><div class="line">  <span class="keyword">case</span> <span class="number">1</span>:</div><div class="line">    <span class="keyword">let</span> foo; <span class="comment">//TypeError for redeclaration</span></div><div class="line">    <span class="keyword">break</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="循环定义中的let作用域"><a href="#循环定义中的let作用域" class="headerlink" title="循环定义中的let作用域"></a>循环定义中的let作用域</h2><p>循环体中是可以引用在for申明时用let定义的变量，尽管let不是出现在大括号之间。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> i = <span class="number">0</span>;</div><div class="line"><span class="keyword">for</span>(<span class="keyword">let</span> i=i; i&lt; <span class="number">10</span>; i++)&#123;</div><div class="line">  <span class="built_in">console</span>.log(i);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">注：以上<span class="keyword">let</span>申明的i将会变成<span class="literal">undefined</span>; chrome版本<span class="number">50.0</span><span class="number">.2661</span><span class="number">.102</span>(<span class="number">64</span>-bit); 推荐一下写法：</div><div class="line"><span class="keyword">var</span> i = <span class="number">0</span>;</div><div class="line"><span class="keyword">for</span>(<span class="keyword">let</span> l=i;l&lt;<span class="number">10</span>;l++)&#123;</div><div class="line">  <span class="built_in">console</span>.log(l);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>域作用规则<br><code>for (let expr1;expr2;expr3) statement</code><br>在这个例子中，expr2,expr3和statement都是包含在一个隐含域块中，其中也包含了expr1</p>
+<h2 id="再看些例子"><a href="#再看些例子" class="headerlink" title="再看些例子"></a>再看些例子</h2><h3 id="let-对比-var"><a href="#let-对比-var" class="headerlink" title="let 对比 var"></a>let 对比 var</h3><p>let的作用域是块，var的作用域是函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="number">5</span>;</div><div class="line"><span class="keyword">var</span> b = <span class="number">10</span>;</div><div class="line"></div><div class="line"><span class="keyword">if</span>(a===<span class="number">5</span>)&#123;</div><div class="line">  <span class="keyword">let</span> a = <span class="number">4</span>; <span class="comment">//The scope is inside the if-block</span></div><div class="line">  <span class="keyword">var</span> b = <span class="number">1</span>; <span class="comment">//The scope is inside the function</span></div><div class="line"></div><div class="line">  <span class="built_in">console</span>.log(a); <span class="comment">//4</span></div><div class="line">  <span class="built_in">console</span>.log(b); <span class="comment">//1</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(a); <span class="comment">//5</span></div><div class="line"><span class="built_in">console</span>.log(b); <span class="comment">//1</span></div></pre></td></tr></table></figure>
+<h3 id="let在循环中"><a href="#let在循环中" class="headerlink" title="let在循环中"></a>let在循环中</h3><p>可以用let来代替var，在for定义块中使用块级变量</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>;i&lt;<span class="number">10</span>;i++)&#123;</div><div class="line">  <span class="built_in">console</span>.log(i); <span class="comment">// 0,1,2,3,4,5,6,7,8,9</span></div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(i); <span class="comment">//i is not defined</span></div></pre></td></tr></table></figure>
+<h1 id="const"><a href="#const" class="headerlink" title="const"></a>const</h1><p>const声明创建一个只读的常量。这不意味着常量指向的值不可变，而是变量标识符的只能赋值一次。这个声明创建了一个常量，可以在全局作用域或者函数内声明常量，常量需要被初始化。也就是说，在定义常量的同时必须初始化(这是有意义的，鉴于变量的值在初始化后就不能改变)。</p>
+<p>常量拥有块作用域，和使用let 定义的变量十分相似。常量的值不能通过再赋值改变，也不能再次声明。</p>
+<p>一个常量不能和它所在作用域内的其他变量或函数拥有相同的名称。</p>
+<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>下面的例子演示了常量的特征。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 注意: 常量在声明的时候可以使用大小写，但通常情况下会使用全部大写英文。</span></div><div class="line"></div><div class="line"><span class="comment">// 定义常量MY_FAV并赋值7</span></div><div class="line"><span class="keyword">const</span> MY_FAV = <span class="number">7</span>;</div><div class="line"></div><div class="line"><span class="comment">// 在 Firefox 和 Chrome 这会失败但不会报错(在 Safari这个赋值会成功)</span></div><div class="line">MY_FAV = <span class="number">20</span>;</div><div class="line"></div><div class="line"><span class="comment">// 输出 7</span></div><div class="line"><span class="built_in">console</span>.log(<span class="string">"my favorite number is: "</span> + MY_FAV);</div><div class="line"></div><div class="line"><span class="comment">// 尝试重新声明会报错</span></div><div class="line"><span class="keyword">const</span> MY_FAV = <span class="number">20</span>;</div><div class="line"></div><div class="line"><span class="comment">//  MY_FAV 保留给上面的常量，这个操作会失败</span></div><div class="line"><span class="keyword">var</span> MY_FAV = <span class="number">20</span>;</div><div class="line"></div><div class="line"><span class="comment">// MY_FAV 依旧为7</span></div><div class="line"><span class="built_in">console</span>.log(<span class="string">"my favorite number is "</span> + MY_FAV);</div><div class="line"></div><div class="line"><span class="comment">// 下面是一个语法错误</span></div><div class="line"><span class="keyword">const</span> A = <span class="number">1</span>; A = <span class="number">2</span>;</div><div class="line"></div><div class="line"><span class="comment">// 常量要求一个初始值</span></div><div class="line"><span class="keyword">const</span> FOO; <span class="comment">// SyntaxError: missing = in const declaration</span></div><div class="line"></div><div class="line"><span class="comment">// 常量可以定义成对象</span></div><div class="line"><span class="keyword">const</span> MY_OBJECT = &#123;<span class="string">"key"</span>: <span class="string">"value"</span>&#125;;</div><div class="line"></div><div class="line"><span class="comment">// 重写对象和上面一样会失败</span></div><div class="line">MY_OBJECT = &#123;<span class="string">"OTHER_KEY"</span>: <span class="string">"value"</span>&#125;;</div><div class="line"></div><div class="line"><span class="comment">// 对象属性并不在保护的范围内，下面这个声明会成功执行</span></div><div class="line">MY_OBJECT.key = <span class="string">"otherValue"</span>;</div></pre></td></tr></table></figure></p>
+<h1 id="箭头函数"><a href="#箭头函数" class="headerlink" title="箭头函数"></a>箭头函数</h1><p>箭头函数就是个简写形式的函数表达式，并且它拥有词法作用域的this值（即不会新产生自己作用域下的this,arguments,super和new.target等对象）。此外，箭头函数时匿名的。</p>
+<h2 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">(param1,param2,...,paramN) =&gt; &#123; statements &#125;</div><div class="line">(param1,param2,...,paramN) =&gt; expression</div><div class="line">        <span class="comment">// equivalent to =&gt; &#123; return expression; &#125;</span></div><div class="line"></div><div class="line"><span class="comment">//如果只有一个参数，圆括号是可选的</span></div><div class="line">(singleParam) =&gt; &#123; statements &#125;</div><div class="line">singleParam =&gt; &#123; statements &#125;</div><div class="line"></div><div class="line"><span class="comment">//无参数的函数需要使用圆括号</span></div><div class="line">() =&gt; &#123; statements &#125;</div></pre></td></tr></table></figure>
+<h2 id="高级语法"><a href="#高级语法" class="headerlink" title="高级语法"></a>高级语法</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//返回对象字面量时应该用圆括号将其包起来：</span></div><div class="line">params =&gt; &#123;<span class="attr">foo</span>:bar&#125;</div><div class="line"></div><div class="line"><span class="comment">//支持Rest parameters 和 default parameters:</span></div><div class="line">(param1,param2,...rest) =&gt; &#123; statements &#125;</div><div class="line">(param1 = defaultValue1,param2,...,paramN = defaultValueN) =&gt; &#123; statements &#125;</div><div class="line"></div><div class="line"><span class="comment">//Destructring within the parameter list is also supported</span></div><div class="line"><span class="keyword">var</span> f = <span class="function">(<span class="params">[a,b] = [<span class="number">1</span>,<span class="number">2</span>],&#123;x:c&#125; = &#123;x:a+b&#125;</span>) =&gt;</span> a + b +c;</div><div class="line">f(); <span class="comment">//6</span></div></pre></td></tr></table></figure>
+<h2 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h2><p>箭头函数的引用有两个方面的影响：一是更简短的函数书写，二是对this的词法解析。</p>
+<h3 id="更短的函数"><a href="#更短的函数" class="headerlink" title="更短的函数"></a>更短的函数</h3><p>在一些函数式编程模式里，更短的函数书写方式很受欢迎。试比较：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = [</div><div class="line">  <span class="string">"Hydrogen"</span>,</div><div class="line">  <span class="string">"Helium"</span>,</div><div class="line">  <span class="string">"Lithium"</span>,</div><div class="line">  <span class="string">"Beryl­lium"</span></div><div class="line">];</div><div class="line"><span class="keyword">var</span> a2 = a.map(<span class="function"><span class="keyword">function</span>(<span class="params">s</span>)</span>&#123;<span class="keyword">return</span> s.length&#125;);</div><div class="line"></div><div class="line"><span class="keyword">var</span> a3 = a.map(<span class="function"><span class="params">s</span> =&gt;</span> s.length);</div></pre></td></tr></table></figure></p>
+<h3 id="this的词法"><a href="#this的词法" class="headerlink" title="this的词法"></a>this的词法</h3><p>在箭头函数出现之前，每个新定义的函数都有其自己的this值（例如，构造函数的this指向了一个新的对象；严格模式下的函数的this值为undefined；如果函数是作为对象的方法被调用的，则其this指向了那个调用它的对象）。在面向对象风格的编程中，这被证明是非常恼人的事情。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="comment">//构造函数Person()定义的`this`就是新实例对象自己</span></div><div class="line">  <span class="keyword">this</span>.age = <span class="number">0</span>;</div><div class="line">  setInterval(<span class="function"><span class="keyword">function</span> <span class="title">growUp</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="comment">//在非严格模式下，growUp()函数定义了其内部的`this`</span></div><div class="line">    <span class="comment">//在全局对象，不同于构造函数Person()的定义的`this`</span></div><div class="line">    <span class="keyword">this</span>.age ++;</div><div class="line">  &#125;,<span class="number">1000</span>)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> p = <span class="keyword">new</span> Person();</div></pre></td></tr></table></figure>
+<p>在ECMAScript3/5中，这个问题可以通过新增一个变量来指向期望的this对象，然后将该变量放到闭包中来解决。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> self = <span class="keyword">this</span>;</div><div class="line">  self.age = <span class="number">0</span>;</div><div class="line"></div><div class="line">  setInterval(<span class="function"><span class="keyword">function</span> <span class="title">growUp</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="comment">//回调里面的`self`变量就指向了期望的那个对象了</span></div><div class="line">    self.age ++;</div><div class="line">  &#125;,<span class="number">1000</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>除此之外，还可以使用bound function,把期望的this值传递给growUp()函数。</p>
+<p>箭头函数则会捕获其所在上下文的this值，作为自己的this值，因此下面的代码将如运行。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">this</span>.age = <span class="number">0</span>;</div><div class="line"></div><div class="line">  setInterval(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">    <span class="keyword">this</span>.age ++; <span class="comment">//this正确地指向了person对象</span></div><div class="line">  &#125;,<span class="number">1000</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="与strict-mode的关系"><a href="#与strict-mode的关系" class="headerlink" title="与strict mode的关系"></a>与strict mode的关系</h3><p>考虑到this是词法层面上的，严格模式中与this相关的规则都将被忽略。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> f = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">  <span class="string">`use strict`</span>;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">&#125;</div><div class="line">f() === <span class="built_in">window</span> <span class="comment">//或全局对象</span></div></pre></td></tr></table></figure>
+<h3 id="使用call或apply调用"><a href="#使用call或apply调用" class="headerlink" title="使用call或apply调用"></a>使用call或apply调用</h3><p>由于this已经在词法层面完成了bound，通过call()或apply()方法调用一个函数时，只是传入了参数而已，对this并没有影响。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> adder = &#123;</div><div class="line">  <span class="attr">base</span>: <span class="number">1</span>,</div><div class="line"></div><div class="line">  <span class="attr">add</span>: <span class="function"><span class="keyword">function</span>(<span class="params">a</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> f = <span class="function"><span class="params">v</span> =&gt;</span> v + <span class="keyword">this</span>.base;</div><div class="line">    <span class="keyword">return</span> f(a);</div><div class="line">  &#125;,</div><div class="line"></div><div class="line">  <span class="attr">addThruCall</span>: <span class="function"><span class="keyword">function</span>(<span class="params">a</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> f = <span class="function"><span class="params">v</span> =&gt;</span> v + <span class="keyword">this</span>.base;</div><div class="line">    <span class="keyword">var</span> b = &#123;</div><div class="line">      <span class="attr">base</span> : <span class="number">2</span></div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> f.call(b,a)</div><div class="line">  &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(adder.add(<span class="number">1</span>)); <span class="comment">//输出2</span></div><div class="line"><span class="built_in">console</span>.log(adder.addThruCall(<span class="number">1</span>)); <span class="comment">//仍然输出2</span></div></pre></td></tr></table></figure>
+<h2 id="arguments的词法"><a href="#arguments的词法" class="headerlink" title="arguments的词法"></a>arguments的词法</h2><p>箭头函数不会在其内部暴露arguments对象：arguments.length,arguments[0],arguments[1]等等，<br>都不会指向箭头函数arguments，而是指向了箭头函数所在作用域的一个名为arguments的值（如果真的有的话，否则，就是undefined）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> <span class="built_in">arguments</span> = <span class="number">42</span>;</div><div class="line"><span class="keyword">var</span> arr = <span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">arguments</span>;</div><div class="line"></div><div class="line">arr(); <span class="comment">//42</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> f = <span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">arguments</span>[<span class="number">0</span>];</div><div class="line">  <span class="keyword">return</span> f(<span class="number">2</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line">foo(<span class="number">1</span>); <span class="comment">//1</span></div></pre></td></tr></table></figure>
+<p>箭头函数没有自己的arguments对象，不过大多数情况下，rest参数可以给出一个解决方案：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> f = <span class="function">(<span class="params">...args</span>) =&gt;</span> args[<span class="number">0</span>];</div><div class="line">  <span class="keyword">return</span> f(<span class="number">2</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line">foo(<span class="number">1</span>); <span class="comment">//2</span></div></pre></td></tr></table></figure>
+<h3 id="使用yield关键字"><a href="#使用yield关键字" class="headerlink" title="使用yield关键字"></a>使用yield关键字</h3><p>yield关键字通常不在箭头函数中使用。因此，箭头函数不能用作Generator函数</p>
+<h3 id="返回对象字面量"><a href="#返回对象字面量" class="headerlink" title="返回对象字面量"></a>返回对象字面量</h3><p>请牢记，用params =&gt; {object:literal}这种简单的语法返回一个对象字面量是行不通的：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> func = <span class="function"><span class="params">()</span> =&gt;</span> &#123; <span class="attr">foo</span>: <span class="number">1</span> &#125;;</div><div class="line"><span class="comment">//calling func() returns undefined!</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> func = <span class="function"><span class="params">()</span> =&gt;</span> &#123; <span class="attr">foo</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125; &#125;;</div><div class="line"><span class="comment">//SyntaxError: function statement required a name</span></div></pre></td></tr></table></figure>
+<p>这是因为花括号(即{})里面的代码被解析为声明序列了(例如，foo被认为是一个label，而非对象字面量里的键)。</p>
+<p>所以，记得用圆括号把对象字面量包起来：<br><code>var func = () =&gt; ({foo:1})</code></p>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//一个空箭头函数，返回undefined</span></div><div class="line"><span class="keyword">let</span> empty = <span class="function"><span class="params">()</span> =&gt;</span> &#123;&#125;;</div><div class="line"></div><div class="line"><span class="function">(<span class="params">(</span>) =&gt;</span> <span class="string">"foobar"</span>)() <span class="comment">//返回"foobar"</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> simple = <span class="function"><span class="params">a</span> =&gt;</span> a &gt; <span class="number">15</span> ? <span class="number">15</span> : a;</div><div class="line">simple(<span class="number">16</span>); <span class="comment">//15</span></div><div class="line">simple(<span class="number">10</span>); <span class="comment">//10</span></div><div class="line"></div><div class="line"><span class="keyword">let</span> max = <span class="function">(<span class="params">a,b</span>) =&gt;</span> a &gt; b ? a : b;</div><div class="line"></div><div class="line"><span class="comment">//Easy array filtering, mapping, ...</span></div><div class="line"><span class="keyword">var</span> arr = [<span class="number">5</span>,<span class="number">6</span>,<span class="number">13</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">18</span>,<span class="number">23</span>];</div><div class="line"><span class="keyword">var</span> sum = arr.reduce(<span class="function">(<span class="params">a,b</span>) =&gt;</span> a + b); <span class="comment">//66</span></div><div class="line"><span class="keyword">var</span> even = arr.filter(<span class="function"><span class="params">v</span> =&gt;</span> v % <span class="number">2</span> == <span class="number">0</span>); <span class="comment">//[6,0,18]</span></div><div class="line"><span class="keyword">var</span> double = arr.map(<span class="function"><span class="params">v</span> =&gt;</span> v * <span class="number">2</span>); <span class="comment">//[10,12,26,0,2,36,46]</span></div></pre></td></tr></table></figure>
+
+    
+  </div>
+
+
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/06/01/es6系列教程一/"
+           data-title="es6系列教程一" data-url="http://gaoquan.wang/2016/06/01/es6系列教程一/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="GaoQ" />
+          <p class="site-author-name" itemprop="name">GaoQ</p>
+          <p class="site-description motion-element" itemprop="description">There are no shortcuts to any place worth going</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">40</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">GaoQ</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"gaoquan"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+
+  
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/MathJax.js"></script>
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/config/TeX-AMS-MML_HTMLorMML.js"></script>
+  
+
+
+  
+
+
+</body>
+</html>

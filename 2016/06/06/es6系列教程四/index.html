@@ -1,0 +1,611 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="javascript,es6," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="GaoQ's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="Fading is true while flowering is past.    Map,Set 和 WeakMap,WeakSetSet概述集合(Set)对象允许你存储任意类型的唯一值(不能重复)，无论是原始数据还是对象引用。 语法 new Set([iterable]);    参数iterable – 一个可迭代对象，其中的所有元素都会被加入到Set中。null被视作undefined">
+<meta name="keywords" content="javascript,es6">
+<meta property="og:type" content="article">
+<meta property="og:title" content="es6系列教程四">
+<meta property="og:url" content="http://gaoquan.wang/2016/06/06/es6系列教程四/index.html">
+<meta property="og:site_name" content="GaoQ&#39;s blog">
+<meta property="og:description" content="Fading is true while flowering is past.    Map,Set 和 WeakMap,WeakSetSet概述集合(Set)对象允许你存储任意类型的唯一值(不能重复)，无论是原始数据还是对象引用。 语法 new Set([iterable]);    参数iterable – 一个可迭代对象，其中的所有元素都会被加入到Set中。null被视作undefined">
+<meta property="og:updated_time" content="2017-06-04T12:54:20.276Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="es6系列教程四">
+<meta name="twitter:description" content="Fading is true while flowering is past.    Map,Set 和 WeakMap,WeakSetSet概述集合(Set)对象允许你存储任意类型的唯一值(不能重复)，无论是原始数据还是对象引用。 语法 new Set([iterable]);    参数iterable – 一个可迭代对象，其中的所有元素都会被加入到Set中。null被视作undefined">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title>
+  
+
+  
+    es6系列教程四 | GaoQ's blog
+  
+</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?b902fa08b28044c55da6c70921955ecb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left  ">
+    <div class="headband"></div>
+
+
+<a href="https://github.com/GaoQ1"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/8b6b8ccc6da3aa5722903da7b58eb5ab1081adee/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_orange_ff7600.png"></a>
+
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">GaoQ's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">There are no shortcuts to any place worth going</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            关于我
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+    
+      <blockquote>
+<p>Fading is true while flowering is past.  </p>
+</blockquote>
+<h1 id="Map-Set-和-WeakMap-WeakSet"><a href="#Map-Set-和-WeakMap-WeakSet" class="headerlink" title="Map,Set 和 WeakMap,WeakSet"></a>Map,Set 和 WeakMap,WeakSet</h1><h2 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>集合(Set)对象允许你存储任意类型的唯一值(不能重复)，无论是原始数据还是对象引用。</p>
+<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><blockquote>
+<p>new Set([iterable]);  </p>
+</blockquote>
+<h4 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h4><p>iterable – 一个可迭代对象，其中的所有元素都会被加入到Set中。null被视作undefined。</p>
+<h3 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h3><p>Set对象是值的集合，你可以按照插入的顺序迭代它的元素。Set中的元素只会出现一次，即Set中的元素是唯一的。</p>
+<h4 id="值的相等"><a href="#值的相等" class="headerlink" title="值的相等"></a>值的相等</h4><p>因为Set中的值总是唯一的，所以需要判断两个值是否相等。判断相等的算法与严格相等(===操作符)不同。具体来说，对于Set, +0(+0严格相等于-0)和-0是不同的值。尽管在最新的ECMAScript6规范中这点已被更改。另外NaN和undefined都可被存储在Set中，NaN之间被视为相同的值(尽管NaN !== NaN)。</p>
+<h3 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h3><p>Set.length – length属性的值为0</p>
+<p>Set.prototype – 表示Set构造器的原型，允许向所有Set对象添加新的属性。</p>
+<h3 id="Set实例"><a href="#Set实例" class="headerlink" title="Set实例"></a>Set实例</h3><p>所有的Set实例继承自Set.prototype。示例：使用Set对象。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> mySet = <span class="keyword">new</span> <span class="built_in">Set</span>();</div><div class="line"></div><div class="line">mySet.add(<span class="number">1</span>);</div><div class="line">mySet.add(<span class="number">5</span>);</div><div class="line">mySet.add(<span class="string">"Some text"</span>);</div><div class="line"></div><div class="line">mySet.has(<span class="number">1</span>); <span class="comment">//true</span></div><div class="line">mySet.has(<span class="number">3</span>); <span class="comment">//false,3没有被添加到set中</span></div><div class="line">mySet.has(<span class="number">5</span>); <span class="comment">//true</span></div><div class="line">mySet.has(<span class="built_in">Math</span>.sqrt(<span class="number">25</span>));  <span class="comment">// true</span></div><div class="line">mySet.has(<span class="string">"Some Text"</span>.toLowerCase()); <span class="comment">// true</span></div><div class="line"></div><div class="line">mySet.size; <span class="comment">// 3</span></div><div class="line"></div><div class="line">mySet.delete(<span class="number">5</span>); <span class="comment">// 从set中移除5</span></div><div class="line">mySet.has(<span class="number">5</span>);    <span class="comment">// false, 5已经被移除</span></div><div class="line"></div><div class="line">mySet.size; <span class="comment">// 2, 我们刚刚移除了一个值</span></div></pre></td></tr></table></figure></p>
+<p>示例：迭代Set<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//迭代整个set</span></div><div class="line"><span class="comment">//按顺序输出：1, "some text"</span></div><div class="line"><span class="keyword">for</span>(<span class="keyword">let</span> item <span class="keyword">of</span> mySet) <span class="built_in">console</span>.log(item);</div><div class="line"></div><div class="line"><span class="comment">//按顺序输出：1,,"some text"</span></div><div class="line"><span class="keyword">for</span>(<span class="keyword">let</span> item <span class="keyword">of</span> mySet.keys()) <span class="built_in">console</span>.log(item);</div><div class="line"></div><div class="line"><span class="comment">//按顺序输出：1,"some text"</span></div><div class="line"><span class="keyword">for</span>(<span class="keyword">let</span> item <span class="keyword">of</span> mySet.values()) <span class="built_in">console</span>.log(item);</div><div class="line"></div><div class="line"><span class="comment">//按顺序输出：1,"some text"(键与值相等)</span></div><div class="line"><span class="keyword">for</span>(<span class="keyword">let</span>[key,value] <span class="keyword">of</span> mySet.entries()) <span class="built_in">console</span>.log(key);</div><div class="line"></div><div class="line"><span class="comment">//转换Set为Array(with Array coprehensions)</span></div><div class="line"><span class="keyword">var</span> myArr = [v <span class="keyword">for</span> (v <span class="keyword">of</span> mySet)]; <span class="comment">//[1,"some text"]</span></div><div class="line"><span class="comment">//替代方案(with Array.from)</span></div><div class="line"><span class="keyword">var</span> myArr = <span class="built_in">Array</span>.from(mySet); <span class="comment">// [1,"some text"]</span></div><div class="line"></div><div class="line"><span class="comment">//如果在HTML文档中工作，也可以：</span></div><div class="line">mySet.add(<span class="built_in">document</span>.body);</div><div class="line">mySet.has(<span class="built_in">document</span>.querySelector(<span class="string">"body"</span>)); <span class="comment">//true</span></div><div class="line"></div><div class="line"><span class="comment">//Set和Array转换</span></div><div class="line">mySet2 = <span class="keyword">new</span> <span class="built_in">Set</span>([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]);</div><div class="line">mySet2.size; <span class="comment">//4</span></div><div class="line">[...mySet2]; <span class="comment">//[1,2,3,4]</span></div><div class="line"></div><div class="line"><span class="comment">//截取</span></div><div class="line"><span class="keyword">var</span> intersection = <span class="keyword">new</span> <span class="built_in">Set</span>([x <span class="keyword">for</span>(x <span class="keyword">of</span> set1) <span class="keyword">if</span> (set2 has(x))]);</div><div class="line"></div><div class="line"><span class="comment">//用forEach迭代</span></div><div class="line">mySet.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">value</span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(value);</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>示例：和Array对象的关系<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> myArray = [<span class="string">"value1"</span>, <span class="string">"value2"</span>, <span class="string">"value3"</span>];</div><div class="line"></div><div class="line"><span class="comment">//用Set构造器将Set转换为Array</span></div><div class="line"><span class="keyword">var</span> mySet = <span class="keyword">new</span> <span class="built_in">Set</span>(myArray);</div><div class="line"></div><div class="line">mySet.has(<span class="string">"value1"</span>); <span class="comment">//returns true</span></div><div class="line"></div><div class="line"><span class="comment">//用...(展开操作符)操作符将Set转换为Array</span></div><div class="line">alert(uneval([...mySet])); <span class="comment">//与myArray完全一致</span></div></pre></td></tr></table></figure></p>
+<h2 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h2><h3 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h3><p>Map对象就是简单的键/值映射。其中键和值可以是任意值(原始值或对象值).</p>
+<p>在判断两个值是否为同一个键的时候，使用的并不是===运算符，而是使用了一种称之为”same-value”的内部算法，该算法很特殊，对于Map对象来说,+0(按照以往的经验与-0是严格相等的)和-0是两个不同的键。而NaN在作为Map对象的键时和另外一个NaN是一个相同的键(尽管NaN !== NaN)</p>
+<h3 id="API"><a href="#API" class="headerlink" title="API"></a>API</h3><table>
+<thead>
+<tr>
+<th><strong>Constructor</strong></th>
+<th style="text-align:center"><strong>描述</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>new Map([iterable])</td>
+<td style="text-align:center">返回一个新的Map对象。如果参数iterable是一个数组或者其他可迭代的对象 – 它的元素是键值对，这样这些每一个键值对都可以添加到新的Map里面去</td>
+</tr>
+<tr>
+<td><strong>方法</strong></td>
+<td style="text-align:center"><strong>描述</strong></td>
+</tr>
+<tr>
+<td>myMap.get(key)</td>
+<td style="text-align:center">返回键key关联的值，如果该键不存在则返回undefined</td>
+</tr>
+<tr>
+<td>myMap.set(key,value)</td>
+<td style="text-align:center">设置键key在myMap中的值为value。返回undefined</td>
+</tr>
+<tr>
+<td>myMap.has(key)</td>
+<td style="text-align:center">返回一个布尔值，表明键key是否存在于myMap中</td>
+</tr>
+<tr>
+<td>myMap.delete(key)</td>
+<td style="text-align:center">删除键key及对应的值.在这之后,myMap.has(key)将会返回false</td>
+</tr>
+<tr>
+<td>myMap.entries()</td>
+<td style="text-align:center">返回一个迭代器，迭代器按照对象的插入顺序返回[key,value];</td>
+</tr>
+<tr>
+<td>myMap.forEach(callbackFn[,thisArg])</td>
+<td style="text-align:center">循环执行函数并把键/值对作为参数;thisArg为可选的，如果有thisArg的话将会作为执行函数的上下文this;</td>
+</tr>
+<tr>
+<td>myMap.keys()</td>
+<td style="text-align:center">返回一个迭代器，迭代器按照Map实例的插入顺序返回每一个key元素;</td>
+</tr>
+<tr>
+<td>myMap.clear()</td>
+<td style="text-align:center">清空myMap中的所有键值对</td>
+</tr>
+<tr>
+<td><strong>属性</strong></td>
+<td style="text-align:center"><strong>描述</strong></td>
+</tr>
+<tr>
+<td>myMap.size</td>
+<td style="text-align:center">返回myMap中键值对的数量。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> myMap = <span class="keyword">new</span> <span class="built_in">Map</span>();</div><div class="line"></div><div class="line"><span class="keyword">var</span> keyObj = &#123;&#125;,</div><div class="line">    keyFunc = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;,</div><div class="line">    keyString = <span class="string">"a string"</span>;</div><div class="line"></div><div class="line"><span class="comment">//添加键</span></div><div class="line">myMap.set(keyString, <span class="string">"和键'a string'关联的值"</span>);</div><div class="line">myMap.set(keyObj, <span class="string">"和键keyObj关联的值"</span>);</div><div class="line">myMap.set(keyFunc, <span class="string">"和键keyFunc关联的值"</span>);</div><div class="line"></div><div class="line">myMap.size; <span class="comment">//3</span></div><div class="line"></div><div class="line"><span class="comment">//读取值</span></div><div class="line">myMap.get(keyString); <span class="comment">// "和键'a string'关联的值"</span></div><div class="line">myMap.get(keyObj); <span class="comment">// "和键keyObj关联的值"</span></div><div class="line">myMap.get(keyFunc); <span class="comment">//"和键keyFunc关联的值"</span></div><div class="line"></div><div class="line">myMap.get(<span class="string">"a string"</span>); <span class="comment">//"和键'a string'关联的值"</span></div><div class="line">                       <span class="comment">//因为keyString == "a string"</span></div><div class="line">myMap.get(&#123;&#125;);         <span class="comment">//undefined,因为keyObj !== &#123;&#125;</span></div><div class="line">myMap.get(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;)<span class="comment">//undefined,因为keyFunc !== function()&#123;&#125;</span></div></pre></td></tr></table></figure>
+<p>NaN也可以作为Map对象的键。虽然NaN和任何值甚至和自己都不相等(NaN !== NaN返回true)，但下面的例子表明，两个NaN作为Map的键来说是没有区别的：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> myMap = <span class="keyword">new</span> <span class="built_in">Map</span>();</div><div class="line">myMap.set(<span class="literal">NaN</span>,<span class="string">"not a number"</span>);</div><div class="line"></div><div class="line">myMap.get(<span class="literal">NaN</span>); <span class="comment">//"not a number"</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> otherNaN = <span class="built_in">Number</span>(<span class="string">"foo"</span>);</div><div class="line">myMap.get(otherNaN); <span class="comment">//"not a number"</span></div></pre></td></tr></table></figure></p>
+<p>javascript有两个0值，+0和-0.虽然+0 === -0,但是当这两个0作为Map的键时，被认为是两个不同的值。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> myMap = <span class="keyword">new</span> <span class="built_in">Map</span>();</div><div class="line">myMap.set(<span class="number">0</span>,<span class="string">"正零"</span>);</div><div class="line">myMap.set(<span class="number">-0</span>,<span class="string">"负零"</span>);</div><div class="line"></div><div class="line"><span class="number">0</span> === <span class="number">-0</span>; <span class="comment">// true</span></div><div class="line"></div><div class="line">myMap.get(<span class="number">-0</span>); <span class="comment">// "负零"</span></div><div class="line">myMap.get(<span class="number">0</span>);  <span class="comment">// "正零"</span></div></pre></td></tr></table></figure></p>
+<h3 id="Object和Map的比较"><a href="#Object和Map的比较" class="headerlink" title="Object和Map的比较"></a>Object和Map的比较</h3><p>Object和Map类似的一点是，它们都允许你按键存取一个值，都可以删除键，还可以检测一个键是否绑定了值。因此，一直以来，我们都把对象当成Map来使用，现在有了Map,下面的区别解释了为什么使用Map更好点。</p>
+<ul>
+<li>一个对象通常都有自己的原型，所以一个对象总有一个”prototype”键，不过，现在可以使用map = Object.create(null)来创建一个没有原型的对象。</li>
+<li>一个对象的键只能是字符串，但一个Map的键可以是任意值。</li>
+<li>你可以很容易的得到一个Map的键值对个数，而只能跟踪一个对象的键值对个数。</li>
+</ul>
+<h2 id="WeakSet"><a href="#WeakSet" class="headerlink" title="WeakSet"></a>WeakSet</h2><h3 id="概述-2"><a href="#概述-2" class="headerlink" title="概述"></a>概述</h3><p>一个WeakSet对象是一个无序的集合，可以用它来存储任意的对象值，并且对这些对象值保持弱引用。</p>
+<h3 id="语法-1"><a href="#语法-1" class="headerlink" title="语法"></a>语法</h3><blockquote>
+<p>new WeakSet([iterable]);  </p>
+</blockquote>
+<h4 id="参数-1"><a href="#参数-1" class="headerlink" title="参数"></a>参数</h4><p>iterable – 如果传入一个可迭代对象作为参数，则该对象的所有迭代值都会被自动添加进生成的WeakSet对象中。</p>
+<h3 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h3><p>WeakSet对象是一些对象值的集合，并且其中的每个对象值都只能出现一次。</p>
+<p>它和Set对象的区别有两点：</p>
+<ul>
+<li>WeakSet对象中只能存放对象值，不能存放原始值，而Set对象都可以。</li>
+<li>WeakSet对象中存储的对象值都是被弱引用的，如果没有其他的变量或属性引用这个对象值，则这个对象值会被当成垃圾回收掉。正因为这样，WeakSet对象是无法被枚举的，没有办法拿到它包含的所有元素。</li>
+</ul>
+<h3 id="属性-1"><a href="#属性-1" class="headerlink" title="属性"></a>属性</h3><p>WeakSet.length – length属性的值为0</p>
+<p>WeakSet.prototype – WeakSet实例的所有继承属性和继承方法都在该对象上。</p>
+<h3 id="WeakSet实例"><a href="#WeakSet实例" class="headerlink" title="WeakSet实例"></a>WeakSet实例</h3><p>所有WeakSet实例都继承自WeakSet.prototype</p>
+<p>属性 – WeakSet.prototype.constructor(返回构造函数即WeakSet本身)。</p>
+<p>方法</p>
+<ul>
+<li>WeakSet.prototype.add(value) – 在该 WeakSet 对象中添加一个新元素 value.</li>
+<li>WeakSet.prototype.clear() – 清空该 WeakSet 对象中的所有元素.</li>
+<li>WeakSet.prototype.delete(value) – 从该 WeakSet 对象中删除 value 这个元素, 之后 WeakSet.prototype.has(value) 方法便会返回 false.</li>
+<li>WeakSet.prototype.has(value) – 返回一个布尔值,  表示给定的值 value 是否存在于这个 WeakSet 中.</li>
+</ul>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> ws = <span class="keyword">new</span> <span class="built_in">WeakSet</span>();</div><div class="line"><span class="keyword">var</span> obj = &#123;&#125;;</div><div class="line"><span class="keyword">var</span> foo = &#123;&#125;;</div><div class="line"></div><div class="line">ws.add(<span class="built_in">window</span>);</div><div class="line">ws.add(obj);</div><div class="line"></div><div class="line">ws.has(<span class="built_in">window</span>); <span class="comment">// true</span></div><div class="line">ws.has(foo);    <span class="comment">// false, 对象 foo 并没有被添加进 ws 中</span></div><div class="line"></div><div class="line">ws.delete(<span class="built_in">window</span>); <span class="comment">// 从集合中删除 window 对象</span></div><div class="line">ws.has(<span class="built_in">window</span>);    <span class="comment">// false, window 对象已经被删除了</span></div><div class="line"></div><div class="line">ws.clear(); <span class="comment">// 清空整个 WeakSet 对象</span></div></pre></td></tr></table></figure>
+<h2 id="WeakMap"><a href="#WeakMap" class="headerlink" title="WeakMap"></a>WeakMap</h2><h3 id="概述-3"><a href="#概述-3" class="headerlink" title="概述"></a>概述</h3><p>WeakMap对象就是简单的键/值映射。但键只能是对象值，不可以是原始值。</p>
+<h3 id="API-1"><a href="#API-1" class="headerlink" title="API"></a>API</h3><table>
+<thead>
+<tr>
+<th><strong>方法</strong></th>
+<th style="text-align:center"><strong>描述</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>myWeakMap.get(key [,defaultValue])</td>
+<td style="text-align:center">返回键key关联的值，如果该键不存在则返回默认值defaultValue</td>
+</tr>
+<tr>
+<td>myWeakMap.set(key,value)</td>
+<td style="text-align:center">设置键key在myWeakMap中的值，返回undefined</td>
+</tr>
+<tr>
+<td>myWeakMap.has(key)</td>
+<td style="text-align:center">返回一个布尔值来表明键key是否在myWeakMap中</td>
+</tr>
+<tr>
+<td>myWeakMap.delete(key)</td>
+<td style="text-align:center">删除键key及对应的值。在这之后，myWeakMap.has(key)将返回false</td>
+</tr>
+<tr>
+<td>myWeakMap.clear()</td>
+<td style="text-align:center">清空myWeakMap中的所有的键值对，返回undefined</td>
+</tr>
+</tbody>
+</table>
+<h3 id="例子-1"><a href="#例子-1" class="headerlink" title="例子"></a>例子</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> wm1 = <span class="keyword">new</span> <span class="built_in">WeakMap</span>(),</div><div class="line">    wm2 = <span class="keyword">new</span> <span class="built_in">WeakMap</span>(),</div><div class="line">    wm3 = <span class="keyword">new</span> <span class="built_in">WeakMap</span>();</div><div class="line"><span class="keyword">var</span> o1 = &#123;&#125;,</div><div class="line">    o2 = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;,</div><div class="line">    o3 = <span class="built_in">window</span>;</div><div class="line"></div><div class="line">wm1.set(o1, <span class="number">37</span>);</div><div class="line">wm1.set(o2, <span class="string">"azerty"</span>);</div><div class="line">wm2.set(o1, o2); <span class="comment">// value可以是任意值,包括一个对象</span></div><div class="line">wm2.set(o3, <span class="literal">undefined</span>);</div><div class="line">wm2.set(wm1, wm2); <span class="comment">// 键和值可以是任意对象,甚至另外一个WeakMap对象</span></div><div class="line">wm1.get(o2); <span class="comment">// "azerty"</span></div><div class="line">wm2.get(o2); <span class="comment">// undefined,wm2中没有o2这个键</span></div><div class="line">wm2.get(o3); <span class="comment">// undefined,值就是undefined</span></div><div class="line"></div><div class="line">wm1.has(o2); <span class="comment">// true</span></div><div class="line">wm2.has(o2); <span class="comment">// false</span></div><div class="line">wm2.has(o3); <span class="comment">// true (即使值是undefined)</span></div><div class="line"></div><div class="line">wm3.set(o1, <span class="number">37</span>);</div><div class="line">wm3.get(o1); <span class="comment">// 37</span></div><div class="line">wm3.clear();</div><div class="line">wm3.get(o1); <span class="comment">// undefined,wm3已被清空</span></div><div class="line">wm1.has(o1);   <span class="comment">// true</span></div><div class="line">wm1.delete(o1);</div><div class="line">wm1.has(o1);   <span class="comment">// false</span></div></pre></td></tr></table></figure>
+<h3 id="为什么要使用WeakMap"><a href="#为什么要使用WeakMap" class="headerlink" title="为什么要使用WeakMap?"></a>为什么要使用WeakMap?</h3><p>经验丰富的JavaScript程序员会注意到，WeakMap完全通过两个数组(一个存放键，一个存放值)来实现。但这样的实现会有两个很大的缺点，首先是O(n)的时间复杂度(n是键值对的个数)。另外一个则可能或导致内存泄漏；在这种自己实现的WeakMap中，存放键的数组中的每个索引将会保持对所引用对象的引用，阻止他们被当做垃圾回收。而在原生的WeakMap中，每个键对自己所引用对象的引用是“弱引用”，这意味着，如果没有其他引用和该键引用同一个对象，这个对象将会被当做垃圾回收。</p>
+<p>正由于这样的弱引用, WeakMap 的keys是无法遍历的 (无法列举出所有的keys). 如果允许被遍历的话, 遍历的结果将会受垃圾回收的影响, 从而得到不确定的结果. 因此,如果你想得到所有keys的值,你应该自己管理他们. 另外ECMAScript提案中还介绍了另外两种集合类型,Map和Set,他们没有使用弱引用,所以是可遍历的.</p>
+<h1 id="Proxy-和-Reflect"><a href="#Proxy-和-Reflect" class="headerlink" title="Proxy 和 Reflect"></a>Proxy 和 Reflect</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Proxy对象用来为基础操作(例如：属性查找、赋值、枚举、方法调用等)定义用户自定义行为。</p>
+<h2 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h2><p>handler – 包含traps的对象。<br>traps – 提供访问属性的途径，与操作系统中的traps定义相似<br>target – 被代理虚拟化的对象，这个对象常常用作代理的存储后端。关于对象不可拓展性和不可修改属性的不变量会被代理拦截。</p>
+<h2 id="语法-2"><a href="#语法-2" class="headerlink" title="语法"></a>语法</h2><blockquote>
+<p>var p = new Proxy(target, handler);  </p>
+</blockquote>
+<h3 id="参数-2"><a href="#参数-2" class="headerlink" title="参数"></a>参数</h3><p>target – 目标对象，可以是任意类型的对象，比如数组，函数，甚至是另外一个代理对象。<br>handler – 处理器对象，包含了一组代理方法，分别控制所生成代理对象的各种行为。</p>
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><p>Proxy.revocable() – 创建一个可撤销的代理对象。</p>
+<h2 id="handler对象的方法"><a href="#handler对象的方法" class="headerlink" title="handler对象的方法"></a>handler对象的方法</h2><p>handler是占位符对象，它包含代理的traps</p>
+<h2 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a>示例</h2><h3 id="基础示例"><a href="#基础示例" class="headerlink" title="基础示例"></a>基础示例</h3><p>以下简单的例子中，当对象不存在属性名时，缺省返回数37.例子中使用了get处理器(get handler)<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> handler = &#123;</div><div class="line">  <span class="attr">get</span>: <span class="function"><span class="keyword">function</span>(<span class="params">target,name</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> name <span class="keyword">in</span> target? target[name] : <span class="number">37</span>;</div><div class="line">  &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> p = <span class="keyword">new</span> <span class="built_in">Proxy</span>(&#123;&#125;, handler);</div><div class="line">p.a = <span class="number">1</span>;</div><div class="line">p.b = <span class="literal">undefined</span>;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(p.a, p.b); <span class="comment">// 1, undefined</span></div><div class="line"><span class="built_in">console</span>.log(<span class="string">'c'</span> <span class="keyword">in</span> p, p.c); <span class="comment">// false, 37</span></div></pre></td></tr></table></figure></p>
+<h3 id="无操作转发代理"><a href="#无操作转发代理" class="headerlink" title="无操作转发代理"></a>无操作转发代理</h3><p>在以下例子中，我们使用了一个原生JavaScript对象，代理会将所有应用到它的操作转发到这个对象上。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> target = &#123;&#125;;</div><div class="line"><span class="keyword">var</span> p = <span class="keyword">new</span> <span class="built_in">Proxy</span>(target,&#123;&#125;);</div><div class="line"></div><div class="line">p.a = <span class="number">37</span>; <span class="comment">//被转发到代理的操作</span></div><div class="line"><span class="built_in">console</span>.log(target.a); <span class="comment">//37 操作已经被正确地转发。</span></div></pre></td></tr></table></figure></p>
+<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><p>通过代理，你可以轻松地验证向一个对象的传值。以下例子使用了set处理器(set handler)。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> validator = &#123;</div><div class="line">  <span class="attr">set</span>: <span class="function"><span class="keyword">function</span>(<span class="params">obj,prop,value</span>)</span>&#123;</div><div class="line">    <span class="keyword">if</span>(pop === <span class="string">'age'</span>)&#123;</div><div class="line">      <span class="keyword">if</span>(!<span class="built_in">Number</span>.isInteger(value))&#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">TypeError</span>(<span class="string">'The age is not an integer'</span>);</div><div class="line">      &#125;</div><div class="line">      <span class="keyword">if</span>(value &gt; <span class="number">200</span>)&#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">RangeError</span>(<span class="string">'The age seems invalid'</span>);</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//The default behavior to store the value</span></div><div class="line">    obj[prop] = value;</div><div class="line">  &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">let</span> person = <span class="keyword">new</span> <span class="built_in">Proxy</span>(&#123;&#125;, validator);</div><div class="line"></div><div class="line">person.age = <span class="number">100</span>;</div><div class="line"><span class="built_in">console</span>.log(person.age); <span class="comment">//100</span></div><div class="line">person.age = <span class="string">'young'</span>; <span class="comment">//抛出异常</span></div><div class="line">person.age = <span class="number">300</span>; <span class="comment">//抛出异常</span></div></pre></td></tr></table></figure></p>
+<h3 id="扩展构造函数"><a href="#扩展构造函数" class="headerlink" title="扩展构造函数"></a>扩展构造函数</h3><p>方法代理可以轻松地通过一个新构造函数来扩展一个已有的构造函数。以下的例子中使用了constructor处理器(construct handler)和apply处理器(apply handler).<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div></pre></td></tr></table></figure></p>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Proxy" target="_blank" rel="external">https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Proxy</a></p>
+
+    
+  </div>
+
+
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/06/06/es6系列教程四/"
+           data-title="es6系列教程四" data-url="http://gaoquan.wang/2016/06/06/es6系列教程四/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="GaoQ" />
+          <p class="site-author-name" itemprop="name">GaoQ</p>
+          <p class="site-description motion-element" itemprop="description">There are no shortcuts to any place worth going</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">40</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">GaoQ</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"gaoquan"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+
+  
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/MathJax.js"></script>
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/config/TeX-AMS-MML_HTMLorMML.js"></script>
+  
+
+
+  
+
+
+</body>
+</html>

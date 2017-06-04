@@ -1,0 +1,680 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="javascript,函数式编程," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="GaoQ's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="在这章，会覆盖函数式编程的核心概念：  使用函数和数组实现控制流 编写纯函数、匿名函数、递归函数等等 像对象那样传递函数 利用map()、filter()和reduce()函数   char1.函数式编程语言函数式编程语言是哪些方便与使用函数式编程范式的语言。简单来说，如果剧本函数式编程所需的特征，它就可以被称为函数式语言。在多数情况下，编程的风格实际上决定了一个程序是否是函数式的。 是什么让一">
+<meta name="keywords" content="javascript,函数式编程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="函数式编程基础(转)">
+<meta property="og:url" content="http://gaoquan.wang/2016/05/18/函数式编程基础-转/index.html">
+<meta property="og:site_name" content="GaoQ&#39;s blog">
+<meta property="og:description" content="在这章，会覆盖函数式编程的核心概念：  使用函数和数组实现控制流 编写纯函数、匿名函数、递归函数等等 像对象那样传递函数 利用map()、filter()和reduce()函数   char1.函数式编程语言函数式编程语言是哪些方便与使用函数式编程范式的语言。简单来说，如果剧本函数式编程所需的特征，它就可以被称为函数式语言。在多数情况下，编程的风格实际上决定了一个程序是否是函数式的。 是什么让一">
+<meta property="og:updated_time" content="2017-06-04T12:54:20.282Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="函数式编程基础(转)">
+<meta name="twitter:description" content="在这章，会覆盖函数式编程的核心概念：  使用函数和数组实现控制流 编写纯函数、匿名函数、递归函数等等 像对象那样传递函数 利用map()、filter()和reduce()函数   char1.函数式编程语言函数式编程语言是哪些方便与使用函数式编程范式的语言。简单来说，如果剧本函数式编程所需的特征，它就可以被称为函数式语言。在多数情况下，编程的风格实际上决定了一个程序是否是函数式的。 是什么让一">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title>
+  
+
+  
+    函数式编程基础(转) | GaoQ's blog
+  
+</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?b902fa08b28044c55da6c70921955ecb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left  ">
+    <div class="headband"></div>
+
+
+<a href="https://github.com/GaoQ1"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/8b6b8ccc6da3aa5722903da7b58eb5ab1081adee/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_orange_ff7600.png"></a>
+
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">GaoQ's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">There are no shortcuts to any place worth going</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            关于我
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+    
+      <blockquote>
+<p>在这章，会覆盖函数式编程的核心概念：</p>
+<ul>
+<li>使用函数和数组实现控制流</li>
+<li>编写纯函数、匿名函数、递归函数等等</li>
+<li>像对象那样传递函数</li>
+<li>利用map()、filter()和reduce()函数</li>
+</ul>
+</blockquote>
+<h2 id="char1-函数式编程语言"><a href="#char1-函数式编程语言" class="headerlink" title="char1.函数式编程语言"></a>char1.函数式编程语言</h2><p>函数式编程语言是哪些方便与使用函数式编程范式的语言。简单来说，如果剧本函数式编程所需的特征，它就可以被称为函数式语言。在多数情况下，编程的风格实际上决定了一个程序是否是函数式的。</p>
+<h3 id="是什么让一个语言具有函数式特征？"><a href="#是什么让一个语言具有函数式特征？" class="headerlink" title="是什么让一个语言具有函数式特征？"></a>是什么让一个语言具有函数式特征？</h3><p>函数式编程无法用C语言来实现。函数式编程也无法用Java来实现。这些语言不包含支持函数式编程的结构。他们是纯面向对象的、严格非函数式的语言。</p>
+<p>同时，纯函数语言也无法使用面向对象编程，比如Scheme、Haskell以及Lisp。</p>
+<p>然而有些语言两种模式都支持。Python是个著名的例子。不过还有别的：Ruby,Julia，以及我最感兴趣的Javascript。这些语言是如何支持这两种差别如此之大的设计模式？他们包含两种编程范式所需要的特征。然而对于Javascript来说，函数式的特征似乎是被隐藏了。</p>
+<table>
+<thead>
+<tr>
+<th>特点</th>
+<th style="text-align:center">命令式</th>
+<th style="text-align:center">函数式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>编程风格</td>
+<td style="text-align:center">一步一步地执行，并且要管理状态的变化</td>
+<td style="text-align:center">描述问题和所需的数据变化已解决问题</td>
+</tr>
+<tr>
+<td>状态变化</td>
+<td style="text-align:center">很重要</td>
+<td style="text-align:center">不存在</td>
+</tr>
+<tr>
+<td>执行顺序</td>
+<td style="text-align:center">很重要</td>
+<td style="text-align:center">不太重要</td>
+</tr>
+<tr>
+<td>主要的控制流</td>
+<td style="text-align:center">循环、条件、函数调用</td>
+<td style="text-align:center">函数调用和递归</td>
+</tr>
+<tr>
+<td>主要的操作单元</td>
+<td style="text-align:center">结构体和类对象</td>
+<td style="text-align:center">函数作为一等公民的对象和数据集</td>
+</tr>
+</tbody>
+</table>
+<p>函数式语言的语法必须要顾及到特定的设计模式，比如类型推断系统和匿名函数。大体上，这个语言必须实现lambda演算。并且解释器的求值策略必须是非严格、按需调用(也叫做延迟执行)，它允许不变数据结构和非严格、惰性求值。</p>
+<blockquote>
+<p>注：这一段用了一些函数式编程的专业词汇。lambda演算是一套函数推演的形式化系统，它的先决条件是内部函数和匿名函数。非严格求值和惰性求职差不多差不多同一个意思，就是非严格地按照运算规则把所有元素先计算一遍，而是根据最终的需求只计算有用的把一部分，比如我们要去有一百个元素的数组的前三项，那惰性求值只会计算出一个具有三个元素是数组，而不会先去计算那个一百个元素的数组。</p>
+</blockquote>
+<h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><p>当你最终掌握了函数式编程它将给你巨大的启迪。这样的经验会让你后面的程序员生涯更上一个台阶， 无论你是否真的会成为一个全职的函数式程序员。</p>
+<p>不过我们现在不是在讨论如何去学习冥想；我们正在探讨如何去学习一个非常有用的工具，它将会让你成为一个更好的程序员。</p>
+<p>总的来说，什么是使用函数式编程真正实际的优点呢？</p>
+<h3 id="更加简洁的代码"><a href="#更加简洁的代码" class="headerlink" title="更加简洁的代码"></a>更加简洁的代码</h3><p>函数式编程更简洁、更简单、更小。它简化了调试、测试和维护。</p>
+<p>例如，我们需要这样一个函数，它能将二维数组转化成一维数组。如果只用命令式的技术，我们会写成这样：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">merge2dArrayIntoOne</span>(<span class="params">arrays</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> count = arrays.length;</div><div class="line">    <span class="keyword">var</span> merged = <span class="keyword">new</span> <span class="built_in">Array</span>(count);</div><div class="line">    <span class="keyword">var</span> c = <span class="number">0</span>;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;count;i++)&#123;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> j=<span class="number">0</span>,jlen = array[i].length;j&lt;jlen;j++)&#123;</div><div class="line">            merged[c++] = arrays[i][j];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> merged;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>现在使用函数式技术，可以写成这样：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> merge2dArrayIntoOne = <span class="function"><span class="keyword">function</span>(<span class="params">arrays</span>)</span>&#123;</div><div class="line"> <span class="keyword">return</span> arrays.reduce(<span class="function"><span class="keyword">function</span>(<span class="params">p,n</span>)</span>&#123;</div><div class="line">     <span class="keyword">return</span> p.concat(n);</div><div class="line"> &#125;);</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>这两个函数具有同样的输入并返回相同的输出，但是函数式的例子更简洁。</p>
+<h3 id="模块化"><a href="#模块化" class="headerlink" title="模块化"></a>模块化</h3><p>函数式编程强制把大型问题拆分解决同样问题的更小的情形，这就意味着代码会更加模块化。模块化的程序具有更清晰的描述，更易调试，维护起来也更简单。测试也会变得更加容易，这是由于每一个模块的代码都可以单独检测正确性。</p>
+<h3 id="复用性"><a href="#复用性" class="headerlink" title="复用性"></a>复用性</h3><p>由于其模块化的特性，函数式编程会有许多通用的辅助函数。你将会发现这里面的许多函数可以在大量不同的应用里重用。</p>
+<p>在后面的章节里，许多最通用的函数将会被覆盖到。然而，作为一个函数式程序员，你将会不可避免地编写自己的函数库， 这些函数会被一次又一次地使用。例如一个用于在行间查找配置文件的函数，如果设计好了也可以用于查找Hash表。</p>
+<h3 id="减少耦合"><a href="#减少耦合" class="headerlink" title="减少耦合"></a>减少耦合</h3><p>耦合是程序里模块间的大量依赖。由于函数式编程遵循编写一等公民、高阶的纯函数，这使得他们对全局变量没有副作用而彼此完全独立，耦合极大程度上的见笑了。当然，函数会不可避免地相互依赖，但是改变一个函数不会影响其他的，只要输入输出的一对一映射保持正确。</p>
+<h3 id="数学正确性"><a href="#数学正确性" class="headerlink" title="数学正确性"></a>数学正确性</h3><p>最后一点更理论一些。由于根植于lambda演算，函数式编程可以在数学上证明正确性。 这对于一些研究者来说是一个巨大的优点，他们需要用程序来证明增长率、时间复杂度以及数学正确性。</p>
+<h3 id="非函数式世界中的函数式编程"><a href="#非函数式世界中的函数式编程" class="headerlink" title="非函数式世界中的函数式编程"></a>非函数式世界中的函数式编程</h3><p>函数式和非函数式编程能混合在一起吗？</p>
+<p>这本书并没要想要教你如何严格地用纯函数编程来实现整个应用。这样的应用在学术界之外不太适合。 相反，这本书是要教你如何在必要的命令式代码之上使用纯函数的设计策略。</p>
+<p>例如，你需要在一段文本中找出头四个只含有字母的单词，稚嫩一些的写法会是这样：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> words = [];count = <span class="number">0</span>;</div><div class="line">text = myString.split(<span class="string">' '</span>);</div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;count&lt;<span class="number">4</span>,i&lt;text.length;i++)&#123;</div><div class="line">    <span class="keyword">if</span>(!text[i].match(<span class="regexp">/[0-9]/</span>))&#123;</div><div class="line">        words = words.concat(text[i]);</div><div class="line">        count++;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>函数式编程会这样写：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> words = [];</div><div class="line"><span class="keyword">var</span> words = myString.split(<span class="string">' '</span>).filter(<span class="function"><span class="keyword">function</span>(<span class="params">x</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> (!x.match(<span class="regexp">/[0-9]/</span>));</div><div class="line">&#125;).slice(<span class="number">0</span>,<span class="number">4</span>);</div><div class="line"><span class="built_in">console</span>.log(words);</div></pre></td></tr></table></figure>
+<p>如果有一个函数式编程的工具库，代码可以进一步被简化：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> words = toSequence(myString).match(<span class="regexp">/[a-zA-Z]+/</span>).first(<span class="number">4</span>);</div></pre></td></tr></table></figure>
+<p>判断一个函数是否能被写成更加函数式的方式是寻找循环和临时变量，比如前面例子里面的”words”和”count”变量。我们通常可以用高阶函数来替换循环和临时变量，本章后面的部分将对其继续探索。</p>
+<h3 id="Javascript是函数式编程语言吗？"><a href="#Javascript是函数式编程语言吗？" class="headerlink" title="Javascript是函数式编程语言吗？"></a>Javascript是函数式编程语言吗？</h3><p>现在还有最后一个问题我们需要问问自己，Javascript是函数式语言还是非函数式语言？</p>
+<p>Javascript可以说是世界上最流行却最没有被理解的函数式编程语言。Javascript是一个披着C外衣的函数式编程语言。 它的语法无疑和C比较像，这意味着它使用C语言的块式语法和中缀语序。并且它是现存语言中名字起得最差劲的。 你不用去想象就可以看出来有多少人会因Javascript和Java的关系而迷惑，就好像它的名字暗示了它会是什么样的东西！ 但实际上它和Java的共同点非常少。不过还真有一些要把Javascript强制弄成面向对象语言的主意， 比如Dojo、ease.js这些库曾做了大量工作试图抽象Javascript以使其适合面向对象编程。 Javascript来自于90年代那个满世界都嚷嚷着面向对象的时代，我们被告知Javascript是一个面向对象语言是因为我们希望它是这样， 但实际上它不是。</p>
+<p>它的真实身份可以追溯到它的原型：Scheme和Lisp，两个经典的函数式编程语言。Javascript一直都是一个函数式编程语言。 它的函数是头等公民，并且可以嵌套，它具有闭包和复合函数，它允许珂理化和monad。所有这些都是函数式编程的关键。 这里另外还有一些Javascript是函数式语言的原因：</p>
+<ul>
+<li>Javascript的语法包括了传递函数为参数的能力，具有类型推断系统，支持匿名函数、高阶函数、闭包等等。这些特点对构成函数式编程的结构和行为至关重要。</li>
+<li>Javascript不是一个纯面向对象语言，它的多数面向对象设计模式都是通过拷贝Prototype对象来完成的， 这是一个弱面向对象编程的模型。</li>
+<li>Javascript是一个解释型语言。Javascript的解释器（有时被称为“引擎”）非常类似于Scheme的解释器。 它们都是动态的，都有易于组合和传输的灵活的数据类型，都把代码求值为表达式块，处理函数的方式也类似。</li>
+</ul>
+<p>也就是说，Javascript的确不是一个纯函数式语言。它缺乏惰性求值和内建的不可变数据。 这是由于大多数解释器是按名调用，而不是按需调用。Javascript由于其尾调用的处理方式也不太善于处理递归。 不过所有的这些问题都可以通过一些小的注意事项来缓和。需要无穷序列和惰性求值的非严格求值可以通过一个叫Lazy.js的库来实现。 不可变量只需要简单的通过编程技巧就可以实现，不过它不是通过依赖语言层面来限制而是需要程序员自律。 尾递归消除可以通过一个叫Trampolining的方法实现。这些问题将在第六章讲解。</p>
+<p>关于Javascript是函数式语言还是面向对象语言还是两者皆是还是两者皆非的争论一直都很多，而且这些争论还要继续下去。</p>
+<p>最后，函数式编程是通过巧妙的变化、组合、使用函数而实现编写简洁代码的方式。而且Javascript为实现这些提供了很好的途径。 如果你真要挖掘出Javascript全部的潜能，你必须学会如何将它作为一个函数式语言来使用。</p>
+<h2 id="char2-与函数共舞"><a href="#char2-与函数共舞" class="headerlink" title="char2.与函数共舞"></a>char2.与函数共舞</h2><blockquote>
+<p>有时，优雅的实现是一个函数。不是方法。不是类。不是框架。只是函数。 –John Carmack，游戏《毁灭战士》首席程序员</p>
+</blockquote>
+<p>函数式编程全都是关于如何把一个问题分解为一系列函数的。通常，函数会链在一起，互相嵌套，来回传递，被视为头等公民。如果你使用过诸如jQuery或Node.js这样的框架，你应该用过一些这样的技术，只不过你没有意思到。</p>
+<p>我们从Javascript的一个小尴尬开始。</p>
+<p>假设我们需要一个值的列表，这些只会赋值给普通的对象。这些对象可能包含任何东西：数据、HTML对象等等。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj1 = &#123;<span class="attr">value</span>:<span class="number">1</span>&#125;,</div><div class="line">    obj2 = &#123;<span class="attr">value</span>:<span class="number">2</span>&#125;,</div><div class="line">    obj2 = &#123;<span class="attr">value</span>:<span class="number">3</span>&#125;;</div><div class="line"><span class="keyword">var</span> values = [];</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">accumulate</span>(<span class="params">obj</span>)</span>&#123;</div><div class="line">    values.push(obj.value);</div><div class="line">&#125;</div><div class="line">accumulate(obj1);</div><div class="line">accumulate(obj2);</div><div class="line"><span class="built_in">console</span>.log(values); <span class="comment">//Output: [obj1.value,obj2.value]</span></div></pre></td></tr></table></figure>
+<p>这个代码能用但是不稳定。任何代码都可以不通过accumulate()函数改变values对象。而且如果我们忘记了给values附上空数组[]，这个代码压根儿就不会工作。</p>
+<p>但是如果变量声明在函数内部，他就不会被任何捣蛋的代码给更改。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">accumulate2</span>(<span class="params">obj</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> values = [];</div><div class="line">    values.push(obj.value);</div><div class="line">    <span class="keyword">return</span> values;</div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(accumulate2(obj1)); <span class="comment">// Returns: [obj1.value]</span></div><div class="line"><span class="built_in">console</span>.log(accumulate2(obj2)); <span class="comment">// Returns: [obj2.value]</span></div><div class="line"><span class="built_in">console</span>.log(accumulate2(obj3)); <span class="comment">// Returns: [obj3.value]</span></div></pre></td></tr></table></figure>
+<p>只有最后传入的那个对象的值才被返回。我们也许可以通过在第一个函数内部嵌套一个函数来解决这个问题。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> ValueAccumulator = <span class="function"><span class="keyword">function</span>(<span class="params">obj</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> values = [];</div><div class="line">    <span class="keyword">var</span> accumulate = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        value.push(obj.value);</div><div class="line">    &#125;;</div><div class="line">    accumulate();</div><div class="line">    <span class="keyword">return</span> values;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可是问题依然存在，而且我们现在无法访问accumulate函数和values变量了。</p>
+<p>我们需要的是一个自调用函数</p>
+<h3 id="自调用函数和闭包"><a href="#自调用函数和闭包" class="headerlink" title="自调用函数和闭包"></a>自调用函数和闭包</h3><p>如果我们能够返回一个可以依次返回values数组的函数表达式怎么样？在函数内声明的变量可以被函数内的所有代码访问到，包括自调用函数。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> ValueAccumulator = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> values = [];</div><div class="line">    <span class="keyword">var</span> accumulate = <span class="function"><span class="keyword">function</span>(<span class="params">obj</span>)</span>&#123;</div><div class="line">        <span class="keyword">if</span>(obj)&#123;</div><div class="line">            values.push(obj.value);</div><div class="line">            <span class="keyword">return</span> values;</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            <span class="keyword">return</span> values;</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line">    <span class="keyword">return</span> accumulates;</div><div class="line">&#125;;</div><div class="line"><span class="comment">//This allows us to do this</span></div><div class="line"><span class="keyword">var</span> accumulator = ValueAccumulator();</div><div class="line">accumulator(obj1);</div><div class="line">accumulator(obj2);</div><div class="line"><span class="built_in">console</span>.log(accumulator()); <span class="comment">//Output: [obj1.value,obj2.value]</span></div></pre></td></tr></table></figure></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">ValueAccumulator = -&gt;</div><div class="line"> values = []</div><div class="line"> (obj) -&gt;</div><div class="line"> values.push obj.value <span class="keyword">if</span> obj</div><div class="line"> values</div></pre></td></tr></table></figure>
+<p>这些都是关于作用域的。变量values在内部函数accumulate()中可见，即便是在外部的代码在调用这个函数时。这叫做闭包。</p>
+<blockquote>
+<p>Javascript中的闭包就是函数可以访问父作用域，哪怕父函数已经执行完毕。</p>
+</blockquote>
+<p>闭包是所有函数式语言都具有的特征。传统的命令式语言没有闭包。</p>
+<h3 id="高阶函数"><a href="#高阶函数" class="headerlink" title="高阶函数"></a>高阶函数</h3><p>自调用函数实际上是高阶函数的一种形式。高阶函数就是以其他函数为输入，或者返回一个函数为输出的函数。</p>
+<p>高阶函数在传统的编程中并不常见。当命令式程序员使用循环来迭代数组的时候，函数是程序员会采用完全不同的一种实现方式。通过高阶函数，数组中的每一个元素可以被应用到一个函数上，并返回新的数组。</p>
+<p>这是函数式编程中心思想。高阶函数具有把逻辑像对象一样传递给函数的能力。</p>
+<p>在Javascript中，函数被当作头等公民对待，这和Scheme、Haskell等经典函数是语言一样的。这话听起来可能有点古怪，其实实际意思就是函数被当做基本类型，就像数字和对象一样。 如果数字和对象可以被来回传递，那么函数也可以。</p>
+<p>来实际看看。现在把上一节的ValueAccumulator()函数配合高阶函数使用：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 使用forEach()来遍历一个数组，并对其每个元素调用回调函数accumulator2</span></div><div class="line"><span class="keyword">var</span> accumulator2 = ValueAccumulator();</div><div class="line"><span class="keyword">var</span> objects = [obj1, obj2, obj3]; <span class="comment">// 这个数组可以很大</span></div><div class="line">objects.forEach(accumulator2);</div><div class="line"><span class="built_in">console</span>.log(accumulator2());</div></pre></td></tr></table></figure></p>
+<h3 id="纯函数"><a href="#纯函数" class="headerlink" title="纯函数"></a>纯函数</h3><p>纯函数返回的计算结果仅与传入的参数相关。这里不会使用外部的变量和全局状态，并且没有副作用。 换句话说就是不能改变作为输入传入的变量。所以，程序里只能使用纯函数返回的值。</p>
+<p>用数学函数来举一个简单的例子。Math.sqrt(4)将总是返回2，不使用任何隐藏的信息，如设置或状态， 而且不会带来任何副作用。</p>
+<p>纯函数是对数学上的“函数”的真实演绎，就是输入和输出的关系。它们思路简单也便于重用。 由于纯函数是完全独立的，它们更适合被一次又一次地使用。</p>
+<p>举例说明来对比一下非纯函数和纯函数。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 把信息打印到屏幕中央的函数</span></div><div class="line"><span class="keyword">var</span> printCenter = <span class="function"><span class="keyword">function</span>(<span class="params">str</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> elem = <span class="built_in">document</span>.createElement(<span class="string">"div"</span>);</div><div class="line">  elem.textContent = str;</div><div class="line">  elem.style.position = <span class="string">'absolute'</span>;</div><div class="line">  elem.style.top = <span class="built_in">window</span>.innerHeight / <span class="number">2</span> + <span class="string">"px"</span>;</div><div class="line">  elem.style.left = <span class="built_in">window</span>.innerWidth / <span class="number">2</span> + <span class="string">"px"</span>;</div><div class="line">  <span class="built_in">document</span>.body.appendChild(elem);</div><div class="line">&#125;;</div><div class="line">printCenter(<span class="string">'hello world'</span>);</div><div class="line"><span class="comment">// 纯函数完成相同的事情</span></div><div class="line"><span class="keyword">var</span> printSomewhere = <span class="function"><span class="keyword">function</span>(<span class="params">str, height, width</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> elem = <span class="built_in">document</span>.createElement(<span class="string">"div"</span>);</div><div class="line">  elem.textContent = str;</div><div class="line">  elem.style.position = <span class="string">'absolute'</span>;</div><div class="line">  elem.style.top = height;</div><div class="line">  elem.style.left = width;</div><div class="line">  <span class="keyword">return</span> elem;</div><div class="line">&#125;;</div><div class="line"><span class="built_in">document</span>.body.appendChild(</div><div class="line">printSomewhere(<span class="string">'hello world'</span>,</div><div class="line"><span class="built_in">window</span>.innerHeight / <span class="number">2</span>) + <span class="number">10</span> + <span class="string">"px"</span>,</div><div class="line"><span class="built_in">window</span>.innerWidth / <span class="number">2</span>) + <span class="number">10</span> + <span class="string">"px"</span>));</div></pre></td></tr></table></figure></p>
+<p>非纯函数依赖window对象的状态来计算宽度和高度，自给自足的纯函数则要求这些值作为参数传入。 实际上它就允许了信息打印到任何地方，这也让这个函数有了更多用途。</p>
+<p>非纯函数看起来是一个更容易的选择，因为它在自己内部实现了追加元素，而不是返回元素。 返回了值的纯函数printSomewhere()则会在跟其他函数式编程技术的配合下有更好的表现。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> messages = [<span class="string">'Hi'</span>, <span class="string">'Hello'</span>, <span class="string">'Sup'</span>, <span class="string">'Hey'</span>, <span class="string">'Hola'</span>];</div><div class="line">messages.map(<span class="function"><span class="keyword">function</span>(<span class="params">s,i</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> printSomewhere(s,<span class="number">100</span>*i*<span class="number">10</span>,<span class="number">100</span>*i*<span class="number">10</span>);</div><div class="line">&#125;).forEach(<span class="function"><span class="keyword">function</span>(<span class="params">element</span>)</span>&#123;</div><div class="line">    <span class="built_in">document</span>.body.appendChild(element);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<blockquote>
+<p>当一个函数是纯的，也就是不依赖于状态和环境，我们就不用管它实际是什么时候被计算出来。后面的惰性求职将讲到这个。</p>
+</blockquote>
+<h3 id="匿名函数"><a href="#匿名函数" class="headerlink" title="匿名函数"></a>匿名函数</h3><p>把函数作为头等对象的另一个好处就是匿名函数</p>
+<p>就想名字暗示的那样，匿名函数就是没有名字的函数。实际上不止这些，它允许了在现场定义临时逻辑的能力。通常这带来的好处就是方便：如果一个函数只用一次，没有必要给他浪费一变量名。</p>
+<p>下面是一些匿名函数的例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//写匿名函数的标准方式</span></div><div class="line"><span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="string">'hello world'</span></div><div class="line">&#125;;</div><div class="line"><span class="comment">//匿名函数可以赋值给变量</span></div><div class="line"><span class="keyword">var</span> anon = <span class="function"><span class="keyword">function</span>(<span class="params">x,y</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> x + y;</div><div class="line">&#125;;</div><div class="line"><span class="comment">//匿名函数用于代替具名回调函数，这是匿名函数的一个更常见的用处</span></div><div class="line">setInterval(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">new</span> <span class="built_in">Date</span>().getTime())</div><div class="line">&#125;,<span class="number">1000</span>);</div><div class="line"><span class="comment">//Output:  1413249010672, 1413249010673, 1413249010674, ...</span></div><div class="line"><span class="comment">//如果没有把它包含在一个匿名函数中，他将立刻被执行，并且返回一个undefined作为回调函数</span></div><div class="line">setInterval(<span class="built_in">console</span>.log(<span class="keyword">new</span> <span class="built_in">Date</span>().getTime()),<span class="number">1000</span>)</div><div class="line"><span class="comment">//Output:  1413249010671</span></div></pre></td></tr></table></figure></p>
+<p>下面是匿名函数和高阶函数配合使用的例子<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">powersOf</span>(<span class="params">x</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">y</span>)</span>&#123;</div><div class="line">        <span class="comment">//this is an anonymous function!</span></div><div class="line">        <span class="keyword">return</span> <span class="built_in">Math</span>.pow(x,y);</div><div class="line">    &#125;;</div><div class="line">&#125;</div><div class="line">powerOfTwo = powersOf(<span class="number">2</span>);</div><div class="line"><span class="built_in">console</span>.log(powerOfTwo(<span class="number">1</span>)); <span class="comment">// 2</span></div><div class="line"><span class="built_in">console</span>.log(powerOfTwo(<span class="number">2</span>)); <span class="comment">// 4</span></div><div class="line"><span class="built_in">console</span>.log(powerOfTwo(<span class="number">3</span>)); <span class="comment">// 8</span></div><div class="line">powerOfThree = powersOf(<span class="number">3</span>);</div><div class="line"><span class="built_in">console</span>.log(powerOfThree(<span class="number">3</span>)); <span class="comment">// 9</span></div><div class="line"><span class="built_in">console</span>.log(powerOfThree(<span class="number">10</span>)); <span class="comment">// 59049</span></div></pre></td></tr></table></figure></p>
+<p>这里返回的那个函数不需要命名，它可以在powerOf()函数外的任何地方使用，这就是匿名函数。</p>
+<p>还记得累加器的那个函数吗？它可以用匿名函数重写<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj1 = &#123;<span class="attr">value</span>:<span class="number">1</span>&#125;,</div><div class="line">    obj2 = &#123;<span class="attr">value</span>:<span class="number">2</span>&#125;,</div><div class="line">    obj2 = &#123;<span class="attr">value</span>:<span class="number">3</span>&#125;;</div><div class="line"><span class="keyword">var</span> values = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line"> <span class="comment">//匿名函数</span></div><div class="line"> <span class="keyword">var</span> values = [];</div><div class="line"> <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">obj</span>)</span>&#123;</div><div class="line">     <span class="comment">//有一个匿名函数！</span></div><div class="line">     <span class="keyword">if</span>(obj)&#123;</div><div class="line">         values.push(obj.value);</div><div class="line">         <span class="keyword">return</span> values;</div><div class="line">     &#125;<span class="keyword">else</span>&#123;</div><div class="line">         <span class="keyword">return</span> values;</div><div class="line">     &#125;</div><div class="line"> &#125;</div><div class="line">&#125;)(); <span class="comment">//让它自执行</span></div><div class="line"><span class="built_in">console</span>.log(values(obj1)); <span class="comment">// Returns: [obj.value]</span></div><div class="line"><span class="built_in">console</span>.log(values(obj2)); <span class="comment">// Returns: [obj.value, obj2.value]</span></div></pre></td></tr></table></figure></p>
+<p>真棒！一个高阶匿名纯函数。我们怎么这么幸运？实际上还不止这些，这里面还有个自执行的结构， (function(){…})();。函数后面跟的那个括号可以让函数立即执行。在上面的例子里， 给外面values赋的值是函数执行的结果。</p>
+<blockquote>
+<p>匿名函数不仅仅是语法糖，他们是lambda演算的化身。请听我说下去…… lambda演算早在计算机和计算机语言被发明的很久以前就出现了。它只是个研究函数的数学概念。 非同寻常的是，尽管它只定义了三种表达式：变量引用，函数调用和匿名函数，但它被发现是图灵完整的。 如今，lambda演算处于所有函数式语言的核心，包括javascript。由于这个原因，匿名函数往往被称作lambda表达式。</p>
+</blockquote>
+<p>匿名函数也有一个缺点，那就是他们在调用栈中难以被识别，这会对调试造成一些困难。要小心使用匿名函数。</p>
+<h3 id="方法链"><a href="#方法链" class="headerlink" title="方法链"></a>方法链</h3><p>在Javascript中，把方法链在一起很常见。如果你使用过jQuery，你应该用过这种技巧。它有时也被叫做“建造者模式”。</p>
+<p>这种技术用于简化多个函数一次应用于一个对象的代码。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 每个函数占用一行来调用，不如……</span></div><div class="line">arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>];</div><div class="line">arr1 = arr.reverse();</div><div class="line">arr2 = arr1.concat([<span class="number">5</span>, <span class="number">6</span>]);</div><div class="line">arr3 = arr2.map(<span class="built_in">Math</span>.sqrt);</div><div class="line"><span class="comment">// ……把它们串到一起放在一行里面</span></div><div class="line"><span class="built_in">console</span>.log([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>].reverse().concat([<span class="number">5</span>, <span class="number">6</span>]).map(<span class="built_in">Math</span>.sqrt));</div><div class="line"><span class="comment">// 括号也许可以说明是怎么回事</span></div><div class="line"><span class="built_in">console</span>.log(((([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]).reverse()).concat([<span class="number">5</span>, <span class="number">6</span>])).map(<span class="built_in">Math</span>.sqrt));</div></pre></td></tr></table></figure></p>
+<p>这只有在函数是目标对象所拥有的方法时才有效。如果你要创建自己的函数，比如要把两个数组zip到一起，你必须把它声明为Array.prototype对象的成员，看一下下面的代码片段：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Array</span>.prototype.zip = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;...&#125;</div></pre></td></tr></table></figure></p>
+<p>这样我们就可以写成下面的样子<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">arr.zip([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]).map(<span class="function"><span class="keyword">function</span>(<span class="params">n</span>)</span>&#123;</div><div class="line"> <span class="keyword">return</span> n*<span class="number">2</span>;</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<h3 id="递归"><a href="#递归" class="headerlink" title="递归"></a>递归</h3><p>递归应该是最著名的函数式编程技术。就是一个函数调用它自己。</p>
+<p>当函数调用自己，有时候奇怪的事情就发生了。它的表明既是一个循环，多次执行同样的代码，也是一个函数栈。</p>
+<p>使用递归函数时必须十分小心地避免无限递归。就像循环一样，必须有个停止条件。这叫做基准情形(base case)。</p>
+<p>下面有个例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> foo = <span class="function"><span class="keyword">function</span>(<span class="params">n</span>)</span>&#123;</div><div class="line">    <span class="keyword">if</span>(n&lt;<span class="number">0</span>)&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">'hello'</span>;</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        <span class="keyword">return</span> foo(n<span class="number">-1</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(foo(<span class="number">5</span>));</div></pre></td></tr></table></figure></p>
+<p>递归和循环可一个互相转换。但是递归算法往往更合适，甚至是必要的，因为有些情形用循环很费劲。</p>
+<p>一个明显的例子就是遍历树。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> getLeafs = <span class="function"><span class="keyword">function</span>(<span class="params">node</span>)</span>&#123;</div><div class="line">    <span class="comment">//base case</span></div><div class="line">    <span class="keyword">return</span> node.innerText;</div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line">    <span class="comment">//recursive case</span></div><div class="line">    <span class="keyword">return</span> node.childNodes.map(getLeafs);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="分而治之"><a href="#分而治之" class="headerlink" title="分而治之"></a>分而治之</h3><p>递归不只是代替for和while循环的有趣的方式。有个叫分而治之的算法，他递归的把问题拆分成更小的情形，直到小到可以解决。</p>
+<p>历史上有个欧几里得算法用于找出两个数的最大公分母<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">gcd</span>(<span class="params">a,b</span>)</span>&#123;</div><div class="line">    <span class="keyword">if</span>(b === <span class="number">0</span>)&#123;</div><div class="line">        <span class="comment">//基准情形</span></div><div class="line">        <span class="keyword">return</span> a;</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        <span class="keyword">return</span> gcd(b,a%b);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(gcd(<span class="number">12</span>,<span class="number">8</span>));</div></pre></td></tr></table></figure></p>
+<p>理论上来说，分而治之很牛逼，但是现实中有用吗？当然！用Javascript的函数对数组排序不是很好，它不但替换了原数组，也就是说数组不是不变的，并且他还不够可靠、灵活。通过分而治之，饿哦们可以做到更好。</p>
+<p>全部的实现代码大概要40行，这里只是展示伪代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> mergeSort = <span class="function"><span class="keyword">function</span>(<span class="params">arr</span>)</span>&#123;</div><div class="line">    <span class="keyword">if</span>(arr.length &lt; <span class="number">2</span>)&#123;</div><div class="line">        <span class="comment">//基准情形：只有0或1个元素的数组是不用排序的</span></div><div class="line">        <span class="keyword">return</span> items;</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        <span class="comment">//递归情形：把数组拆分、排序、合并</span></div><div class="line">        <span class="keyword">var</span> middle = <span class="built_in">Math</span>.floor(arr.length / <span class="number">2</span>);</div><div class="line">        <span class="comment">// 分</span></div><div class="line">        <span class="keyword">var</span> left = mergeSort(arr.slice(<span class="number">0</span>, middle));</div><div class="line">        <span class="keyword">var</span> right = mergeSort(arr.slice(middle));</div><div class="line">        <span class="comment">// 治</span></div><div class="line">        <span class="comment">// merge是一个辅助函数，返回一个新数组，它将两个数组合并到一起</span></div><div class="line">        <span class="keyword">return</span> merge(left, right);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="惰性求值"><a href="#惰性求值" class="headerlink" title="惰性求值"></a>惰性求值</h3><p>惰性求值，也叫做非严格求值，它会按需调用并推迟执行，它是一种直到需要时才计算函数结果的求值策略， 这对函数式编程特别有用。比如有行代码是 x = func()，调用这个func()函数得到的返回值会赋值给x。 但是x等于什么一开始并不重要，直到需要用到x的时候。等到需要用x的时候才调用func()就是惰性求值。</p>
+<p>这一策略可以让性能明显增强，特别是当使用方法链和数组这些函数式程序员最喜爱的程序流技术的时候。 惰性求值让人兴奋的一个优点是让无限序列成为可能。因为在它实在无法继续延迟之前，什么都不需要被真正计算出来。 它可以是这个样子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 理想化的JavaScript伪代码:</span></div><div class="line"><span class="keyword">var</span> infinateNums = range(<span class="number">1</span> to infinity);</div><div class="line"><span class="keyword">var</span> tenPrimes = infinateNums.getPrimeNumbers().first(<span class="number">10</span>);</div></pre></td></tr></table></figure>
+<p>这为很多可能性敞开了大门，比如异步执行、并行计算、组合，这只列举了一点。</p>
+<p>然而，还有个问题，Javascript本身并不支持惰性求值，也就是说存在让Javascript模拟惰性求值的函数库。</p>
+<h2 id="char3-函数式程序员的工具集"><a href="#char3-函数式程序员的工具集" class="headerlink" title="char3.函数式程序员的工具集"></a>char3.函数式程序员的工具集</h2><p>如果你仔细看了到目前为止出现过的示例代码，你会发现这里面的一些方法不太熟悉。 它们是map()、filter()和reduce()函数，它们对任何语言的函数式编程都至关重要。 它们可以让你不必使用循环和语句，写出更简洁的代码。</p>
+<p>map()、filter()和reduce()函数组成了函数式程序员工具集的核心部分，这个工具集包括一系列纯的、 高阶的函数，它们是函数式方法的主力。实际上，它们是纯函数和高阶函数的典型，它们以一个函数为输入， 返回一个输出结果，并且不产生副作用。</p>
+<p>然而它们是浏览器中ECMAScript 5.1的实现标准，它们只工作于数组。每次调用它们，一个新的数组会被创建并返回， 而原来存在的那个数组不会被改变。它们以函数为输入，经常使用匿名函数作为回调函数。它们遍历数组， 并对数组的每一个元素应用这个函数！</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">myArray = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>];</div><div class="line">newArray = myArray.map(<span class="function"><span class="keyword">function</span>(<span class="params">x</span>) </span>&#123;<span class="keyword">return</span> x*<span class="number">2</span>&#125;);</div><div class="line"><span class="built_in">console</span>.log(myArray);  <span class="comment">// Output: [1,2,3,4]</span></div><div class="line"><span class="built_in">console</span>.log(newArray); <span class="comment">// Output: [2,4,6,8]</span></div></pre></td></tr></table></figure>
+<p>还有一点，它们只作用于数组，无法作用于其它可迭代的数据结构，比如对象。不用担心， 有很多库比如Underscore.js，Lazy.js，stream.js等等都实现了它们自己的更强大的map()、 filter()和reduce()。</p>
+<h3 id="回调"><a href="#回调" class="headerlink" title="回调"></a>回调</h3><p>如果你以前从来没用过回调，那这个概念可能会让你有些迷惑。尤其是在javascript中，javascript给出了好几种声明函数的方式。</p>
+<p>回调函数用于传递给另一个函数供他们使用，这是一种像传递对象一样来传递逻辑的方式：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> myArray = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">myCallback</span>(<span class="params">x</span>)</span>&#123;<span class="keyword">return</span> x + <span class="number">1</span>&#125;;</div><div class="line"><span class="built_in">console</span>.log(myArray.map(myCallback));</div></pre></td></tr></table></figure></p>
+<p>对于比较简单的任务可以用匿名函数：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(myArray.map(<span class="function"><span class="keyword">function</span>(<span class="params">x</span>)</span>&#123;<span class="keyword">return</span> x+<span class="number">1</span>&#125;))</div></pre></td></tr></table></figure></p>
+<p>回调不仅用于函数式编程，在javascript中它们能干很多事情。仅作为例子，这有个callback()函数用于jquery的AJAX调用：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">myCallback</span>(<span class="params">xhr</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(xht.status);</div><div class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line">&#125;</div><div class="line">$.ajax(myUrl).done(myCallback);</div></pre></td></tr></table></figure></p>
+<p>注意这里只用了函数的名字，因为我们并不是要调用函数而是传递函数，写成这样就错了：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$.ajax(myURI).fail(myCallback(xhr)); </div><div class="line"><span class="comment">// 或者</span></div><div class="line">$.ajax(myURI).fail(myCallback());</div></pre></td></tr></table></figure></p>
+<p>如果我们调用了函数会发生什么？在这个例子里，myCallback(xhr)会尝试执行，控制台将打印“undefined”， 并会返回true。当ajax()完成调用时，它根据名字找到的回调函数将是一个”true”，然后就报错了。</p>
+<p>也就是说我们无法指定给回调函数传什么参数，如果我们的回调函数需要让ajax()函数传给他我们想要的参数， 我们可以把回到函数包在一个匿名函数里：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">myCallback</span>(<span class="params">status</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(status);</div><div class="line">  <span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line">&#125;</div><div class="line">$.ajax(myURI).done(<span class="function"><span class="keyword">function</span>(<span class="params">xhr</span>) </span>&#123;</div><div class="line">  myCallback(xhr.status)</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<h3 id="Array-prototype-map"><a href="#Array-prototype-map" class="headerlink" title="Array.prototype.map()"></a>Array.prototype.map()</h3><p>map()是这些函数的老大，它简单地对数组里的元素以此应用灰调函数。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">语法：arr.map(callback[,thisArg]);</div></pre></td></tr></table></figure></p>
+<ul>
+<li>callback():这个函数为新数组产生一个元素，它接受的参数：<ul>
+<li>currentValue: 数组当前遍历到的元素</li>
+<li>index: 数组中当前元素序数</li>
+<li>array: 当前正在处理的数组</li>
+</ul>
+</li>
+<li>thisArg: 这是个可选参数，当执行回调的时候它作为回调函数的this</li>
+</ul>
+<p>例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span></div><div class="line">  integers = [<span class="number">1</span>, <span class="number">-0</span>, <span class="number">9</span>, <span class="number">-8</span>, <span class="number">3</span>],</div><div class="line">  numbers = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>],</div><div class="line">  str = <span class="string">'hello world how ya doing?'</span>;</div><div class="line"> <span class="comment">//将整数映射为他们自己知道的绝对值</span></div><div class="line"> <span class="built_in">console</span>.log(integers.map(<span class="built_in">Math</span>.abs));</div><div class="line"> <span class="comment">//将数组中的元素与自己的位置序数相乘</span></div><div class="line"> <span class="built_in">console</span>.log(numbers.map(<span class="function"><span class="keyword">function</span>(<span class="params">x,i</span>)</span>&#123;<span class="keyword">return</span> x*i&#125;));</div><div class="line"> <span class="comment">//单词隔一个变一个大写</span></div><div class="line"> <span class="built_in">console</span>.log(str.split(<span class="string">' '</span>).map(<span class="function"><span class="keyword">function</span>(<span class="params">s,i</span>)</span>&#123;</div><div class="line">     <span class="keyword">if</span>(i%<span class="number">2</span> === <span class="number">0</span>)&#123;</div><div class="line">         <span class="keyword">return</span> s.toUpperCase();</div><div class="line">     &#125;<span class="keyword">else</span>&#123;</div><div class="line">         <span class="keyword">return</span> s;</div><div class="line">     &#125;</div><div class="line"> &#125;))</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>尽管Array.prototype.map方法是Javascript中数组对象的标准方法，你也可以很容易地扩展自己的对象。<br>MyObject.prototype.map = function(f) {<br> return new MyObject(f(this.value));<br>};</p>
+</blockquote>
+<h3 id="Array-prototype-filter"><a href="#Array-prototype-filter" class="headerlink" title="Array.prototype.filter()"></a>Array.prototype.filter()</h3><p>filter()函数用于把数组中的一些元素筛选出来。回调函数必须返回真(保留到新数组里)或假(扔掉)。用map()可以做类似的事情，就是你像扔掉的元素返回为null，不过filter()函数会在新数组里面删除这些不要的元素，而不是留个null占着位置。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">语法：arr.filter(callback[,thisArg]);</div></pre></td></tr></table></figure></p>
+<ul>
+<li>callback(): 这个函数用来测试数组中的每个元素，要保留返回真，否则返回假。他有这些参数：<ul>
+<li>currentValue: 数组当前遍历到的元素</li>
+<li>index: 数组中当前元素的序数</li>
+<li>array: 当前正在处理的数组</li>
+</ul>
+</li>
+<li>thisArg: 这是个可选参数，当执行回调的时候它作为回调函数的this</li>
+</ul>
+<p>例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> myarray = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</div><div class="line">words = <span class="string">'hello 123 world how 345 ya doing'</span>.split(<span class="string">' '</span>);</div><div class="line">re = <span class="string">'[a-zA-Z]'</span>;</div><div class="line"><span class="comment">// 筛选整数</span></div><div class="line"><span class="built_in">console</span>.log([<span class="number">-2</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>].filter(<span class="function"><span class="keyword">function</span>(<span class="params">x</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> x &gt; <span class="number">0</span></div><div class="line">&#125;));</div><div class="line"><span class="comment">// 筛选所有含字母的单词</span></div><div class="line"><span class="built_in">console</span>.log(words.filter(<span class="function"><span class="keyword">function</span>(<span class="params">s</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> s.match(re);</div><div class="line">&#125;));</div><div class="line"><span class="comment">// 随机移除数组中的元素</span></div><div class="line"><span class="built_in">console</span>.log(myarray.filter(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * <span class="number">2</span>)</div><div class="line">&#125;));</div></pre></td></tr></table></figure></p>
+<h3 id="Array-prototype-reduce"><a href="#Array-prototype-reduce" class="headerlink" title="Array.prototype.reduce()"></a>Array.prototype.reduce()</h3><p>reduce()函数，有时也称为fold，它用于把数组中的所有值聚集在一起。回调需要返回组合对象的逻辑。对于数字来说，他们往往会被加到一起或者乘到一起。对于字符串来说，他们往往是被追加到一起。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">语法：arr.reduce(callback[,initialValue]);</div></pre></td></tr></table></figure></p>
+<p>参数：</p>
+<ul>
+<li>callback()：此函数把两个对象合并成一个对象，并将其返回。参数有：<ul>
+<li>previousValue：上一次回调函数被调用时返回的值，或者是初始值（如果有的话）</li>
+<li>currentValue：数组当前正在处理的元素</li>
+<li>index：数组中当前元素的序数</li>
+<li>array：当前正在处理的数组</li>
+</ul>
+</li>
+<li>initialValue：可选。第一次回调所传入参数的初始值</li>
+</ul>
+<p>例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> numbers = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>];</div><div class="line"><span class="comment">// 把数组中所有的值加起来</span></div><div class="line"><span class="built_in">console</span>.log([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>].reduce(<span class="function"><span class="keyword">function</span>(<span class="params">x, y</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> x + y</div><div class="line">&#125;, <span class="number">0</span>));</div><div class="line"><span class="comment">// 查找数组中最大的值</span></div><div class="line"><span class="built_in">console</span>.log(numbers.reduce(<span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="built_in">Math</span>.max(a, b) <span class="comment">// max()函数只能有两个参数</span></div><div class="line">  &#125;) </div><div class="line">);</div></pre></td></tr></table></figure></p>
+<h3 id="Array-prototype-forEach"><a href="#Array-prototype-forEach" class="headerlink" title="Array.prototype.forEach()"></a>Array.prototype.forEach()</h3><p>forEach()函数本质上是map()函数的非纯版本，它会遍历整个数组，并对每个元素应用回调。 然而这些回调函数不返回值。它是实现for循环的一个更纯粹的方式。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">语法：arr.forEach(callback[,initialValue]);</div></pre></td></tr></table></figure></p>
+<p>参数：</p>
+<ul>
+<li>callback()：对数组中每一个元素所应用的。参数有：<ul>
+<li>currentValue：数组当前正在处理的元素</li>
+<li>index：数组中当前元素的序数</li>
+<li>array：当前正在处理的数组</li>
+</ul>
+</li>
+<li>thisArg：可选。回调函数中作为this的值</li>
+</ul>
+<p>例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</div><div class="line"><span class="keyword">var</span> nodes = arr.map(<span class="function"><span class="keyword">function</span>(<span class="params">x</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> elem = <span class="built_in">document</span>.createElement(<span class="string">"div"</span>);</div><div class="line">  elem.textContent = x;</div><div class="line">  <span class="keyword">return</span> elem;</div><div class="line">&#125;);</div><div class="line"><span class="comment">// 对每一个元素的值输出日志</span></div><div class="line">arr.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">x</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(x)</div><div class="line">&#125;);</div><div class="line"><span class="comment">// 把节点追加到DOM上</span></div><div class="line">nodes.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">x</span>) </span>&#123;</div><div class="line">  <span class="built_in">document</span>.body.appendChild(x)</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<h3 id="Array-prototype-concat"><a href="#Array-prototype-concat" class="headerlink" title="Array.prototype.concat()"></a>Array.prototype.concat()</h3><p>如果不用for或while处理数组，你会经常需要把数组拼接起来。另一个Javascript内建函数concat就是专门干这事儿的。 concat函数会返回一个新数组但不改变旧数组。它可以把你传入的所有参数拼接到一起。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].concat([<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>]) <span class="comment">// 拼接两个数组</span></div><div class="line"><span class="comment">// Output: [1, 2, 3, 'a','b','c']</span></div></pre></td></tr></table></figure></p>
+<p>它返回两个数组拼接成的数组，同时原来的那些数组没有被改变。这就意味着concat函数可以链式调用。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</div><div class="line"><span class="keyword">var</span> arr2 = [<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>];</div><div class="line"><span class="keyword">var</span> arr3 = [<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>];</div><div class="line"><span class="keyword">var</span> x = arr1.concat(arr2, arr3);</div><div class="line"><span class="keyword">var</span> y = arr1.concat(arr2).concat(arr3));</div><div class="line"><span class="keyword">var</span> z = arr1.concat(arr2.concat(arr3)));</div><div class="line"><span class="built_in">console</span>.log(x);</div><div class="line"><span class="built_in">console</span>.log(y);</div><div class="line"><span class="built_in">console</span>.log(z);</div></pre></td></tr></table></figure>
+<h3 id="Array-prototype-reverse"><a href="#Array-prototype-reverse" class="headerlink" title="Array.prototype.reverse()"></a>Array.prototype.reverse()</h3><p>这个Javascript内建函数是用于数组变形的。reverse函数用于将一个数组反转，也就是第个一元素会跑到最后， 而最后一个元素变成了第一个元素。</p>
+<p>然而，这个函数并不会返回一个新的数组，而是把原来的数组替换掉了。我们可以做个更好的。下面是一个纯的反转数组函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> invert = <span class="function"><span class="keyword">function</span>(<span class="params">arr</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> arr.map(<span class="function"><span class="keyword">function</span>(<span class="params">x, i, a</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> a[a.length - (i + <span class="number">1</span>)];</div><div class="line">  &#125;);</div><div class="line">&#125;;</div><div class="line"><span class="keyword">var</span> q = invert([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]);</div><div class="line"><span class="built_in">console</span>.log(q);</div></pre></td></tr></table></figure>
+<h3 id="Array-prototype-sort"><a href="#Array-prototype-sort" class="headerlink" title="Array.prototype.sort()"></a>Array.prototype.sort()</h3><p>与map()、filter()和reduce()函数相似，排序函数sort()需要传入一个回调函数来定义数组如何排序。 但是，跟reverse()一样，它也会把原来的数组替换。这可不太好。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">arr = [<span class="number">200</span>, <span class="number">12</span>, <span class="number">56</span>, <span class="number">7</span>, <span class="number">344</span>];</div><div class="line"><span class="built_in">console</span>.log(arr.sort(<span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>)</span>&#123;<span class="keyword">return</span> a–b&#125;) );</div><div class="line"><span class="comment">// arr现在是: [7, 12, 56, 200, 344];</span></div></pre></td></tr></table></figure>
+<p>我们可以写一个纯函数的sort()，但是排序算法的源代码很麻烦。对于特别大的数组，应当根据特定的数据结构来选用适合的算法， 比如快速排序、合并排序、冒泡排序等等</p>
+<h3 id="Array-prototype-every-amp-amp-Array-prototype-some"><a href="#Array-prototype-every-amp-amp-Array-prototype-some" class="headerlink" title="Array.prototype.every() &amp;&amp; Array.prototype.some()"></a>Array.prototype.every() &amp;&amp; Array.prototype.some()</h3><p>Array.prototype.every() 和 Array.prototype.some() 都是纯的高阶函数，它们是Array对象的方法， 通过回调函数根据数组各元素返回的布尔值（或相当于布尔的值）来进行测试。如果数组中所有的元素通过回调函数计算都返回True， every()函数就返回true；如果数组中有一个元素返回True，some()函数就返回True。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">isNumber</span>(<span class="params">n</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> !<span class="built_in">isNaN</span>(<span class="built_in">parseFloat</span>(n)) &amp;&amp; <span class="built_in">isFinite</span>(n);</div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>].every(isNumber)); <span class="comment">// Return: true</span></div><div class="line"><span class="built_in">console</span>.log([<span class="number">1</span>, <span class="number">2</span>, <span class="string">'a'</span>].every(isNumber)); <span class="comment">// Return: false</span></div><div class="line"><span class="built_in">console</span>.log([<span class="number">1</span>, <span class="number">2</span>, <span class="string">'a'</span>].some(isNumber)); <span class="comment">// Return: true</span></div></pre></td></tr></table></figure>
+    
+  </div>
+
+
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/05/18/函数式编程基础-转/"
+           data-title="函数式编程基础(转)" data-url="http://gaoquan.wang/2016/05/18/函数式编程基础-转/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="GaoQ" />
+          <p class="site-author-name" itemprop="name">GaoQ</p>
+          <p class="site-description motion-element" itemprop="description">There are no shortcuts to any place worth going</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">40</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">GaoQ</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"gaoquan"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+
+  
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/MathJax.js"></script>
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/config/TeX-AMS-MML_HTMLorMML.js"></script>
+  
+
+
+  
+
+
+</body>
+</html>

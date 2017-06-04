@@ -1,0 +1,491 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="javascript,设计模式," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="GaoQ's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="Comedy is acting out optimism.  中介者模式字典中中介者的定义是，一个中立方，在谈判和冲突解决过程中起辅助作用。在我们的世界，一个中介者是一个行为设计模式，使我们可以导出统一的接口，这样系统不同部分就可以彼此通信。 如果系统组件之间存在大量的直接关系，就可能是时候，使用一个中心的控制点，来让不同的组件通过它来通信。中介者通过将组件之间显示的直接的引用替换成通过中心点">
+<meta name="keywords" content="javascript,设计模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript设计模式二">
+<meta property="og:url" content="http://gaoquan.wang/2016/08/18/JavaScript设计模式二/index.html">
+<meta property="og:site_name" content="GaoQ&#39;s blog">
+<meta property="og:description" content="Comedy is acting out optimism.  中介者模式字典中中介者的定义是，一个中立方，在谈判和冲突解决过程中起辅助作用。在我们的世界，一个中介者是一个行为设计模式，使我们可以导出统一的接口，这样系统不同部分就可以彼此通信。 如果系统组件之间存在大量的直接关系，就可能是时候，使用一个中心的控制点，来让不同的组件通过它来通信。中介者通过将组件之间显示的直接的引用替换成通过中心点">
+<meta property="og:updated_time" content="2017-06-04T12:54:20.271Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript设计模式二">
+<meta name="twitter:description" content="Comedy is acting out optimism.  中介者模式字典中中介者的定义是，一个中立方，在谈判和冲突解决过程中起辅助作用。在我们的世界，一个中介者是一个行为设计模式，使我们可以导出统一的接口，这样系统不同部分就可以彼此通信。 如果系统组件之间存在大量的直接关系，就可能是时候，使用一个中心的控制点，来让不同的组件通过它来通信。中介者通过将组件之间显示的直接的引用替换成通过中心点">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title>
+  
+
+  
+    JavaScript设计模式二 | GaoQ's blog
+  
+</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?b902fa08b28044c55da6c70921955ecb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left  ">
+    <div class="headband"></div>
+
+
+<a href="https://github.com/GaoQ1"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/8b6b8ccc6da3aa5722903da7b58eb5ab1081adee/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_orange_ff7600.png"></a>
+
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">GaoQ's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">There are no shortcuts to any place worth going</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            关于我
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+    
+      <blockquote>
+<p>Comedy is acting out optimism.</p>
+</blockquote>
+<h2 id="中介者模式"><a href="#中介者模式" class="headerlink" title="中介者模式"></a>中介者模式</h2><p>字典中中介者的定义是，一个中立方，在谈判和冲突解决过程中起辅助作用。在我们的世界，一个中介者是一个行为设计模式，使我们可以导出统一的接口，这样系统不同部分就可以彼此通信。</p>
+<p>如果系统组件之间存在大量的直接关系，就可能是时候，使用一个中心的控制点，来让不同的组件通过它来通信。中介者通过将组件之间显示的直接的引用替换成通过中心点来交互的方式，做到松耦合。这样可以帮助我们解耦和改善组件的重用性。</p>
+<p>在现实世界中，类似的系统就是，飞行控制系统。一个航站塔(中介者)处理哪个飞机可以起飞，哪个可以着陆，因为所有的通信(监听的通知或者广播的通知)都是飞机和控制塔之间进行的，而不是飞机和飞机之间进行的额。一个中央集权的控制中心是这个系统成功的关键，也正是中介者在软件设计领域中所扮演的角色。</p>
+<p>从实现角度来讲，中介者模式是观察者模式中的共享被观察者对象。在这个系统中的对象之间直接的发布/订阅关系被牺牲掉了，取而代之的是维护一个通信的中心节点。</p>
+<p>也可以认为是一种补充-用于应用级别的通知，例如不同子系统之间的通信，子系统本身很复杂，可能需要使用发布/订阅模式来做内部之间的解耦。</p>
+<p>另外一个类似的例子是DOM的事件冒泡机制，以及事件代理机制。如果系统中所有的订阅者都是对文档订阅，而不是对独立的节点订阅，那么文档就充当一个中介者的角色。DOM的这种做法，不是将事件绑定到独立节点上，而是用一个更高级别的对象负责通知订阅者关于交互事件的信息。</p>
+<h3 id="基础的实现"><a href="#基础的实现" class="headerlink" title="基础的实现"></a>基础的实现</h3><p>中介者模式的一种简单的实现可以在下面找到，publish()和subscribe()犯法都被暴露出来使用：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> mediator = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line"></div><div class="line">  <span class="comment">// Storage for topics that can be broadcast or listened to</span></div><div class="line">  <span class="keyword">var</span> topics = &#123;&#125;;</div><div class="line"></div><div class="line">  <span class="comment">// Subscribe to a topic, supply a callback to be executed</span></div><div class="line">  <span class="comment">// when that topic is broadcast to</span></div><div class="line">  <span class="keyword">var</span> subscribe = <span class="function"><span class="keyword">function</span>(<span class="params"> topic, fn </span>)</span>&#123;</div><div class="line"></div><div class="line">      <span class="keyword">if</span> ( !topics[topic] )&#123;</div><div class="line">        topics[topic] = [];</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      topics[topic].push( &#123; <span class="attr">context</span>: <span class="keyword">this</span>, <span class="attr">callback</span>: fn &#125; );</div><div class="line"></div><div class="line">      <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">  &#125;;</div><div class="line"></div><div class="line">  <span class="comment">// Publish/broadcast an event to the rest of the application</span></div><div class="line">  <span class="keyword">var</span> publish = <span class="function"><span class="keyword">function</span>(<span class="params"> topic </span>)</span>&#123;</div><div class="line"></div><div class="line">      <span class="keyword">var</span> args;</div><div class="line"></div><div class="line">      <span class="keyword">if</span> ( !topics[topic] )&#123;</div><div class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      args = <span class="built_in">Array</span>.prototype.slice.call( <span class="built_in">arguments</span>, <span class="number">1</span> );</div><div class="line">      <span class="keyword">for</span> ( <span class="keyword">var</span> i = <span class="number">0</span>, l = topics[topic].length; i &lt; l; i++ ) &#123;</div><div class="line"></div><div class="line">          <span class="keyword">var</span> subscription = topics[topic][i];</div><div class="line">          subscription.callback.apply( subscription.context, args );</div><div class="line">      &#125;</div><div class="line">      <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">  &#125;;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">      <span class="attr">publish</span>: publish,</div><div class="line">      <span class="attr">subscribe</span>: subscribe,</div><div class="line">      <span class="attr">installTo</span>: <span class="function"><span class="keyword">function</span>(<span class="params"> obj </span>)</span>&#123;</div><div class="line">          obj.subscribe = subscribe;</div><div class="line">          obj.publish = publish;</div><div class="line">      &#125;</div><div class="line">  &#125;;</div><div class="line">&#125;());</div></pre></td></tr></table></figure></p>
+<h3 id="高级的实现"><a href="#高级的实现" class="headerlink" title="高级的实现"></a>高级的实现</h3><p>更高级的实现方式，首先，让我们实现认购的概念，我们可以考虑一个中介者主题的注册。<br>通过生成对象实体，我们稍后能够简单的更新认购，而不需要去取消注册然后重新注册它们。认购可以写成一个使用被称作一个选项对象或者一个上下文环境的函数。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Pass in a context to attach our Mediator to.</span></div><div class="line"><span class="comment">//By default this will be the window object</span></div><div class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">root</span>)</span>&#123;</div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">guidGenerator</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="comment">//Our Subscriber constructor</span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">Subscriber</span>(<span class="params">fn, options, context</span>)</span>&#123;</div><div class="line">      <span class="keyword">if</span>(!(<span class="keyword">this</span> <span class="keyword">instanceof</span> Subscriber))&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Subscriber(fn, context, options);</div><div class="line">      &#125;<span class="keyword">else</span>&#123;</div><div class="line"></div><div class="line">        <span class="comment">//guidGenerator() is a function that generates</span></div><div class="line">        <span class="comment">//GUIDs for instances of our Mediators Subscribers so we can easily reference them later on. We're going to skip its implementation for brevity</span></div><div class="line"></div><div class="line">        <span class="keyword">this</span>.id = guidGenerator();</div><div class="line">        <span class="keyword">this</span>.fn = fn;</div><div class="line">        <span class="keyword">this</span>.options = options;</div><div class="line">        <span class="keyword">this</span>.context = context;</div><div class="line">        <span class="keyword">this</span>.topic = <span class="literal">null</span>;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;)();</div></pre></td></tr></table></figure></p>
+<p>在我们的中介者模式中包含了一长串的回调和子主题，当中间人发布在我们中间人实体上被调用的时候被启动。它也包含操作数据列表方法。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Let's model the topic</span></div><div class="line"><span class="comment">//JavaScript lets us use a Function object as a conjunction of a prototype for use with the new object and a constructor function to be invoked.</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Topic</span>(<span class="params">namespace</span>)</span>&#123;</div><div class="line">  <span class="keyword">if</span>(!(<span class="keyword">this</span> <span class="keyword">instanceof</span> Topic))&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Topic(namespace);</div><div class="line">  &#125;<span class="keyword">else</span>&#123;</div><div class="line">    <span class="keyword">this</span>.namespace = namespace || <span class="string">""</span>;</div><div class="line">    <span class="keyword">this</span>._callbacks = [];</div><div class="line">    <span class="keyword">this</span>._topics = [];</div><div class="line">    <span class="keyword">this</span>.stopped = <span class="literal">false</span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//Define the prototype for our topic, including ways to add new subscribers or retrieve existing ones.</span></div><div class="line">Topic.prototype = &#123;</div><div class="line">  <span class="comment">//Add a new subscriber</span></div><div class="line">  AddSubscriber: <span class="function"><span class="keyword">function</span>(<span class="params">fn,options,context</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> callback = <span class="keyword">new</span> Subscriber(fn, options, context);</div><div class="line">    <span class="keyword">this</span>._callbacks.push(callback);</div><div class="line">    callback.topic = <span class="keyword">this</span>;</div><div class="line">    <span class="keyword">return</span> callback;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>我们的主题实体被当做中间人调用的一个参数被传递。使用一个方便实用的calledStopPropagation()方法，回调就可以进一步被传播开来：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">StopPropagation: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">this</span>.stopped: <span class="literal">true</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>我们也能够使得当提供一个GUID的标识符的时候检索订购用户更加容易:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">GetSubscriber: <span class="function"><span class="keyword">function</span>(<span class="params">identifier</span>)</span>&#123;</div><div class="line">  <span class="keyword">for</span>(<span class="keyword">var</span> x=<span class="number">0</span>,y=<span class="keyword">this</span>._callbacks.length; x&lt;y ; x++)&#123;</div><div class="line">    <span class="keyword">if</span>(<span class="keyword">this</span>._callbacks[x].id == identifier || <span class="keyword">this</span>._callbacks[x].fn == identifier)&#123;</div><div class="line">      <span class="keyword">return</span> <span class="keyword">this</span>._callbacks[x];</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">for</span>(<span class="keyword">var</span> z <span class="keyword">in</span> <span class="keyword">this</span>._topics)&#123;</div><div class="line">    <span class="keyword">if</span>(<span class="keyword">this</span>._topics.hasOwnProperty(z))&#123;</div><div class="line">      <span class="keyword">var</span> sub = <span class="keyword">this</span>._topics[z].GetSubscriber(identifier);</div><div class="line">      <span class="keyword">if</span>(sub !== <span class="literal">undefined</span>)(</div><div class="line">        <span class="keyword">return</span> sub;</div><div class="line">      )</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>接着，在我们需要它们的情况下，我们也能够提供添加新主题，检查现有的主题或者检索主题的简单方法：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">AddTopic: <span class="function"><span class="keyword">function</span>(<span class="params"> topic </span>)</span>&#123;</div><div class="line">  <span class="keyword">this</span>._topics[topic] = <span class="keyword">new</span> Topic( (<span class="keyword">this</span>.namespace ? <span class="keyword">this</span>.namespace + <span class="string">":"</span> : <span class="string">""</span>) + topic );</div><div class="line">&#125;,</div><div class="line"></div><div class="line"><span class="attr">HasTopic</span>: <span class="function"><span class="keyword">function</span>(<span class="params"> topic </span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">this</span>._topics.hasOwnProperty( topic );</div><div class="line">&#125;,</div><div class="line"></div><div class="line"><span class="attr">ReturnTopic</span>: <span class="function"><span class="keyword">function</span>(<span class="params"> topic </span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">this</span>._topics[topic];</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>如果我们觉得不再需要它们了,我们也可以明确的删除这些订购用户.下面就是通过它的其子主题递归删除订购用户的代码:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">RemoveSubscriber: <span class="function"><span class="keyword">function</span>(<span class="params"> identifier </span>)</span>&#123;</div><div class="line">  <span class="keyword">if</span>( !identifier )&#123;</div><div class="line">    <span class="keyword">this</span>._callbacks = [];</div><div class="line"></div><div class="line">    <span class="keyword">for</span>( <span class="keyword">var</span> z <span class="keyword">in</span> <span class="keyword">this</span>._topics )&#123;</div><div class="line">      <span class="keyword">if</span>( <span class="keyword">this</span>._topics.hasOwnProperty(z) )&#123;</div><div class="line">        <span class="keyword">this</span>._topics[z].RemoveSubscriber( identifier );</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">for</span>( <span class="keyword">var</span> y = <span class="number">0</span>, x = <span class="keyword">this</span>._callbacks.length; y &lt; x; y++ ) &#123;</div><div class="line">    <span class="keyword">if</span>( <span class="keyword">this</span>._callbacks[y].fn == identifier || <span class="keyword">this</span>._callbacks[y].id == identifier )&#123;</div><div class="line">      <span class="keyword">this</span>._callbacks[y].topic = <span class="literal">null</span>;</div><div class="line">      <span class="keyword">this</span>._callbacks.splice( y,<span class="number">1</span> );</div><div class="line">      x--; y--;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>接着我们通过递归子主题将发布任意参数的能够包含到订购服务对象中:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">Publish: <span class="function"><span class="keyword">function</span>(<span class="params"> data </span>)</span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">for</span>( <span class="keyword">var</span> y = <span class="number">0</span>, x = <span class="keyword">this</span>._callbacks.length; y &lt; x; y++ ) &#123;</div><div class="line"></div><div class="line">        <span class="keyword">var</span> callback = <span class="keyword">this</span>._callbacks[y], l;</div><div class="line">          callback.fn.apply( callback.context, data );</div><div class="line"></div><div class="line">      l = <span class="keyword">this</span>._callbacks.length;</div><div class="line"></div><div class="line">      <span class="keyword">if</span>( l &lt; x )&#123;</div><div class="line">        y--;</div><div class="line">        x = l;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">for</span>( <span class="keyword">var</span> x <span class="keyword">in</span> <span class="keyword">this</span>._topics )&#123;</div><div class="line">      <span class="keyword">if</span>( !<span class="keyword">this</span>.stopped )&#123;</div><div class="line">        <span class="keyword">if</span>( <span class="keyword">this</span>._topics.hasOwnProperty( x ) )&#123;</div><div class="line">          <span class="keyword">this</span>._topics[x].Publish( data );</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">this</span>.stopped = <span class="literal">false</span>;</div><div class="line">  &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>接着我们暴露我们将主要交互的调节实体.这里它是通过注册的并且从主题中删除的事件来实现的<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Mediator</span>(<span class="params"></span>) </span>&#123;</div><div class="line"></div><div class="line">  <span class="keyword">if</span> ( !(<span class="keyword">this</span> <span class="keyword">instanceof</span> Mediator) ) &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Mediator();</div><div class="line">  &#125;<span class="keyword">else</span>&#123;</div><div class="line">    <span class="keyword">this</span>._topics = <span class="keyword">new</span> Topic( <span class="string">""</span> );</div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>想要更多先进的用例,我们可以看看调解支持的主题命名空间,下面这样的asinbox:messages:new:read.GetTopic 返回基于一个命名空间的主题实体。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">Mediator.prototype = &#123;</div><div class="line"></div><div class="line">  <span class="attr">GetTopic</span>: <span class="function"><span class="keyword">function</span>(<span class="params"> namespace </span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> topic = <span class="keyword">this</span>._topics,</div><div class="line">        namespaceHierarchy = namespace.split( <span class="string">":"</span> );</div><div class="line"></div><div class="line">    <span class="keyword">if</span>( namespace === <span class="string">""</span> )&#123;</div><div class="line">      <span class="keyword">return</span> topic;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span>( namespaceHierarchy.length &gt; <span class="number">0</span> )&#123;</div><div class="line">      <span class="keyword">for</span>( <span class="keyword">var</span> i = <span class="number">0</span>, j = namespaceHierarchy.length; i &lt; j; i++ )&#123;</div><div class="line"></div><div class="line">        <span class="keyword">if</span>( !topic.HasTopic( namespaceHierarchy[i]) )&#123;</div><div class="line">          topic.AddTopic( namespaceHierarchy[i] );</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        topic = topic.ReturnTopic( namespaceHierarchy[i] );</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> topic;</div><div class="line">  &#125;,</div></pre></td></tr></table></figure></p>
+<p>这一节我们定义了一个Mediator.Subscribe方法，它接受一个主题命名空间,一个将要被执行的函数,选项和又一个在订阅中调用函数的上下文环境.这样就创建了一个主题,如果这样的一个主题存在的话<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">Subscribe: <span class="function"><span class="keyword">function</span>(<span class="params"> topiclName, fn, options, context </span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> options = options || &#123;&#125;,</div><div class="line">      context = context || &#123;&#125;,</div><div class="line">      topic = <span class="keyword">this</span>.GetTopic( topicName ),</div><div class="line">      sub = topic.AddSubscriber( fn, options, context );</div><div class="line"></div><div class="line">  <span class="keyword">return</span> sub;</div><div class="line">&#125;,</div></pre></td></tr></table></figure></p>
+<p>根据这一点,我们可以进一步定义能够访问特定订阅用户,或者将他们从主题中递归删除的工具<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Returns a subscriber for a given subscriber id / named function and topic namespace</span></div><div class="line"></div><div class="line">GetSubscriber: <span class="function"><span class="keyword">function</span>(<span class="params"> identifier, topic </span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.GetTopic( topic || <span class="string">""</span> ).GetSubscriber( identifier );</div><div class="line">&#125;,</div><div class="line"></div><div class="line"><span class="comment">// Remove a subscriber from a given topic namespace recursively based on</span></div><div class="line"><span class="comment">// a provided subscriber id or named function.</span></div><div class="line"></div><div class="line">Remove: <span class="function"><span class="keyword">function</span>(<span class="params"> topicName, identifier </span>)</span>&#123;</div><div class="line">  <span class="keyword">this</span>.GetTopic( topicName ).RemoveSubscriber( identifier );</div><div class="line">&#125;,</div></pre></td></tr></table></figure></p>
+<p>我们主要的发布方式可以让我们随意发布数据到选定的主题命名空间，这可以在下面的代码中看到。</p>
+<p>主题可以被向下递归.例如,一条对inbox:message的post将发送到inbox:message:new和inbox:message:new:read.它将像接下来这样被使用:Mediator.Publish( “inbox:messages:new”, [args] );<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Publish: <span class="function"><span class="keyword">function</span>(<span class="params"> topicName </span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> args = <span class="built_in">Array</span>.prototype.slice.call( <span class="built_in">arguments</span>, <span class="number">1</span>),</div><div class="line">        topic = <span class="keyword">this</span>.GetTopic( topicName );</div><div class="line"></div><div class="line">    args.push( topic );</div><div class="line"></div><div class="line">    <span class="keyword">this</span>.GetTopic( topicName ).Publish( args );</div><div class="line">  &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>最后，我们可以很容易的暴露我们的中间人，将它附着在传递到根中的对象上：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">root.Mediator = Mediator;</div><div class="line">  Mediator.Topic = Topic;</div><div class="line">  Mediator.Subscriber = Subscriber;</div><div class="line"></div><div class="line">  <span class="comment">// Remember we can pass anything in here. I've passed inwindowto</span></div><div class="line">  <span class="comment">// attach the Mediator to, but we can just as easily attach it to another</span></div><div class="line">  <span class="comment">// object if desired.</span></div><div class="line">&#125;)( <span class="built_in">window</span> );</div></pre></td></tr></table></figure></p>
+<h3 id="优点-amp-缺点"><a href="#优点-amp-缺点" class="headerlink" title="优点&amp;缺点"></a>优点&amp;缺点</h3><p>中间人模式最大的好处就是，它节约了对象或者组件之间的通信信道，这些对象或者组件存在于从多对多到多对一的系统之中。由于解耦合水平的因素，添加新的发布或者订阅者是相对容易的。</p>
+<p>也许使用这个模式最大的缺点是它可以引入一个单点故障。在模块之间放置一个中间人也可能会造成性能损失，因为它们经常是间接地的进行通信的。由于松耦合的特性，仅仅盯着广播很难去确认系统是如何做出反应的。</p>
+<p>这就是说，提醒我们自己解耦合的系统拥有许多其它的好处，是很有用的——如果我们的模块互相之间直接的进行通信，对于模块的改变（例如：另一个模块抛出了异常）可以很容易的对我们系统的其它部分产生多米诺连锁效应。这个问题在解耦合的系统中很少需要被考虑到。</p>
+<p>在一天结束的时候，紧耦合会导致各种头痛，这仅仅只是另外一种可选的解决方案，但是如果得到正确实现的话也能够工作得很好。</p>
+<h3 id="中间人Vs观察者"><a href="#中间人Vs观察者" class="headerlink" title="中间人Vs观察者"></a>中间人Vs观察者</h3><p>中间人模式最大的好处就是，它节约了对象或者组件之间的通信信道，这些对象或者组件存在于从多对多到多对一的系统之中。由于解耦合水平的因素，添加新的发布或者订阅者是相对容易的。</p>
+<p>也许使用这个模式最大的缺点是它可以引入一个单点故障。在模块之间放置一个中间人也可能会造成性能损失，因为它们经常是间接地的进行通信的。由于松耦合的特性，仅仅盯着广播很难去确认系统是如何做出反应的。</p>
+<p>这就是说，提醒我们自己解耦合的系统拥有许多其它的好处，是很有用的——如果我们的模块互相之间直接的进行通信，对于模块的改变（例如：另一个模块抛出了异常）可以很容易的对我们系统的其它部分产生多米诺连锁效应。这个问题在解耦合的系统中很少需要被考虑到。</p>
+<p>在一天结束的时候，紧耦合会导致各种头痛，这仅仅只是另外一种可选的解决方案，但是如果得到正确实现的话也能够工作得很好。</p>
+<h3 id="中间人Vs门面"><a href="#中间人Vs门面" class="headerlink" title="中间人Vs门面"></a>中间人Vs门面</h3><p>不久我们的描述就将涵盖门面模式，但作为参考之用，一些开发者也想知道中间人和门面模式之间有哪些相似之处。它们都对模块的功能进行抽象，但有一些细微的差别。</p>
+<p>中间人模式让模块之间集中进行通信，它会被这些模块明确的引用。门面模式却只是为模块或者系统定义一个更加简单的接口，但不添加任何额外的功能。系统中其他的模块并不直接意识到门面的概念，而可以被认为是单向的。</p>
+
+    
+  </div>
+
+
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/08/18/JavaScript设计模式二/"
+           data-title="JavaScript设计模式二" data-url="http://gaoquan.wang/2016/08/18/JavaScript设计模式二/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="GaoQ" />
+          <p class="site-author-name" itemprop="name">GaoQ</p>
+          <p class="site-description motion-element" itemprop="description">There are no shortcuts to any place worth going</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">40</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">GaoQ</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"gaoquan"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+
+  
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/MathJax.js"></script>
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/config/TeX-AMS-MML_HTMLorMML.js"></script>
+  
+
+
+  
+
+
+</body>
+</html>
