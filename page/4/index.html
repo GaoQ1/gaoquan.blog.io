@@ -216,179 +216,6 @@
             
               
                 
-                <a class="post-title-link" href="/2016/06/02/es6系列教程三/" itemprop="url">
-                  es6系列教程三
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-02T20:45:03+08:00" content="2016-06-02">
-              2016-06-02
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/原创/" itemprop="url" rel="index">
-                    <span itemprop="name">原创</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/06/02/es6系列教程三/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/02/es6系列教程三/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<p>Experience is the mother.</p>
-</blockquote>
-<h1 id="Destructuring"><a href="#Destructuring" class="headerlink" title="Destructuring"></a>Destructuring</h1><p>解构赋值(destructuring assignment)语法是一个Javascript表达式，它使得从数组或者对象中提取数据赋值给不同的变量成为可能。</p>
-<h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[a,b] = [<span class="number">1</span>,<span class="number">2</span>];</div><div class="line">[a,b,...rest] = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>];</div><div class="line">&#123;a,b&#125; = &#123;<span class="attr">a</span>:<span class="number">1</span>,<span class="attr">b</span>:<span class="number">2</span>&#125;</div><div class="line">&#123;a,b,...rest&#125; = &#123;<span class="attr">a</span>:<span class="number">1</span>,<span class="attr">b</span>:<span class="number">2</span>,<span class="attr">c</span>:<span class="number">3</span>,<span class="attr">d</span>:<span class="number">4</span>&#125; <span class="comment">//ES7</span></div></pre></td></tr></table></figure>
-<blockquote>
-<p>{a,b} = {a:1,b:2}作为独立语法是非法的，左侧的{a,b}会被当成块结构而不是一个对象。<br>然而({a,b} = {a:1,b:2})的形式是允许的，其等价于var {a,b} = {a:1,b:2}.  </p>
-</blockquote>
-<h2 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h2><p>对象字面量和数组字面量提供了一种简单的定义一个特定的数据组的方法。一旦你创建了这类数据组，你可以用任意的方法使用这些数据组，甚至从函数中返回它们。</p>
-<p>解构赋值的一个特别有用的功能是：你可以用一个表达式读取整个结构。你可以从后面的例子中了解到很多它的其他的有趣应用。</p>
-<p>解构赋值的作用类似于Perl和Python语言中的相似特性。</p>
-<h2 id="解构数组"><a href="#解构数组" class="headerlink" title="解构数组"></a>解构数组</h2><h3 id="简单例子"><a href="#简单例子" class="headerlink" title="简单例子"></a>简单例子</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> foo = [<span class="string">"one"</span>,<span class="string">"two"</span>,<span class="string">"three"</span>];</div><div class="line"></div><div class="line"><span class="comment">//没有解构赋值</span></div><div class="line"><span class="keyword">var</span> one = foo[<span class="number">0</span>];</div><div class="line"><span class="keyword">var</span> two = foo[<span class="number">1</span>];</div><div class="line"><span class="keyword">var</span> three = foo[<span class="number">2</span>];</div><div class="line"></div><div class="line"><span class="comment">//解构赋值</span></div><div class="line"><span class="keyword">var</span> [one,two,three] = foo;</div></pre></td></tr></table></figure>
-<h3 id="变换变量"><a href="#变换变量" class="headerlink" title="变换变量"></a>变换变量</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="number">1</span>;</div><div class="line"><span class="keyword">var</span> b = <span class="number">2</span>;</div><div class="line">[a,b] = [b,a];</div></pre></td></tr></table></figure>
-<p>执行这段代码后，b是1、a是3.没有解构赋值的情况下，交换两个变量需要一个临时变量.</p>
-<h3 id="返回多值"><a href="#返回多值" class="headerlink" title="返回多值"></a>返回多值</h3><p>感谢解构赋值，函数现在可以返回多个值。尽管函数一直都可以返回一个数组，但现在这样做有更多的灵活性。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> [<span class="number">1</span>,<span class="number">2</span>];</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>如你所见，两个返回值被括号括起来，用类似数组表示法的方式被返回。你可用这种方法返回任意量的变量。这个方法中，f()返回[1,2].<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a,b;</div><div class="line">[a,b] = f();</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"A is "</span> + a + <span class="string">" B is "</span> + b);</div></pre></td></tr></table></figure></p>
-<p>[a,b] = f()把函数的返回值按顺序赋值给括号中的变量：a赋值为1、b赋值为2.</p>
-<p>你也可以把返回值当作数组对待：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = f();</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"A is "</span> + a);</div></pre></td></tr></table></figure></p>
-<p>这样a就是一个包含1和2两个值的数组。</p>
-<h3 id="忽略某些返回值"><a href="#忽略某些返回值" class="headerlink" title="忽略某些返回值"></a>忽略某些返回值</h3><p>你也可以忽略你不感兴趣的返回值：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> [a,b] = f();</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"A is "</span> + a + <span class="string">" B is "</span> + b);</div></pre></td></tr></table></figure></p>
-<p>运行这段代码后，a是1、b是3。2这个值被忽略，你可以忽略任意(或全部)返回值。例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[,,] = f();</div></pre></td></tr></table></figure></p>
-<h3 id="用正则表达式匹配提取值"><a href="#用正则表达式匹配提取值" class="headerlink" title="用正则表达式匹配提取值"></a>用正则表达式匹配提取值</h3><p>用正则表达式方法exec()匹配字符串返回一个数组，该数组第一个值是完全匹配正则表达式的字符串，然后的值是匹配正则表达式括号内内容部分。解构赋值允许你轻易地提取出需要的部分，忽略完全匹配的字符串–如果不需要的话。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> url = <span class="string">"https://developer.mozilla.org/en-US/Web/JavaScript"</span>;</div><div class="line"></div><div class="line"><span class="keyword">var</span> parsedURL = <span class="regexp">/^(\w+)\:\/\/([]^\/]+)\/(.*)$/</span>.exec(url);</div><div class="line"><span class="keyword">var</span> [,protocol,fullhost,fullpath] = parseURL;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(protocol); <span class="comment">//输出"https:"</span></div></pre></td></tr></table></figure></p>
-<h2 id="解构对象"><a href="#解构对象" class="headerlink" title="解构对象"></a>解构对象</h2><h3 id="简单示例"><a href="#简单示例" class="headerlink" title="简单示例"></a>简单示例</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> o = &#123;<span class="attr">p</span>:<span class="number">42</span>,<span class="attr">q</span>:<span class="literal">true</span>&#125;;</div><div class="line"><span class="keyword">var</span> &#123;p,q&#125; = o;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(p);</div><div class="line"><span class="built_in">console</span>.log(q);</div><div class="line"></div><div class="line"><span class="comment">//用新变量名赋值</span></div><div class="line"><span class="keyword">var</span> &#123;<span class="attr">p</span>:foo,<span class="attr">q</span>:bar&#125; = o;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(foo); <span class="comment">//42</span></div><div class="line"><span class="built_in">console</span>.log(bar); <span class="comment">//true</span></div></pre></td></tr></table></figure>
-<h3 id="函数参数默认值"><a href="#函数参数默认值" class="headerlink" title="函数参数默认值"></a>函数参数默认值</h3><p>ES5版本<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">drawES5Chart</span>(<span class="params">options</span>) </span>&#123;</div><div class="line">  options = options === <span class="literal">undefined</span> ? &#123;&#125; : options;</div><div class="line">  <span class="keyword">var</span> size = options.size === <span class="literal">undefined</span> ? <span class="string">'big'</span> : options.size;</div><div class="line">  <span class="keyword">var</span> cords = options.cords === <span class="literal">undefined</span> ? &#123; <span class="attr">x</span>: <span class="number">0</span>, <span class="attr">y</span>: <span class="number">0</span> &#125; : options.cords;</div><div class="line">  <span class="keyword">var</span> radius = options.radius === <span class="literal">undefined</span> ? <span class="number">25</span> : options.radius;</div><div class="line">  <span class="built_in">console</span>.log(size, cords, radius);</div><div class="line">  <span class="comment">// now finally do some chart drawing</span></div><div class="line">&#125;</div><div class="line"></div><div class="line">drawES5Chart(&#123;</div><div class="line">  <span class="attr">cords</span>: &#123; <span class="attr">x</span>: <span class="number">18</span>, <span class="attr">y</span>: <span class="number">30</span> &#125;,</div><div class="line">  <span class="attr">radius</span>: <span class="number">30</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
-<p>ES6版本<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">drawES6Chart</span>(<span class="params">&#123;size = <span class="string">'big'</span>,cords = &#123;x:<span class="number">0</span>,y:<span class="number">0</span>&#125;,radius = <span class="number">25</span>&#125; = &#123;&#125;</span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(size,cords,radius);</div><div class="line">&#125;</div><div class="line"></div><div class="line">drawES6Chart(&#123;</div><div class="line">  <span class="attr">cords</span>: &#123;<span class="attr">x</span>:<span class="number">18</span>,<span class="attr">y</span>:<span class="number">30</span>&#125;,</div><div class="line">  <span class="attr">radius</span>: <span class="number">30</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<h3 id="解构嵌套对象和数组"><a href="#解构嵌套对象和数组" class="headerlink" title="解构嵌套对象和数组"></a>解构嵌套对象和数组</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> metadata = &#123;</div><div class="line">  <span class="attr">title</span>: <span class="string">"Scratchpad"</span>,</div><div class="line">  <span class="attr">translations</span>: [</div><div class="line">    &#123;</div><div class="line">      <span class="attr">locale</span>: <span class="string">"de"</span>,</div><div class="line">      <span class="attr">localization_tags</span>: [ ],</div><div class="line">      <span class="attr">last_edit</span>: <span class="string">"2014-04-14T08:43:37"</span>,</div><div class="line">      <span class="attr">url</span>: <span class="string">"/de/docs/Tools/Scratchpad"</span>,</div><div class="line">      <span class="attr">title</span>: <span class="string">"JavaScript-Umgebung"</span></div><div class="line">    &#125;</div><div class="line">  ],</div><div class="line">  <span class="attr">url</span>: <span class="string">"/en-US/docs/Tools/Scratchpad"</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> &#123; <span class="attr">title</span>: englishTitle, <span class="attr">translations</span>: [&#123; <span class="attr">title</span>: localeTitle &#125;] &#125; = metadata;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(englishTitle); <span class="comment">// "Scratchpad"</span></div><div class="line"><span class="built_in">console</span>.log(localeTitle);  <span class="comment">// "JavaScript-Umgebung"</span></div></pre></td></tr></table></figure>
-<h3 id="For-of迭代和解构"><a href="#For-of迭代和解构" class="headerlink" title="For of迭代和解构"></a>For of迭代和解构</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> people = [</div><div class="line">  &#123;</div><div class="line">    <span class="attr">name</span>: <span class="string">"Mike Smith"</span>,</div><div class="line">    <span class="attr">family</span>: &#123;</div><div class="line">      <span class="attr">mother</span>: <span class="string">"Jane Smith"</span>,</div><div class="line">      <span class="attr">father</span>: <span class="string">"Harry Smith"</span>,</div><div class="line">      <span class="attr">sister</span>: <span class="string">"Samantha Smith"</span></div><div class="line">    &#125;,</div><div class="line">    <span class="attr">age</span>: <span class="number">35</span></div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    <span class="attr">name</span>: <span class="string">"Tom Jones"</span>,</div><div class="line">    <span class="attr">family</span>: &#123;</div><div class="line">      <span class="attr">mother</span>: <span class="string">"Norah Jones"</span>,</div><div class="line">      <span class="attr">father</span>: <span class="string">"Richard Jones"</span>,</div><div class="line">      <span class="attr">brother</span>: <span class="string">"Howard Jones"</span></div><div class="line">    &#125;,</div><div class="line">    <span class="attr">age</span>: <span class="number">25</span></div><div class="line">  &#125;</div><div class="line">];</div><div class="line"></div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> &#123;<span class="attr">name</span>:n,<span class="attr">family</span>:&#123; <span class="attr">father</span>:f &#125;&#125; <span class="keyword">of</span> people)&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">"Name: "</span> + n + <span class="string">",Father: "</span> + f);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// "Name: Mike Smith, Father: Harry Smith"</span></div><div class="line"><span class="comment">// "Name: Tom Jones, Father: Richard Jones"</span></div></pre></td></tr></table></figure>
-<h3 id="从作为函数实参的对象中提取数据"><a href="#从作为函数实参的对象中提取数据" class="headerlink" title="从作为函数实参的对象中提取数据"></a>从作为函数实参的对象中提取数据</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">userId</span>(<span class="params">&#123;id&#125;</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> id;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">whois</span>(<span class="params">&#123;displayName: displayName, fullName: &#123;firstName: name&#125;&#125;</span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(displayName + <span class="string">" is "</span> + name);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> user = &#123;</div><div class="line">  <span class="attr">id</span>: <span class="number">42</span>,</div><div class="line">  <span class="attr">displayName</span>: <span class="string">"jdoe"</span>,</div><div class="line">  <span class="attr">fullName</span>: &#123;</div><div class="line">      <span class="attr">firstName</span>: <span class="string">"John"</span>,</div><div class="line">      <span class="attr">lastName</span>: <span class="string">"Doe"</span></div><div class="line">  &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="string">"userId: "</span> + userId(user)); <span class="comment">// "userId: 42"</span></div><div class="line">whois(user); <span class="comment">// "jdoe is John"</span></div></pre></td></tr></table></figure>
-<p>这段代码从user对象中提取并输出id、displayName和firstName。</p>
-<h3 id="对象属性计算名和解构"><a href="#对象属性计算名和解构" class="headerlink" title="对象属性计算名和解构"></a>对象属性计算名和解构</h3><p>计算属性名，如object literals，可以被解构。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> key = <span class="string">"z"</span>;</div><div class="line"><span class="keyword">let</span> &#123; [key]:foo &#125; = &#123; <span class="attr">z</span>:<span class="string">"bar"</span> &#125;;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(foo); <span class="comment">//"bar"</span></div></pre></td></tr></table></figure></p>
-<h1 id="Default-Rest-Spread"><a href="#Default-Rest-Spread" class="headerlink" title="Default + Rest + Spread"></a>Default + Rest + Spread</h1><h2 id="默认参数"><a href="#默认参数" class="headerlink" title="默认参数"></a>默认参数</h2><p>如果一个参数没有被传入对应的实参或者传入了undefined，则该形参会被赋一个默认值。现在我们可以在定义函数的时候指定参数的默认值，而不用像以前那样通过逻辑或操作符来达到目的了。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">sayHello</span>(<span class="params">name</span>)</span>&#123;</div><div class="line">  <span class="comment">//传统的指定默认参数的方式</span></div><div class="line">  <span class="keyword">var</span> name = name || <span class="string">'coffee'</span>;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'Hello '</span> + name);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//运用ES6的默认参数</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">sayHello2</span>(<span class="params">name = <span class="string">'coffee'</span></span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">`Hello <span class="subst">$&#123;name&#125;</span>`</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line">sayHello(); <span class="comment">//输出：Hello coffee</span></div><div class="line">sayHello(<span class="string">'gaoquan'</span>); <span class="comment">//输出：Hello gaoquan</span></div><div class="line">sayHello2(); <span class="comment">//输出：Hello coffee</span></div><div class="line">sayHello2(<span class="string">'gaoquan'</span>); <span class="comment">//输出：Hello gaoquan</span></div></pre></td></tr></table></figure></p>
-<h2 id="Rest剩余参数"><a href="#Rest剩余参数" class="headerlink" title="Rest剩余参数"></a>Rest剩余参数</h2><p>在函数被调用时，剩余参数表示为一个数组名，该数组包含了那些没有对应形参的，长度不确定的剩余实参。</p>
-<h3 id="语法-1"><a href="#语法-1" class="headerlink" title="语法"></a>语法</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> (<span class="params">a,b, ...theArgs</span>)</span>&#123;</div><div class="line">  <span class="comment">//...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="简述-1"><a href="#简述-1" class="headerlink" title="简述"></a>简述</h3><p>如果一个函数的最后一个形参是以<code>...</code>为前缀的，则在函数被调用时，该形参会成为一个数组，数组中的元素都是传递给该函数的多出来的实参的值。</p>
-<p>在上例中，theArgs会包含传递给函数的从第三个实参开始到最后所有的实参(第一个实参映射到a，第二个实参映射到b).</p>
-<h4 id="剩余参数和arguments对象之间的区别"><a href="#剩余参数和arguments对象之间的区别" class="headerlink" title="剩余参数和arguments对象之间的区别"></a>剩余参数和arguments对象之间的区别</h4><p>剩余参数和arguments对象之间的区别主要有三个：</p>
-<ul>
-<li>剩余参数只包含那些没有对应形参的实参，而arguments对象包含了传给函数的所有实参。</li>
-<li>arguments对象不是一个真实的数组，而剩余参数是真实的Array实例，也就是说你能够在它上面直接使用所有的数组方法，比如sort、forEach、pop</li>
-<li>arguments对象还有一些附加的属性(比如callee属性)</li>
-</ul>
-<h4 id="arguments对象转换为剩余参数"><a href="#arguments对象转换为剩余参数" class="headerlink" title="arguments对象转换为剩余参数"></a>arguments对象转换为剩余参数</h4><p>使用剩余参数可以避免将arguments转为数组的麻烦.<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 下面的代码模拟了剩余数组</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">a,b</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> args = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>,f.length);</div><div class="line">  <span class="comment">// ...</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//现在代码可以简化为这样了</span></div><div class="line"><span class="function"><span class="keyword">function</span>(<span class="params">a,b,...args</span>)</span>&#123;</div><div class="line">  <span class="comment">// ...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><p>因为theArgs是个数组，所以你可以使用length属性得到剩余参数的个数：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">fun1</span>(<span class="params">...theArgs</span>)</span>&#123;</div><div class="line">  alert(theArgs.length);</div><div class="line">&#125;</div><div class="line"></div><div class="line">fun1(); <span class="comment">//弹出"0"，因为theArgs没有元素</span></div><div class="line">fun1(<span class="number">5</span>); <span class="comment">//弹出"1"，因为theArgs只有一个元素</span></div><div class="line">fun1(<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>); <span class="comment">//弹出"3"，因为theArgs有三个元素</span></div></pre></td></tr></table></figure></p>
-<p>下例中，剩余参数包含了从第二个到最后的所有实参，然后用第一个实参依次乘以它们：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">multiply</span>(<span class="params">multiplier,...theArgs</span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> theArgs.map(<span class="function"><span class="keyword">function</span>(<span class="params">element</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> multiplier * element;</div><div class="line">  &#125;);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> arr = multiply(<span class="number">2</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>);</div><div class="line"><span class="built_in">console</span>.log(arr); <span class="comment">//弹出“2,4,6”</span></div></pre></td></tr></table></figure></p>
-<p>下例演示了你可以在剩余参数上使用任意的数组方法，而arguments对象不可以：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">sortRestArgs</span>(<span class="params">...theArgs</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> sortedArgs = theArgs.sort();</div><div class="line">  <span class="keyword">return</span> sortedArgs;</div><div class="line">&#125;</div><div class="line"></div><div class="line">alert(sortRestArgs(<span class="number">5</span>,<span class="number">3</span>,<span class="number">7</span>,<span class="number">1</span>)); <span class="comment">//弹出 1,3,5,7</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">sortArguments</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> sortedArgs = <span class="built_in">arguments</span>.sort();</div><div class="line">  <span class="keyword">return</span> sortedArgs; <span class="comment">// 不会执行到这里</span></div><div class="line">&#125;</div><div class="line"></div><div class="line">alert(sortArguments(<span class="number">5</span>,<span class="number">3</span>,<span class="number">7</span>,<span class="number">1</span>)); <span class="comment">// 抛出TypeError异常:arguments.sort is not a function</span></div></pre></td></tr></table></figure></p>
-<p>如果想在arguments对象上使用数组方法，你首先得将它转换为真实的数组，比如使用 <code>[].slice.call(arguments)</code></p>
-<h2 id="展开运算符"><a href="#展开运算符" class="headerlink" title="展开运算符"></a>展开运算符</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>展开运算符允许一个表达式在某处展开，在多个参数(用于函数调用)或者多个元素(用于数组字面量)或者多个变量(用于解构赋值)的地方就会这样。</p>
-<h3 id="语法-2"><a href="#语法-2" class="headerlink" title="语法"></a>语法</h3><p>用于函数调用：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">myFunction(...iterableObj);</div></pre></td></tr></table></figure></p>
-<p>用于数组字面量：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[...iterableObj,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]</div></pre></td></tr></table></figure></p>
-<p>用于解构赋值：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[a,b,...iterableObj] = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>];</div></pre></td></tr></table></figure></p>
-<h3 id="例子-1"><a href="#例子-1" class="headerlink" title="例子"></a>例子</h3><h4 id="更好的apply方法"><a href="#更好的apply方法" class="headerlink" title="更好的apply方法"></a>更好的apply方法</h4><p><strong>例子：</strong> 目前为止，我们都是使用<code>Function.prototype.apply</code>方法来将一个数组展开成多个参数：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">myFunction</span>(<span class="params">x,y,z</span>)</span>&#123; &#125;</div><div class="line"><span class="keyword">var</span> args = [<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>];</div><div class="line">myFunction.apply(<span class="literal">null</span>,args);</div></pre></td></tr></table></figure></p>
-<p>如果使用了ES6的展开运算符，你可以这么写：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">myFunction</span>(<span class="params">x,y,z</span>)</span>&#123; &#125;</div><div class="line"><span class="keyword">var</span> args = [<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>];</div><div class="line">myFunction(...args);</div></pre></td></tr></table></figure></p>
-<p>还可以使用多个数组：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">myFunction</span>(<span class="params">v,w,x,y,z</span>)</span>&#123; &#125;</div><div class="line"><span class="keyword">var</span> args = [<span class="number">0</span>,<span class="number">1</span>];</div><div class="line">myFunction(<span class="number">-1</span>,...args,<span class="number">2</span>,...[<span class="number">3</span>]);</div></pre></td></tr></table></figure></p>
-<h4 id="更强大的数组字面量"><a href="#更强大的数组字面量" class="headerlink" title="更强大的数组字面量"></a>更强大的数组字面量</h4><p><strong>例子：</strong> 目前为止，如果你想创建一个包含某些已有数组里的元素的新数组，通常会用到push、splice、concat等数组方法。有了新的展开运算符，可以这样写：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> parts = [<span class="string">'shoulder'</span>,<span class="string">'knees'</span>];</div><div class="line"><span class="keyword">var</span> lyrics = [<span class="string">'head'</span>, ...parts, <span class="string">'and'</span>, <span class="string">'toes'</span>]; <span class="comment">// ["head", "shoulders", "knees", "and", "toes"]</span></div></pre></td></tr></table></figure></p>
-<p>和函数调用一样，数组字面量中也可以使用…多次。</p>
-<h4 id="配合new运算符"><a href="#配合new运算符" class="headerlink" title="配合new运算符"></a>配合new运算符</h4><p><strong>例子：</strong> 在ES5中，我们无法同时使用new运算符合apply方法(apply方法调用[[Call]]而不是[[Construct]])。在ES6中，我们可以使用展开运算符，和普通的函数调用一样。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> dataFields = readDateFields(database);</div><div class="line"><span class="keyword">var</span> d = <span class="keyword">new</span> <span class="built_in">Date</span>(...dataFields);</div></pre></td></tr></table></figure></p>
-<h4 id="更好的push方法"><a href="#更好的push方法" class="headerlink" title="更好的push方法"></a>更好的push方法</h4><p><strong>例子：</strong> 在ES5中，我们可以使用push方法将一个数组添加到另一个数组的末尾：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr1 = [<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>];</div><div class="line"><span class="keyword">var</span> arr2 = [<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>];</div><div class="line"><span class="comment">//将arr2中的所有元素添加到arr1中</span></div><div class="line"><span class="built_in">Array</span>.prototype.push.apply(arr1,arr2);</div></pre></td></tr></table></figure></p>
-<p>在ES6中，可以这么写：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr1 = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>];</div><div class="line"><span class="keyword">var</span> arr2 = [<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</div><div class="line">arr1.push(...arr2);</div></pre></td></tr></table></figure></p>
-<h4 id="将类数组对象转换成数组"><a href="#将类数组对象转换成数组" class="headerlink" title="将类数组对象转换成数组"></a>将类数组对象转换成数组</h4><p>展开操作可以将一个类数组对象中索引范围在[0,length)之间的所有属性的值添加到一个数组中，这样就可以得到一个真正的数组：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> nodeList = <span class="built_in">document</span>.querySelectorAll(<span class="string">'div'</span>);</div><div class="line"><span class="keyword">var</span> array = [...nodeList];</div></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
                 <a class="post-title-link" href="/2016/06/02/es6系列教程二/" itemprop="url">
                   es6系列教程二
                 </a>
@@ -1034,6 +861,170 @@
 
 
     
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/05/26/深入理解Redux的Middleware/" itemprop="url">
+                  深入理解Redux的Middleware
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-26T14:22:35+08:00" content="2016-05-26">
+              2016-05-26
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/转载笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">转载笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/26/深入理解Redux的Middleware/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/26/深入理解Redux的Middleware/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>文章转载自<a href="http://guoyongfeng.github.io/idoc/html/React%E8%AF%BE%E7%A8%8B%E4%B8%93%E9%A2%98/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Redux%E7%9A%84Middleware.html" target="_blank" rel="external">深入理解Redux的Middleware</a>，仅供学习和参考</p>
+</blockquote>
+<h1 id="1-中间件"><a href="#1-中间件" class="headerlink" title="1. 中间件"></a>1. 中间件</h1><p>Redux最有趣的一个概念是它允许你通过自定义的中间件来影响你store的dispatch逻辑。</p>
+<blockquote>
+<p>“中间件”这个词听起来很恐怖，但它实际一点都不难。想更好的了解中间件的方法就是看一下那些已经实现了的中间件是怎么工作的，然后尝试自己写一个。函数嵌套写法看起来很恐怖，但是大多数你能找到的中间件，代码都不超过十行，但是它们的强大来自于它们的可嵌套组合性。</p>
+</blockquote>
+<p>区区十行的中间件很容易写，但是你要想明白它们是如何放入中间件调用链，又是如何影响store的dispatch方法的，还真需要一些经验。首先让我们来简单定义一下中间件到底是个啥，并且找一些简单的中间件看一下他们的具体实现方式。关于中间件的定义我能找到的最简单的描述是：</p>
+<blockquote>
+<p>中间件主要被用于分离那些不属于你应用的核心业务逻辑，可以被组合起来使用的代码</p>
+</blockquote>
+<p>Redux的中间件主要用于store的dispatch的函数上。dispatch函数的作用是发送actions给一个或多个reducer来影响应用状态。中间件可以增强默认的dispatch函数，我们来看一下Redux 1.0.1版本的applyMiddleware源码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">applyMiddleware</span>(<span class="params">...middlewares</span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="function">(<span class="params">next</span>) =&gt;</span> (reducer, initialStare) =&gt; &#123;</div><div class="line">    <span class="keyword">var</span> store = next(reducer, initialStare);</div><div class="line">    <span class="keyword">var</span> dispatch = store.dispatch;</div><div class="line">    <span class="keyword">var</span> chain = [];</div><div class="line"></div><div class="line">    <span class="keyword">var</span> middlewareAPI = &#123;</div><div class="line">      <span class="attr">getState</span>: store.getState,</div><div class="line">      <span class="attr">dispatch</span>: <span class="function">(<span class="params">action</span>) =&gt;</span> dispatch(action)</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    chain = middlewares.map(<span class="function"><span class="params">middleware</span> =&gt;</span> middleware(middlewareAPI));</div><div class="line">    dispatch = compose(...chain, store.dispatch);</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">      ...store,</div><div class="line">      dispatch</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>就这几行代码，跟着敲一下也就一会儿时间，但是什么鬼，完全看不懂。因为里面用了很多的函数式编程的思想，包括：高阶函数、复合函数、珂理化和ES6语法。关于函数式编程思想，我也转载了不少文章，但理解起来需要花点时间。</p>
+<h1 id="2-函数式编程概念"><a href="#2-函数式编程概念" class="headerlink" title="2. 函数式编程概念"></a>2. 函数式编程概念</h1><p>在开始阅读Redux中间件源码之前，你需要先掌握一些函数式编程知识。</p>
+<h2 id="2-1-复合函数"><a href="#2-1-复合函数" class="headerlink" title="2.1 复合函数"></a>2.1 复合函数</h2><p>函数式编程是非常理论和非常数学化的。用数学的视角来解释复合函数，如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">given:</div><div class="line">  f(x) = x^<span class="number">2</span> + <span class="number">3</span>*x + <span class="number">1</span></div><div class="line">  g(x) = <span class="number">2</span>*x</div><div class="line">then:</div><div class="line">   (f ∘ g)(x) = f(g(x)) = f(<span class="number">2</span>*x) = <span class="number">4</span>*x^<span class="number">2</span> + <span class="number">6</span>*x + <span class="number">1</span></div></pre></td></tr></table></figure></p>
+<p>你可以将上面的方式扩展到组合两个或更多个函数这都是可以的。我们再来看个例子，演示组合两个函数并返回一个新的函数：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> greet = <span class="function"><span class="keyword">function</span>(<span class="params">x</span>)</span>&#123; <span class="keyword">return</span> <span class="string">`Hello, <span class="subst">$&#123;x&#125;</span>`</span> &#125;;</div><div class="line"><span class="keyword">var</span> emote = <span class="function"><span class="keyword">function</span>(<span class="params">x</span>)</span>&#123; <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;x&#125;</span>`</span> &#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> compose = <span class="function"><span class="keyword">function</span>(<span class="params">f,g</span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">x</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> f(g(x));</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> happyGreeting = compose(green, emote);</div><div class="line"><span class="comment">//happyGreeting("Mark") -&gt; Hello,Mark</span></div></pre></td></tr></table></figure></p>
+<h2 id="2-2-珂理化"><a href="#2-2-珂理化" class="headerlink" title="2.2 珂理化"></a>2.2 珂理化</h2><p>珂理化是这样一个过程：它把一个具有多个参数的函数转换为一个只有一个参数的函数并返回另一个函数，这个被返回的函数需要原函数的参数。正式的说法是：一个具有N个参数的函数可以被转换为具有N个函数的函数链，其中每一个函数只有一个参数。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> curriedAdd = <span class="function"><span class="keyword">function</span>(<span class="params">a</span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">b</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> a + b;</div><div class="line">  &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> addTen = curriedAdd(<span class="number">10</span>);</div><div class="line">addTen(<span class="number">10</span>); <span class="comment">//20</span></div></pre></td></tr></table></figure></p>
+<p>通过珂理化来组合你的函数，你可以创建一个强大的数据处理管道。</p>
+<h1 id="3-Redux的dispatch函数"><a href="#3-Redux的dispatch函数" class="headerlink" title="3. Redux的dispatch函数"></a>3. Redux的dispatch函数</h1><p>Redux的Store有一个dispatch函数，它关注你的应用实现的业务逻辑。你可以用它指派actions到你定义的reducer函数，用以更新你的应用状态。Redux的reducer函数接受一个当前状态参数和一个action参数，并返回一个新的状态对象：<br><code>reducer:: state -&gt; action -&gt; state</code><br>指派给action很像发送消息，如果我们假设要从一个列表中删除某个元素，action结构一般如下：<br><code>{type: types.DELETE_ITEM, id:1 }</code><br>store会指派这个action对象到它所拥有的所有reducer函数来影响应用的状态，然而只有关注删除逻辑的reducer会真的修改状态。在此期间没人会关注到底是谁修改了状态，花了多长时间，或者记录一下变更前后的状态数据镜像。这些非核心关注点都可以交给中间件来完成。</p>
+<h1 id="4-Redux-Middleware"><a href="#4-Redux-Middleware" class="headerlink" title="4. Redux Middleware"></a>4. Redux Middleware</h1><p>Redux中间件被设计成可组合的，会在dispatch方法之前调用的函数。让我们来创建一个简单的日志中间件，他会简单的输出dispatch前后的应用状态。Redux中间件的签名如下：<br><code>Middleware:: next -&gt; action -&gt; retVal</code><br>我们的logger中间件实现如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">createLogger</span>(<span class="params">&#123;getState&#125;</span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="function">(<span class="params">next</span>) =&gt;</span> (action) =&gt; &#123;</div><div class="line">    <span class="keyword">const</span> <span class="built_in">console</span> = <span class="built_in">window</span>.console;</div><div class="line">    <span class="keyword">const</span> prevState = getState();</div><div class="line">    <span class="keyword">const</span> returnValue = next(action);</div><div class="line">    <span class="keyword">const</span> nextState = getState();</div><div class="line">    <span class="keyword">const</span> actionType = <span class="built_in">String</span>(action.type);</div><div class="line">    <span class="keyword">const</span> message = <span class="string">`action <span class="subst">$&#123;actionType&#125;</span>`</span>;</div><div class="line"></div><div class="line">    <span class="built_in">console</span>.log(<span class="string">`%c prev state`</span>, <span class="string">`color: #9E9E9E`</span>, prevState);</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">`%c action`</span>, <span class="string">`color: #03A9F4`</span>, action);</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">`%c next state`</span>, <span class="string">`color: #4CAF50`</span>, nextState);</div><div class="line">    <span class="keyword">return</span> returnValue;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>注意，我们的createLogger接受的getState方法是由applyMiddleware.js注入进来的。使用它可以在内部的闭包中得到应用的当前状态。最后我们返回调用next创建的函数作为结果。next方法用于维护中间件调用链和dispatch，它返回一个接受action对象的柯里化函数，接受的action对象可以在中间件中被修改，再传递给下一个被调用的中间件，最终dispatch会使用中间件修改后的action来执行。</p>
+<p>我们来看看上面的logger中间件的业务流程：</p>
+<ol>
+<li>得到当前的应用状态</li>
+<li>将action指派给下一个中间件</li>
+<li>调用链下游的中间件全部被执行</li>
+<li>store中的匹配reducer被执行</li>
+<li>此时得到新的应用状态</li>
+</ol>
+<h1 id="5-剖析applyMiddleware-js"><a href="#5-剖析applyMiddleware-js" class="headerlink" title="5. 剖析applyMiddleware.js"></a>5. 剖析applyMiddleware.js</h1><p>下面让我们一步步分析applyMiddleware.js源码，applyMiddleware可能应该起一个更好一点的名字，applyMiddlewareToStore。<br>首先我们看一下方法的签名：<br><code>export default function applyMiddleware(...middlewares)</code><br>注意这里有个很有趣的写法，参数：…middlewares，这么定义允许我们调用时传入任意个数的中间件函数作为参数。接下来函数将返回一个接受next作为参数的函数：<br><code>return (next) =&gt; (reducer,initialStare) =&gt; {...}</code><br>next参数是一个被用来创建store的函数，你可以看一下createStore.js源码的实现细节。最后这个函数返回一个类似createStore的函数，不同的是它包含一个有中间件加工过的dispatch实现。</p>
+<p>接下来我们通过调用next拿到store对象。我们用一个变量保存原始的dispatch函数，最后我们申明一个数组来存储我们创建的中间件链：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> store = next(reducer, initialStare);</div><div class="line"><span class="keyword">var</span> dispatch = store.dispatch;</div><div class="line"><span class="keyword">var</span> chain = [];</div></pre></td></tr></table></figure></p>
+<p>接下来的代码将getState 和调用原始的dispatch函数注入给所有的中间件：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> middlewareAPI = &#123;</div><div class="line">  <span class="attr">getState</span>: store.getState,</div><div class="line">  <span class="attr">dispatch</span>: <span class="function">(<span class="params">action</span>) =&gt;</span> dispatch(action)</div><div class="line">&#125;;</div><div class="line"></div><div class="line">chain = middlewares.map(<span class="function"><span class="params">middleware</span> =&gt;</span> middleware(middlewareAPI));</div></pre></td></tr></table></figure></p>
+<p>然后我们根据中间件链创建一个加工过的dispatch实现：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dispatch = compose(...chain, store.dispatch);</div></pre></td></tr></table></figure></p>
+<p>最精妙的地方就是上面这行，Redux提供的compose工具函数组合了我们的中间件链，compose实现如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">compose</span>(<span class="params">...funcs</span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> funcs.reduceRight(<span class="function">(<span class="params">compose, f</span>) =&gt;</span> f(compose));</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>碉堡了！上面的代码展示了中间件调用链是如何创建出来的。中间件调用链的顺序很重要，调用链类似下面这样：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">middlewareI(middlewareJ(middlewareK(store.dispatch)))(action)</div></pre></td></tr></table></figure></p>
+<p>现在我们知道为啥我们要掌握复合函数和珂理化概念了。最后我们只需要将新的store和调整过的dispatch函数返回即可：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">return</span> &#123;</div><div class="line">  ...store,</div><div class="line">  dispatch</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>上面这种写法的意思是返回一个对象，该对象拥有store的所有属性，并增加一个dispatch函数属性，store里自带的那个原始dispatch函数会被覆盖。这种写法会被Babel转化成：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">return</span> _extends(&#123;&#125;, store, &#123;<span class="attr">dispatch</span> : _dispatch&#125;);</div></pre></td></tr></table></figure></p>
+<p>现在让我们将我们的logger中间件注入到dispatch中：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; createStore, applyMiddleware &#125; <span class="keyword">from</span> <span class="string">'redux'</span>;</div><div class="line"><span class="keyword">import</span> loggerMiddleware <span class="keyword">from</span> <span class="string">'logger'</span>;</div><div class="line"><span class="keyword">import</span> rootReducer <span class="keyword">from</span> <span class="string">'../reducers'</span>;</div><div class="line"></div><div class="line"><span class="keyword">const</span> createStoreWithMiddleware = applyMiddleware(loggerMiddleware)(createStore);</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">configureStore</span>(<span class="params">initialStare</span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> createStoreWithMiddleware(rootReducer, initialStare);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">const</span> store = configureStore();</div></pre></td></tr></table></figure></p>
+<h1 id="6-异步中间件"><a href="#6-异步中间件" class="headerlink" title="6. 异步中间件"></a>6. 异步中间件</h1><p>我们已经会写基础的中间件了，我们就要玩更高深的，整个能处理异步action的中间件咋样？让我们来看一下redux-thunk的更多细节。我们假设有一个包含异步请求的action，如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">fetchQuote</span>(<span class="params">symbol</span>)</span>&#123;</div><div class="line">  requestQuote(symbol);</div><div class="line">  <span class="keyword">return</span> fetch(<span class="string">`http://www.google.com/finance/info?q=<span class="subst">$&#123;symbol&#125;</span>`</span>)</div><div class="line">          .then(<span class="function"><span class="params">req</span> =&gt;</span> req.json())</div><div class="line">          .then(<span class="function"><span class="params">json</span> =&gt;</span> showCurrentQuote(symbol,json));</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>上面的代码并没有明显的调用dispatch来分派一个返回promise的action，我们需要使用redux-thunk中间件来延迟dispatch的执行：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">fetchQuote</span>(<span class="params">symbol</span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="function"><span class="params">dispatch</span> =&gt;</span> &#123;</div><div class="line">    dispatch(requestQuote(symbol));</div><div class="line">    <span class="keyword">return</span> fetch(<span class="string">`http://www.google.com/finance/info?<span class="subst">$&#123;symbol&#125;</span>`</span>)</div><div class="line">            .then(<span class="function"><span class="params">req</span> =&gt;</span> req.json())</div><div class="line">            .then(<span class="function"><span class="params">json</span> =&gt;</span> dispatch(showCurrentQuote(symbol, json)));</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>注意这里的dispatch和getState是由applyMiddleware函数注入进来的。现在我们就可以分派最终得到的action对象到store的reducers了。下面是类似redux-thunk的实现：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">thunkMiddleware</span>(<span class="params">&#123; dispatch, getState&#125;</span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="function"><span class="params">next</span> =&gt;</span> action =&gt; <span class="keyword">typeof</span> action === <span class="string">'function'</span> ? action(dispatch,getState) : next(action);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这个和你之前看到的中间件没什么太大不同。如果得到的action是个函数，就用dispatch和getState当作参数来调用它，否则就直接分派给store。你可以看一下Redux提供的更详细的异步示例。另外还有一个支持promise的中间件是redux-promise。</p>
+<h1 id="7-使用middleware实现异步action和异步数据流"><a href="#7-使用middleware实现异步action和异步数据流" class="headerlink" title="7. 使用middleware实现异步action和异步数据流"></a>7. 使用middleware实现异步action和异步数据流</h1><p>redux的生态在持续的完善，其中就有不少的middleware供开发者使用，同时大家也可以实现自己的middleware。<br>现在让我们来使用以下两个中间件来完成一个示例：</p>
+<ul>
+<li>redux-thunk – Redux-Thunk可以让你的action creator返回一个function而不是action。这可以用于延迟dispatch一个action或是在特定条件下dispatch才触发。他的内部函数接受store的dispatch和getState方法作为参数。</li>
+<li>redux-logger – Redux-Logger的用处很明显，就是用于记录所有action和下一次state的日志。</li>
+<li>isomorphic-fetch: 用于ajax请求数据</li>
+</ul>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>希望你已经了解了关于Redux中间件的足够信息，我也希望你掌握了更多的关于函数式编程的知识。我不断的尝试更多更好的函数式编程方法，尽管一开始并不容易，你需要不断的学习和尝试来参悟它的精髓。如果你完全掌握了这篇文章交给你的，那么你已经拥有了足够的信心去投入更多的学习当中。</p>
+<p>最后，千万别使用那些你还没有搞明白的第三方类库，你必须确定它会给你的项目带来好处。掌握它的一个好方法就是去阅读它的源码，你将会学到新的编程技术，淘汰那些老的解决方案。将一个工具引入你的项目前，你有责任搞清楚它的细节。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
   </section>
 
   
@@ -1079,7 +1070,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">40</span>
+              <span class="site-state-item-count">39</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

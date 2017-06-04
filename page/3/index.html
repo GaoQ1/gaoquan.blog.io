@@ -216,190 +216,6 @@
             
               
                 
-                <a class="post-title-link" href="/2016/07/25/这个API很迷人/" itemprop="url">
-                  这个API很迷人
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-25T15:25:12+08:00" content="2016-07-25">
-              2016-07-25
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">笔记</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/07/25/这个API很迷人/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/25/这个API很迷人/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<p>文章转载自<a href="http://www.w3ctech.com/topic/854" target="_blank" rel="external">这个API很“迷人”——(新的Fetch API)</a>，仅供学习和参考</p>
-</blockquote>
-<h2 id="原标题是This-API-is-so-Fetching-Fetching也可以表示迷人的意思"><a href="#原标题是This-API-is-so-Fetching-Fetching也可以表示迷人的意思" class="headerlink" title="原标题是This API is so Fetching, Fetching也可以表示迷人的意思"></a>原标题是This API is so Fetching, Fetching也可以表示迷人的意思</h2><p>Javascript通过XMLHttpRequest(XHR)来执行异步请求，这个方式已经存在了很长一段时间。虽说他很有用，但他不是最佳API。他在设计上不符合职责分离原则，将输入、输出和用事件来跟踪的状态混杂在一个对象里。而且，基于事件的模型与最近Javascript流行的Promise以及基于生成器的异步编程模型不太搭。</p>
-<p>新的<a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API" target="_blank" rel="external">Fetch</a> API打算修正上面提到的那些缺陷。他向JS中引入和HTTP协议中同样的原语。具体而言，它引入一个使用的函数fetch()用来捕捉从网络上检索一个资源的意图。</p>
-<p><a href="https://fetch.spec.whatwg.org/" target="_blank" rel="external">Fetch规范</a>的API明确了用户代理获取资源的语义。它结合ServiceWorkers，尝试达到以下优化：</p>
-<ol>
-<li>改善离线体验</li>
-<li>保持可扩展性</li>
-</ol>
-<h2 id="特性检测"><a href="#特性检测" class="headerlink" title="特性检测"></a>特性检测</h2><p>要检查是否支持Fetch API，可以通过检查Headers、Request、Response或者fetch在window或者worker作用域中是否存在。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(self.fetch)&#123;</div><div class="line">  <span class="comment">//run my fetch request here</span></div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line">  <span class="comment">// do something with XMLHttpRequest</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h3 id="简单的fetching示例"><a href="#简单的fetching示例" class="headerlink" title="简单的fetching示例"></a>简单的fetching示例</h3><p>在Fetch API中，最常用的就是fetch()函数。它接收一个URL参数，返回一个promise来处理response。response参数带着一个Response对象。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">fetch(<span class="string">'./data.json'</span>).then(<span class="function"><span class="keyword">function</span>(<span class="params">res</span>)</span>&#123;</div><div class="line">  <span class="comment">// res instanceof response == true</span></div><div class="line">  <span class="keyword">if</span>(res.ok)&#123;</div><div class="line">    res.json().then(<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">      <span class="built_in">console</span>.log(data);</div><div class="line">    &#125;);</div><div class="line">  &#125;<span class="keyword">else</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'Looks like the response'</span>,res.status);</div><div class="line">  &#125;</div><div class="line">&#125;,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'Fetch failed'</span>,e);</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<p>如果是提交一个POST请求，代码如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">fetch(<span class="string">'http://www.example.org/submit.php'</span>,&#123;</div><div class="line">  <span class="attr">method</span>: <span class="string">'POST'</span>,</div><div class="line">  <span class="attr">headers</span>: &#123;</div><div class="line">    <span class="string">'Content-Type'</span>: <span class="string">'application/x-www-form-urlencoded'</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">body</span>: <span class="string">'firstName=Nikhil&amp;favColor=blue&amp;password=easytoguess'</span></div><div class="line">&#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">res</span>)</span>&#123;</div><div class="line">  <span class="keyword">if</span>(res.ok)&#123;</div><div class="line">    alert(<span class="string">'Perfect! Your settings are saved.'</span>);</div><div class="line">  &#125;<span class="keyword">else</span> <span class="keyword">if</span>(res.status == <span class="number">401</span>)&#123;</div><div class="line">    alert(<span class="string">'Oops! You are not authorized.'</span>);</div><div class="line">  &#125;</div><div class="line">&#125;,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">  alert(<span class="string">'Error submitting form!'</span>)</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<p>fetch()函数的参数和传给Request()构造函数的参数保持完全一致，所以你可以直接传任意复杂的request请求给fetch().</p>
-<h3 id="Headers"><a href="#Headers" class="headerlink" title="Headers"></a>Headers</h3><p>Fetch引入了3个接口，它们分别是Headers、Request以及Response。他们直接对应了相应的HTTP概念，但是基于安全考虑，有些区别，例如支持CORS规则以及保证cookies不能被第三方获取。<br>Headers接口是一个简单的多映射的名-值表<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> content = <span class="string">'Hello World'</span>;</div><div class="line"><span class="keyword">var</span> reqHeaders = <span class="keyword">new</span> Headers();</div><div class="line">reqHeaders.append(<span class="string">'Content-Type'</span>,<span class="string">'text/plain'</span>);</div><div class="line">reqHeaders.append(<span class="string">'Content-Length'</span>,content.length.toString());</div><div class="line">reqHeaders.append(<span class="string">'X-Custom-Header'</span>,<span class="string">'ProcessThisImmediately'</span>);</div></pre></td></tr></table></figure></p>
-<p>也可以传一个多维数组或者json：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">reqHeaders = <span class="keyword">new</span> Headers(&#123;</div><div class="line">  <span class="string">"Content-Type"</span>: <span class="string">"text/plain"</span>,</div><div class="line">  <span class="string">"Content-Length"</span>: content.length.toString(),</div><div class="line">  <span class="string">"X-Custom-Header"</span>: <span class="string">"ProcessThisImmediately"</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<p>Headers的内容可以被检索：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(reqHeaders.has(<span class="string">'Content-Type'</span>));</div><div class="line"><span class="built_in">console</span>.log(reqHeaders.has(<span class="string">"Set-Cookie"</span>));</div><div class="line">reqHeaders.set(<span class="string">"Content-Type"</span>, <span class="string">"text/html"</span>);</div><div class="line">reqHeaders.append(<span class="string">"X-Custom-Header"</span>, <span class="string">"AnotherValue"</span>);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(reqHeaders.get(<span class="string">"Content-Length"</span>));</div><div class="line"><span class="built_in">console</span>.log(reqHeaders.getAll(<span class="string">"X-Custom-Header"</span>));</div><div class="line"></div><div class="line">reqHeaders.delete(<span class="string">"X-Custom-Header"</span>);</div><div class="line"><span class="built_in">console</span>.log(reqHeaders.getAll(<span class="string">"X-Custom-Header"</span>));</div></pre></td></tr></table></figure></p>
-<p>一些操作不仅仅对ServiceWorkers有用，本身也提供了更方便的操作Headers的API。</p>
-<p>由于Headers可以在request请求中被发送或者在response请求中被接收，并且规定了哪些参数是可写的，Headers对象有一个特殊的guard属性。这个属性没有暴露给Web，但是它影响到哪些内容可以在Headers对象中被改变。<br>可能的值如下：</p>
-<ul>
-<li>“none”: 默认值。</li>
-<li>“request”: 从Request中获得的Headers只读。</li>
-<li>“request-no-cors”: 从不同域的Request中获得的Headers只读。</li>
-<li>“response”: 从Response获得的Headers只读.</li>
-<li>“immutable”: 在ServiceWorkers中最常用，所有的Headers都只读。</li>
-</ul>
-<p>哪一种guard作用于Headers导致什么行为，详细定义在这个<a href="https://fetch.spec.whatwg.org/" target="_blank" rel="external">规范</a>中。例如，你不可以添加或者修改一个guard属性是”request”的Request Headers的”Content-Length”属性。同样地，插入”Set-Cookie”属性到一个Response headers是不允许的，因此ServiceWorkers是不能给合成的Request的headers添加一些cookies。</p>
-<p>如果使用了一个不合法的HTTP Header属性名，那么Headers的方法通常都抛出TypeError异常。如果不小心写入了一个不可写的属性，也会抛出一个 TypeError 异常。除此以外的情况，失败了并不抛出异常。例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> res = Response.error();</div><div class="line"><span class="keyword">try</span>&#123;</div><div class="line">  res.headers.set(<span class="string">'Origin'</span>, <span class="string">'http://myback.com'</span>)</div><div class="line">&#125;<span class="keyword">catch</span>(e)&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'Cannot pretend to be a bank!'</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h3 id="Requset"><a href="#Requset" class="headerlink" title="Requset"></a>Requset</h3><p>Request接口定义了通过HTTP请求资源的request格式。参数需要URL、method和headers,同时Requset也接受一个特定的body、mode、credentials以及cache hints.<br>最简单的Request当然是一个URL，可以通过URL来GET一个资源。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> req = <span class="keyword">new</span> Request(<span class="string">'./index.html'</span>);</div><div class="line"><span class="built_in">console</span>.log(req.method); <span class="comment">//"GET"</span></div><div class="line"><span class="built_in">console</span>.log(req.url);</div></pre></td></tr></table></figure></p>
-<p>你也可以将一个建好的Request对象传给构造函数，这样将复制出一个新的Request。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> copy = <span class="keyword">new</span> Request(req);</div><div class="line"><span class="built_in">console</span>.log(copy.method);</div><div class="line"><span class="built_in">console</span>.log(copy.url);</div></pre></td></tr></table></figure></p>
-<p>这种用法通常见于ServiceWorkers.<br>URL以外的其他属性的初始值能够通过第二个参数传给Request构造函数。这个参数是一个json：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> uploadReq = <span class="keyword">new</span> Request(<span class="string">'/uploadImage'</span>,&#123;</div><div class="line">  <span class="attr">method</span>: <span class="string">'POST'</span>,</div><div class="line">  <span class="attr">headers</span>: &#123;</div><div class="line">    <span class="string">'Content-Type'</span>: <span class="string">'image/png'</span>,</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">body</span>: <span class="string">'image data'</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<p>mode属性用来决定是否允许跨域请求，以及哪些response属性可读。可选的mode属性值为<code>same-origin</code>,<code>no-cors</code>以及<code>cors</code>。</p>
-<p><code>same-origin</code>模式很简单，如果一个请求是跨域的，那么返回一个简单的error，这样确保所有的请求遵守同源策略。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arbitraryUrl = <span class="built_in">document</span>.getElementById(<span class="string">'url-input'</span>).value;</div><div class="line">fetch(arbitraryUrl, &#123;<span class="attr">mode</span>:<span class="string">'same-origin'</span>&#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">res</span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'Response succeeded '</span>, res.ok);</div><div class="line">&#125;,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'Please enter a same-orgin URL!'</span>);</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<p><code>no-cors</code>模式允许来自CDN的脚本、其他域的图片和其他一些跨域的资源，但是首先有个前提条件，就是请求的method只能是’HEAD’、’GET’或者’POST’。此外，任何ServiceWorkers拦截了这些请求，它不能随意添加或者改写任何headers，除了<a href="https://fetch.spec.whatwg.org/#simple-header" target="_blank" rel="external">这些</a>。第三，javascript不能访问Response中的任何属性，这保证了ServiceWorkers不会导致任何跨域下的安全问题而隐私信息泄露。</p>
-<p><code>cros</code>模式我们通常用作跨域请求来从第三方提供的API获取数据。这个模式遵守<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS" target="_blank" rel="external">CORS协议</a>.只有有限的<a href="https://fetch.spec.whatwg.org/#concept-filtered-response-cors" target="_blank" rel="external">一些</a>headers被暴露给Response对象，但是body是可读的。例如，你可以获得一个Flickr的最感兴趣的照片的清单:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> u = <span class="keyword">new</span> URLSearchParams();</div><div class="line">u.append(<span class="string">'method'</span>, <span class="string">'flickr.interestingness.getList'</span>);</div><div class="line">u.append(<span class="string">'api_key'</span>, <span class="string">'&lt;insert api key here&gt;'</span>);</div><div class="line">u.append(<span class="string">'format'</span>, <span class="string">'json'</span>);</div><div class="line">u.append(<span class="string">'nojsoncallback'</span>, <span class="string">'1'</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> apiCall = fetch(<span class="string">'https://api.flickr.com/services/rest?'</span> + u);</div><div class="line"></div><div class="line">apiCall.then(<span class="function"><span class="keyword">function</span>(<span class="params">response</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> response.json().then(<span class="function"><span class="keyword">function</span>(<span class="params">json</span>) </span>&#123;</div><div class="line">    <span class="comment">// photo is a list of photos.</span></div><div class="line">    <span class="keyword">return</span> json.photos.photo;</div><div class="line">  &#125;);</div><div class="line">&#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">photos</span>) </span>&#123;</div><div class="line">  photos.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">photo</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(photo.title);</div><div class="line">  &#125;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
-<p>你无法从Headers中读取’Date’属性，因为Flickr在Access-Control-Expose-Headers中设置了不允许读取它。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">response.headers.get(<span class="string">'Date'</span>); <span class="comment">//null</span></div></pre></td></tr></table></figure></p>
-<p><code>credentials</code>枚举属性决定了cookies是否能跨域得到。这个属性与XHR的withCredentials标志相同，但是只有三个值，分别是’omit(默认)’、’same-origin’以及’include’。<br>Request对象也可以提供caching hints给用户代理。这个属性还在安全复审阶段。Firefox提供了这个属性，但是它目前还不起作用。<br>Request还有两个只读的属性与ServiceWorkers拦截有关。其中一个是referrer，表示Request的来源，可能为空。另外一个是context，是一个非常大的枚举集合定义了获得的资源的种类，它可能是image比如请求来自于img标签，可能是worker如果是一个worker脚本，等等。如果使用fetch()函数，这个值是fetch。</p>
-<h3 id="Response"><a href="#Response" class="headerlink" title="Response"></a>Response</h3><p>Response实例通常在fetch()的回调中获得。但是它们也可以用JS构造，不过通常这招只用于ServiceWorkers。<br>Response中最常见的成员是status(一个整数默认值是200)和status Text(默认值是’OK’)，对应HTTP请求的status和reason。还有一个’ok’属性，当status为2xx的时候它是true.<br>headers属性是Response的Headers对象，它是只读的，url属性是当前Response的来源URL.<br>Response也有一个type属性，它的值可能是’basic’、’cors’、’default’、’error’或者’opaque’。</p>
-<ul>
-<li>‘basic’: 正常的，同域的请求，包含所有的headers除开’Set-Cookie’和’Set-Cookie2’.</li>
-<li>‘cros’: Response从一个合法的跨域请求获得，<a href="https://fetch.spec.whatwg.org/#concept-filtered-response-cors" target="_blank" rel="external">一部分headers和body</a>可读.</li>
-<li>‘error’: 网络错误。Response的status是0，Headers是空的并且不可写。当Response是从Response.error()中得到时，就是这种类型。</li>
-<li>‘opaque’: Response从’no-cros’请求了跨域资源。依靠Server端来做限制。</li>
-</ul>
-<p>‘error’类型会导致fetch()函数的Promise被reject并回调一个TypeError.<br>还有一些属性只在ServiceWorkers作用域下有效。以正确的方式返回一个Response针对一个被ServiceWorkers拦截的Request，可以像下面这样写：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">addEventListener(<span class="string">'fetch'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</div><div class="line">  event.responseWith(<span class="keyword">new</span> Response(<span class="string">'Response body'</span>, &#123;</div><div class="line">    <span class="attr">headers</span>: &#123; <span class="string">'Content-Type'</span>: <span class="string">'text/plain'</span> &#125;</div><div class="line">  &#125;))</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<p>如你所见，Response有个接收两个可选参数的构造器。第一个参数返回的body，第二个参数是一个json,设置status、statusText以及headers.<br>静态方法Response.error()简单返回一个错误的请求。类似的，Response.redirect(url,status)返回一个跳转URL的请求。</p>
-<h3 id="处理body"><a href="#处理body" class="headerlink" title="处理body"></a>处理body</h3><p>无论Request还是Response都可能带着body。由于body可以是各种类型。body可以是以下任何一种类型的示例:</p>
-<ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer" target="_blank" rel="external">ArrayBuffer</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/ArrayBufferView" target="_blank" rel="external">ArrayBufferView</a>(Unit8Array and friends)</li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Blob" target="_blank" rel="external">Blob</a>/<a href="https://developer.mozilla.org/en-US/docs/Web/API/File" target="_blank" rel="external">File</a></li>
-<li>字符串</li>
-<li><a href="https://url.spec.whatwg.org/#interface-urlsearchparams" target="_blank" rel="external">URLSearchParams</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/FormData" target="_blank" rel="external">FormData</a></li>
-</ul>
-<p>此外，Request和Response都为他们的body提供了以下方法，这些方法都返回一个Promise对象。</p>
-<ul>
-<li>arrayBuffer()</li>
-<li>blof()</li>
-<li>json()</li>
-<li>text()</li>
-<li>formData()<br>在使用非文本的数据方面，Fetch API和XHR相比提供了极大的便利。</li>
-</ul>
-<p>可以通过传body参数来设置Request的body：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> form = <span class="keyword">new</span> FormData(<span class="built_in">document</span>.getElementById(<span class="string">'login-form'</span>));</div><div class="line">fetch(<span class="string">'/login'</span>, &#123;</div><div class="line">  <span class="attr">method</span>: <span class="string">'POST'</span>,</div><div class="line">  <span class="attr">body</span>: form</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<p>Response的第一个参数是body:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> res = <span class="keyword">new</span> Response(<span class="keyword">new</span> File([<span class="string">'chunk'</span>, <span class="string">'chunk'</span>], <span class="string">'archive.zip'</span>,&#123; <span class="attr">type</span>: <span class="string">'application/zip'</span> &#125;));</div></pre></td></tr></table></figure></p>
-<p>Request和Response(通过fetch()方法)都能够<a href="https://fetch.spec.whatwg.org/#concept-bodyinit-extract" target="_blank" rel="external">自动识别自己的content type</a>，Request还可以自动设置’Content-Type’header,如果开发者没有设置它的话。</p>
-<h3 id="流和克隆"><a href="#流和克隆" class="headerlink" title="流和克隆"></a>流和克隆</h3><p>非常重要的一点要说明，那就是Request和Response的body只能被读取一次！它们有一个属性叫bodyUsed,读取一次之后设置为true，就不能再读取了。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> res = <span class="keyword">new</span> Response(<span class="string">'one time use'</span>);</div><div class="line"><span class="built_in">console</span>.log(res.bodyUsed); <span class="comment">//false</span></div><div class="line">res.text().then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(res.bodyUsed); <span class="comment">//true</span></div><div class="line">&#125;);</div><div class="line"><span class="built_in">console</span>.log(res.bodyUsed); <span class="comment">//true</span></div><div class="line"></div><div class="line">res.text().catch(<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'Tried to read already consumed Response'</span>)</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<p>这样设计的目的是为了之后兼容基于流的API，让应用一次消费data，这样就允许了JavaScript处理大文件例如视频，并且可以支持实时压缩和编辑。<br>有时候，我们希望多次访问body，例如，你可能想用即将支持的<a href="http://slightlyoff.github.io/ServiceWorker/spec/service_worker/index.html#cache-objects" target="_blank" rel="external">Cache API</a>去缓存Request和Response,以便于可以离线使用，Cache要求body能被再次读取。</p>
-<p>所以，我们该如何让body能经得起多次读取呢？API提供了一个clone()方法。调用这个方法可以得到一个克隆对象。不过要记得，<strong>clone()必须要在读取之前调用，也就是先clone()在读取</strong>。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">addEventListener(<span class="string">'fetch'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">evt</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> sheep = <span class="keyword">new</span> Response(<span class="string">'Dolly'</span>);</div><div class="line">  <span class="built_in">console</span>.log(sheep.bodyUsed); <span class="comment">//false</span></div><div class="line">  <span class="keyword">var</span> clone = sheep.clone();</div><div class="line">  <span class="built_in">console</span>.log(clone.bodyUsed); <span class="comment">//false</span></div><div class="line"></div><div class="line">  clone.text();</div><div class="line">  <span class="built_in">console</span>.log(sheep.bodyUsed); <span class="comment">//false</span></div><div class="line">  <span class="built_in">console</span>.log(clone.bodyUsed); <span class="comment">//true</span></div><div class="line"></div><div class="line">  evt.responseWith(cache.add(sheep.clone()).then(fucntion(e)&#123;</div><div class="line">    <span class="keyword">return</span> sheep;</div><div class="line">  &#125;))</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<h3 id="未来的改进"><a href="#未来的改进" class="headerlink" title="未来的改进"></a>未来的改进</h3><p>为了支持流，Fetch最终将提供可以中断执行读取资源的能力，并且提供可以得到读取进度的API。这些能力在XHR中有，但是想要实现成Promise-based的Fetch API有些麻烦。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
                 <a class="post-title-link" href="/2016/06/27/迭代协议/" itemprop="url">
                   迭代协议
                 </a>
@@ -1084,6 +900,179 @@
 
 
     
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/06/02/es6系列教程三/" itemprop="url">
+                  es6系列教程三
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-02T20:45:03+08:00" content="2016-06-02">
+              2016-06-02
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/原创/" itemprop="url" rel="index">
+                    <span itemprop="name">原创</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/02/es6系列教程三/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/02/es6系列教程三/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>Experience is the mother.</p>
+</blockquote>
+<h1 id="Destructuring"><a href="#Destructuring" class="headerlink" title="Destructuring"></a>Destructuring</h1><p>解构赋值(destructuring assignment)语法是一个Javascript表达式，它使得从数组或者对象中提取数据赋值给不同的变量成为可能。</p>
+<h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[a,b] = [<span class="number">1</span>,<span class="number">2</span>];</div><div class="line">[a,b,...rest] = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>];</div><div class="line">&#123;a,b&#125; = &#123;<span class="attr">a</span>:<span class="number">1</span>,<span class="attr">b</span>:<span class="number">2</span>&#125;</div><div class="line">&#123;a,b,...rest&#125; = &#123;<span class="attr">a</span>:<span class="number">1</span>,<span class="attr">b</span>:<span class="number">2</span>,<span class="attr">c</span>:<span class="number">3</span>,<span class="attr">d</span>:<span class="number">4</span>&#125; <span class="comment">//ES7</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>{a,b} = {a:1,b:2}作为独立语法是非法的，左侧的{a,b}会被当成块结构而不是一个对象。<br>然而({a,b} = {a:1,b:2})的形式是允许的，其等价于var {a,b} = {a:1,b:2}.  </p>
+</blockquote>
+<h2 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h2><p>对象字面量和数组字面量提供了一种简单的定义一个特定的数据组的方法。一旦你创建了这类数据组，你可以用任意的方法使用这些数据组，甚至从函数中返回它们。</p>
+<p>解构赋值的一个特别有用的功能是：你可以用一个表达式读取整个结构。你可以从后面的例子中了解到很多它的其他的有趣应用。</p>
+<p>解构赋值的作用类似于Perl和Python语言中的相似特性。</p>
+<h2 id="解构数组"><a href="#解构数组" class="headerlink" title="解构数组"></a>解构数组</h2><h3 id="简单例子"><a href="#简单例子" class="headerlink" title="简单例子"></a>简单例子</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> foo = [<span class="string">"one"</span>,<span class="string">"two"</span>,<span class="string">"three"</span>];</div><div class="line"></div><div class="line"><span class="comment">//没有解构赋值</span></div><div class="line"><span class="keyword">var</span> one = foo[<span class="number">0</span>];</div><div class="line"><span class="keyword">var</span> two = foo[<span class="number">1</span>];</div><div class="line"><span class="keyword">var</span> three = foo[<span class="number">2</span>];</div><div class="line"></div><div class="line"><span class="comment">//解构赋值</span></div><div class="line"><span class="keyword">var</span> [one,two,three] = foo;</div></pre></td></tr></table></figure>
+<h3 id="变换变量"><a href="#变换变量" class="headerlink" title="变换变量"></a>变换变量</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="number">1</span>;</div><div class="line"><span class="keyword">var</span> b = <span class="number">2</span>;</div><div class="line">[a,b] = [b,a];</div></pre></td></tr></table></figure>
+<p>执行这段代码后，b是1、a是3.没有解构赋值的情况下，交换两个变量需要一个临时变量.</p>
+<h3 id="返回多值"><a href="#返回多值" class="headerlink" title="返回多值"></a>返回多值</h3><p>感谢解构赋值，函数现在可以返回多个值。尽管函数一直都可以返回一个数组，但现在这样做有更多的灵活性。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> [<span class="number">1</span>,<span class="number">2</span>];</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>如你所见，两个返回值被括号括起来，用类似数组表示法的方式被返回。你可用这种方法返回任意量的变量。这个方法中，f()返回[1,2].<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a,b;</div><div class="line">[a,b] = f();</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"A is "</span> + a + <span class="string">" B is "</span> + b);</div></pre></td></tr></table></figure></p>
+<p>[a,b] = f()把函数的返回值按顺序赋值给括号中的变量：a赋值为1、b赋值为2.</p>
+<p>你也可以把返回值当作数组对待：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = f();</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"A is "</span> + a);</div></pre></td></tr></table></figure></p>
+<p>这样a就是一个包含1和2两个值的数组。</p>
+<h3 id="忽略某些返回值"><a href="#忽略某些返回值" class="headerlink" title="忽略某些返回值"></a>忽略某些返回值</h3><p>你也可以忽略你不感兴趣的返回值：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> [a,b] = f();</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"A is "</span> + a + <span class="string">" B is "</span> + b);</div></pre></td></tr></table></figure></p>
+<p>运行这段代码后，a是1、b是3。2这个值被忽略，你可以忽略任意(或全部)返回值。例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[,,] = f();</div></pre></td></tr></table></figure></p>
+<h3 id="用正则表达式匹配提取值"><a href="#用正则表达式匹配提取值" class="headerlink" title="用正则表达式匹配提取值"></a>用正则表达式匹配提取值</h3><p>用正则表达式方法exec()匹配字符串返回一个数组，该数组第一个值是完全匹配正则表达式的字符串，然后的值是匹配正则表达式括号内内容部分。解构赋值允许你轻易地提取出需要的部分，忽略完全匹配的字符串–如果不需要的话。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> url = <span class="string">"https://developer.mozilla.org/en-US/Web/JavaScript"</span>;</div><div class="line"></div><div class="line"><span class="keyword">var</span> parsedURL = <span class="regexp">/^(\w+)\:\/\/([]^\/]+)\/(.*)$/</span>.exec(url);</div><div class="line"><span class="keyword">var</span> [,protocol,fullhost,fullpath] = parseURL;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(protocol); <span class="comment">//输出"https:"</span></div></pre></td></tr></table></figure></p>
+<h2 id="解构对象"><a href="#解构对象" class="headerlink" title="解构对象"></a>解构对象</h2><h3 id="简单示例"><a href="#简单示例" class="headerlink" title="简单示例"></a>简单示例</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> o = &#123;<span class="attr">p</span>:<span class="number">42</span>,<span class="attr">q</span>:<span class="literal">true</span>&#125;;</div><div class="line"><span class="keyword">var</span> &#123;p,q&#125; = o;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(p);</div><div class="line"><span class="built_in">console</span>.log(q);</div><div class="line"></div><div class="line"><span class="comment">//用新变量名赋值</span></div><div class="line"><span class="keyword">var</span> &#123;<span class="attr">p</span>:foo,<span class="attr">q</span>:bar&#125; = o;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(foo); <span class="comment">//42</span></div><div class="line"><span class="built_in">console</span>.log(bar); <span class="comment">//true</span></div></pre></td></tr></table></figure>
+<h3 id="函数参数默认值"><a href="#函数参数默认值" class="headerlink" title="函数参数默认值"></a>函数参数默认值</h3><p>ES5版本<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">drawES5Chart</span>(<span class="params">options</span>) </span>&#123;</div><div class="line">  options = options === <span class="literal">undefined</span> ? &#123;&#125; : options;</div><div class="line">  <span class="keyword">var</span> size = options.size === <span class="literal">undefined</span> ? <span class="string">'big'</span> : options.size;</div><div class="line">  <span class="keyword">var</span> cords = options.cords === <span class="literal">undefined</span> ? &#123; <span class="attr">x</span>: <span class="number">0</span>, <span class="attr">y</span>: <span class="number">0</span> &#125; : options.cords;</div><div class="line">  <span class="keyword">var</span> radius = options.radius === <span class="literal">undefined</span> ? <span class="number">25</span> : options.radius;</div><div class="line">  <span class="built_in">console</span>.log(size, cords, radius);</div><div class="line">  <span class="comment">// now finally do some chart drawing</span></div><div class="line">&#125;</div><div class="line"></div><div class="line">drawES5Chart(&#123;</div><div class="line">  <span class="attr">cords</span>: &#123; <span class="attr">x</span>: <span class="number">18</span>, <span class="attr">y</span>: <span class="number">30</span> &#125;,</div><div class="line">  <span class="attr">radius</span>: <span class="number">30</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>ES6版本<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">drawES6Chart</span>(<span class="params">&#123;size = <span class="string">'big'</span>,cords = &#123;x:<span class="number">0</span>,y:<span class="number">0</span>&#125;,radius = <span class="number">25</span>&#125; = &#123;&#125;</span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(size,cords,radius);</div><div class="line">&#125;</div><div class="line"></div><div class="line">drawES6Chart(&#123;</div><div class="line">  <span class="attr">cords</span>: &#123;<span class="attr">x</span>:<span class="number">18</span>,<span class="attr">y</span>:<span class="number">30</span>&#125;,</div><div class="line">  <span class="attr">radius</span>: <span class="number">30</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<h3 id="解构嵌套对象和数组"><a href="#解构嵌套对象和数组" class="headerlink" title="解构嵌套对象和数组"></a>解构嵌套对象和数组</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> metadata = &#123;</div><div class="line">  <span class="attr">title</span>: <span class="string">"Scratchpad"</span>,</div><div class="line">  <span class="attr">translations</span>: [</div><div class="line">    &#123;</div><div class="line">      <span class="attr">locale</span>: <span class="string">"de"</span>,</div><div class="line">      <span class="attr">localization_tags</span>: [ ],</div><div class="line">      <span class="attr">last_edit</span>: <span class="string">"2014-04-14T08:43:37"</span>,</div><div class="line">      <span class="attr">url</span>: <span class="string">"/de/docs/Tools/Scratchpad"</span>,</div><div class="line">      <span class="attr">title</span>: <span class="string">"JavaScript-Umgebung"</span></div><div class="line">    &#125;</div><div class="line">  ],</div><div class="line">  <span class="attr">url</span>: <span class="string">"/en-US/docs/Tools/Scratchpad"</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> &#123; <span class="attr">title</span>: englishTitle, <span class="attr">translations</span>: [&#123; <span class="attr">title</span>: localeTitle &#125;] &#125; = metadata;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(englishTitle); <span class="comment">// "Scratchpad"</span></div><div class="line"><span class="built_in">console</span>.log(localeTitle);  <span class="comment">// "JavaScript-Umgebung"</span></div></pre></td></tr></table></figure>
+<h3 id="For-of迭代和解构"><a href="#For-of迭代和解构" class="headerlink" title="For of迭代和解构"></a>For of迭代和解构</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> people = [</div><div class="line">  &#123;</div><div class="line">    <span class="attr">name</span>: <span class="string">"Mike Smith"</span>,</div><div class="line">    <span class="attr">family</span>: &#123;</div><div class="line">      <span class="attr">mother</span>: <span class="string">"Jane Smith"</span>,</div><div class="line">      <span class="attr">father</span>: <span class="string">"Harry Smith"</span>,</div><div class="line">      <span class="attr">sister</span>: <span class="string">"Samantha Smith"</span></div><div class="line">    &#125;,</div><div class="line">    <span class="attr">age</span>: <span class="number">35</span></div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    <span class="attr">name</span>: <span class="string">"Tom Jones"</span>,</div><div class="line">    <span class="attr">family</span>: &#123;</div><div class="line">      <span class="attr">mother</span>: <span class="string">"Norah Jones"</span>,</div><div class="line">      <span class="attr">father</span>: <span class="string">"Richard Jones"</span>,</div><div class="line">      <span class="attr">brother</span>: <span class="string">"Howard Jones"</span></div><div class="line">    &#125;,</div><div class="line">    <span class="attr">age</span>: <span class="number">25</span></div><div class="line">  &#125;</div><div class="line">];</div><div class="line"></div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> &#123;<span class="attr">name</span>:n,<span class="attr">family</span>:&#123; <span class="attr">father</span>:f &#125;&#125; <span class="keyword">of</span> people)&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">"Name: "</span> + n + <span class="string">",Father: "</span> + f);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// "Name: Mike Smith, Father: Harry Smith"</span></div><div class="line"><span class="comment">// "Name: Tom Jones, Father: Richard Jones"</span></div></pre></td></tr></table></figure>
+<h3 id="从作为函数实参的对象中提取数据"><a href="#从作为函数实参的对象中提取数据" class="headerlink" title="从作为函数实参的对象中提取数据"></a>从作为函数实参的对象中提取数据</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">userId</span>(<span class="params">&#123;id&#125;</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> id;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">whois</span>(<span class="params">&#123;displayName: displayName, fullName: &#123;firstName: name&#125;&#125;</span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(displayName + <span class="string">" is "</span> + name);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> user = &#123;</div><div class="line">  <span class="attr">id</span>: <span class="number">42</span>,</div><div class="line">  <span class="attr">displayName</span>: <span class="string">"jdoe"</span>,</div><div class="line">  <span class="attr">fullName</span>: &#123;</div><div class="line">      <span class="attr">firstName</span>: <span class="string">"John"</span>,</div><div class="line">      <span class="attr">lastName</span>: <span class="string">"Doe"</span></div><div class="line">  &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="string">"userId: "</span> + userId(user)); <span class="comment">// "userId: 42"</span></div><div class="line">whois(user); <span class="comment">// "jdoe is John"</span></div></pre></td></tr></table></figure>
+<p>这段代码从user对象中提取并输出id、displayName和firstName。</p>
+<h3 id="对象属性计算名和解构"><a href="#对象属性计算名和解构" class="headerlink" title="对象属性计算名和解构"></a>对象属性计算名和解构</h3><p>计算属性名，如object literals，可以被解构。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> key = <span class="string">"z"</span>;</div><div class="line"><span class="keyword">let</span> &#123; [key]:foo &#125; = &#123; <span class="attr">z</span>:<span class="string">"bar"</span> &#125;;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(foo); <span class="comment">//"bar"</span></div></pre></td></tr></table></figure></p>
+<h1 id="Default-Rest-Spread"><a href="#Default-Rest-Spread" class="headerlink" title="Default + Rest + Spread"></a>Default + Rest + Spread</h1><h2 id="默认参数"><a href="#默认参数" class="headerlink" title="默认参数"></a>默认参数</h2><p>如果一个参数没有被传入对应的实参或者传入了undefined，则该形参会被赋一个默认值。现在我们可以在定义函数的时候指定参数的默认值，而不用像以前那样通过逻辑或操作符来达到目的了。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">sayHello</span>(<span class="params">name</span>)</span>&#123;</div><div class="line">  <span class="comment">//传统的指定默认参数的方式</span></div><div class="line">  <span class="keyword">var</span> name = name || <span class="string">'coffee'</span>;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'Hello '</span> + name);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//运用ES6的默认参数</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">sayHello2</span>(<span class="params">name = <span class="string">'coffee'</span></span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">`Hello <span class="subst">$&#123;name&#125;</span>`</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line">sayHello(); <span class="comment">//输出：Hello coffee</span></div><div class="line">sayHello(<span class="string">'gaoquan'</span>); <span class="comment">//输出：Hello gaoquan</span></div><div class="line">sayHello2(); <span class="comment">//输出：Hello coffee</span></div><div class="line">sayHello2(<span class="string">'gaoquan'</span>); <span class="comment">//输出：Hello gaoquan</span></div></pre></td></tr></table></figure></p>
+<h2 id="Rest剩余参数"><a href="#Rest剩余参数" class="headerlink" title="Rest剩余参数"></a>Rest剩余参数</h2><p>在函数被调用时，剩余参数表示为一个数组名，该数组包含了那些没有对应形参的，长度不确定的剩余实参。</p>
+<h3 id="语法-1"><a href="#语法-1" class="headerlink" title="语法"></a>语法</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> (<span class="params">a,b, ...theArgs</span>)</span>&#123;</div><div class="line">  <span class="comment">//...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="简述-1"><a href="#简述-1" class="headerlink" title="简述"></a>简述</h3><p>如果一个函数的最后一个形参是以<code>...</code>为前缀的，则在函数被调用时，该形参会成为一个数组，数组中的元素都是传递给该函数的多出来的实参的值。</p>
+<p>在上例中，theArgs会包含传递给函数的从第三个实参开始到最后所有的实参(第一个实参映射到a，第二个实参映射到b).</p>
+<h4 id="剩余参数和arguments对象之间的区别"><a href="#剩余参数和arguments对象之间的区别" class="headerlink" title="剩余参数和arguments对象之间的区别"></a>剩余参数和arguments对象之间的区别</h4><p>剩余参数和arguments对象之间的区别主要有三个：</p>
+<ul>
+<li>剩余参数只包含那些没有对应形参的实参，而arguments对象包含了传给函数的所有实参。</li>
+<li>arguments对象不是一个真实的数组，而剩余参数是真实的Array实例，也就是说你能够在它上面直接使用所有的数组方法，比如sort、forEach、pop</li>
+<li>arguments对象还有一些附加的属性(比如callee属性)</li>
+</ul>
+<h4 id="arguments对象转换为剩余参数"><a href="#arguments对象转换为剩余参数" class="headerlink" title="arguments对象转换为剩余参数"></a>arguments对象转换为剩余参数</h4><p>使用剩余参数可以避免将arguments转为数组的麻烦.<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 下面的代码模拟了剩余数组</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">a,b</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> args = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>,f.length);</div><div class="line">  <span class="comment">// ...</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//现在代码可以简化为这样了</span></div><div class="line"><span class="function"><span class="keyword">function</span>(<span class="params">a,b,...args</span>)</span>&#123;</div><div class="line">  <span class="comment">// ...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><p>因为theArgs是个数组，所以你可以使用length属性得到剩余参数的个数：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">fun1</span>(<span class="params">...theArgs</span>)</span>&#123;</div><div class="line">  alert(theArgs.length);</div><div class="line">&#125;</div><div class="line"></div><div class="line">fun1(); <span class="comment">//弹出"0"，因为theArgs没有元素</span></div><div class="line">fun1(<span class="number">5</span>); <span class="comment">//弹出"1"，因为theArgs只有一个元素</span></div><div class="line">fun1(<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>); <span class="comment">//弹出"3"，因为theArgs有三个元素</span></div></pre></td></tr></table></figure></p>
+<p>下例中，剩余参数包含了从第二个到最后的所有实参，然后用第一个实参依次乘以它们：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">multiply</span>(<span class="params">multiplier,...theArgs</span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> theArgs.map(<span class="function"><span class="keyword">function</span>(<span class="params">element</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> multiplier * element;</div><div class="line">  &#125;);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> arr = multiply(<span class="number">2</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>);</div><div class="line"><span class="built_in">console</span>.log(arr); <span class="comment">//弹出“2,4,6”</span></div></pre></td></tr></table></figure></p>
+<p>下例演示了你可以在剩余参数上使用任意的数组方法，而arguments对象不可以：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">sortRestArgs</span>(<span class="params">...theArgs</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> sortedArgs = theArgs.sort();</div><div class="line">  <span class="keyword">return</span> sortedArgs;</div><div class="line">&#125;</div><div class="line"></div><div class="line">alert(sortRestArgs(<span class="number">5</span>,<span class="number">3</span>,<span class="number">7</span>,<span class="number">1</span>)); <span class="comment">//弹出 1,3,5,7</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">sortArguments</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> sortedArgs = <span class="built_in">arguments</span>.sort();</div><div class="line">  <span class="keyword">return</span> sortedArgs; <span class="comment">// 不会执行到这里</span></div><div class="line">&#125;</div><div class="line"></div><div class="line">alert(sortArguments(<span class="number">5</span>,<span class="number">3</span>,<span class="number">7</span>,<span class="number">1</span>)); <span class="comment">// 抛出TypeError异常:arguments.sort is not a function</span></div></pre></td></tr></table></figure></p>
+<p>如果想在arguments对象上使用数组方法，你首先得将它转换为真实的数组，比如使用 <code>[].slice.call(arguments)</code></p>
+<h2 id="展开运算符"><a href="#展开运算符" class="headerlink" title="展开运算符"></a>展开运算符</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>展开运算符允许一个表达式在某处展开，在多个参数(用于函数调用)或者多个元素(用于数组字面量)或者多个变量(用于解构赋值)的地方就会这样。</p>
+<h3 id="语法-2"><a href="#语法-2" class="headerlink" title="语法"></a>语法</h3><p>用于函数调用：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">myFunction(...iterableObj);</div></pre></td></tr></table></figure></p>
+<p>用于数组字面量：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[...iterableObj,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]</div></pre></td></tr></table></figure></p>
+<p>用于解构赋值：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[a,b,...iterableObj] = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>];</div></pre></td></tr></table></figure></p>
+<h3 id="例子-1"><a href="#例子-1" class="headerlink" title="例子"></a>例子</h3><h4 id="更好的apply方法"><a href="#更好的apply方法" class="headerlink" title="更好的apply方法"></a>更好的apply方法</h4><p><strong>例子：</strong> 目前为止，我们都是使用<code>Function.prototype.apply</code>方法来将一个数组展开成多个参数：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">myFunction</span>(<span class="params">x,y,z</span>)</span>&#123; &#125;</div><div class="line"><span class="keyword">var</span> args = [<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>];</div><div class="line">myFunction.apply(<span class="literal">null</span>,args);</div></pre></td></tr></table></figure></p>
+<p>如果使用了ES6的展开运算符，你可以这么写：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">myFunction</span>(<span class="params">x,y,z</span>)</span>&#123; &#125;</div><div class="line"><span class="keyword">var</span> args = [<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>];</div><div class="line">myFunction(...args);</div></pre></td></tr></table></figure></p>
+<p>还可以使用多个数组：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">myFunction</span>(<span class="params">v,w,x,y,z</span>)</span>&#123; &#125;</div><div class="line"><span class="keyword">var</span> args = [<span class="number">0</span>,<span class="number">1</span>];</div><div class="line">myFunction(<span class="number">-1</span>,...args,<span class="number">2</span>,...[<span class="number">3</span>]);</div></pre></td></tr></table></figure></p>
+<h4 id="更强大的数组字面量"><a href="#更强大的数组字面量" class="headerlink" title="更强大的数组字面量"></a>更强大的数组字面量</h4><p><strong>例子：</strong> 目前为止，如果你想创建一个包含某些已有数组里的元素的新数组，通常会用到push、splice、concat等数组方法。有了新的展开运算符，可以这样写：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> parts = [<span class="string">'shoulder'</span>,<span class="string">'knees'</span>];</div><div class="line"><span class="keyword">var</span> lyrics = [<span class="string">'head'</span>, ...parts, <span class="string">'and'</span>, <span class="string">'toes'</span>]; <span class="comment">// ["head", "shoulders", "knees", "and", "toes"]</span></div></pre></td></tr></table></figure></p>
+<p>和函数调用一样，数组字面量中也可以使用…多次。</p>
+<h4 id="配合new运算符"><a href="#配合new运算符" class="headerlink" title="配合new运算符"></a>配合new运算符</h4><p><strong>例子：</strong> 在ES5中，我们无法同时使用new运算符合apply方法(apply方法调用[[Call]]而不是[[Construct]])。在ES6中，我们可以使用展开运算符，和普通的函数调用一样。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> dataFields = readDateFields(database);</div><div class="line"><span class="keyword">var</span> d = <span class="keyword">new</span> <span class="built_in">Date</span>(...dataFields);</div></pre></td></tr></table></figure></p>
+<h4 id="更好的push方法"><a href="#更好的push方法" class="headerlink" title="更好的push方法"></a>更好的push方法</h4><p><strong>例子：</strong> 在ES5中，我们可以使用push方法将一个数组添加到另一个数组的末尾：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr1 = [<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>];</div><div class="line"><span class="keyword">var</span> arr2 = [<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>];</div><div class="line"><span class="comment">//将arr2中的所有元素添加到arr1中</span></div><div class="line"><span class="built_in">Array</span>.prototype.push.apply(arr1,arr2);</div></pre></td></tr></table></figure></p>
+<p>在ES6中，可以这么写：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr1 = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>];</div><div class="line"><span class="keyword">var</span> arr2 = [<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</div><div class="line">arr1.push(...arr2);</div></pre></td></tr></table></figure></p>
+<h4 id="将类数组对象转换成数组"><a href="#将类数组对象转换成数组" class="headerlink" title="将类数组对象转换成数组"></a>将类数组对象转换成数组</h4><p>展开操作可以将一个类数组对象中索引范围在[0,length)之间的所有属性的值添加到一个数组中，这样就可以得到一个真正的数组：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> nodeList = <span class="built_in">document</span>.querySelectorAll(<span class="string">'div'</span>);</div><div class="line"><span class="keyword">var</span> array = [...nodeList];</div></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
   </section>
 
   
@@ -1129,7 +1118,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">40</span>
+              <span class="site-state-item-count">39</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

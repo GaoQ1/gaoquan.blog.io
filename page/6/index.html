@@ -216,197 +216,6 @@
             
               
                 
-                <a class="post-title-link" href="/2016/05/19/在Javascript中实现函数式编程的技术0/" itemprop="url">
-                  在Javascript中实现函数式编程的技术
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-19T15:03:40+08:00" content="2016-05-19">
-              2016-05-19
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/转载笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">转载笔记</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/05/19/在Javascript中实现函数式编程的技术0/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/19/在Javascript中实现函数式编程的技术0/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>这章我们继续下面的内容：</p>
-<ul>
-<li>把所有的核心概念放到一个集中的范式里</li>
-<li>探索函数式编程之美</li>
-<li>一步步跟踪函数式模式相互交织的逻辑</li>
-<li>我们将贯穿整章建立一个简单的应用做一些很酷的事情</li>
-</ul>
-<p>你可能已经注意到，在上一章我们介绍Javascript的函数式库的时候引入了一些概念， 而不是在第二章《函数式编程基础》里。呃，这是有原因的！组合、柯里化、不全调用…… 让我们来探索这些库为何以及如何实现这些概念。</p>
-<p>函数式编程可以出现各种各样的模式，这章会覆盖很多不同风格的函数式编程：</p>
-<ul>
-<li>数据泛型编程</li>
-<li>基本上函数式的编程</li>
-<li>函数式响应式编程等</li>
-</ul>
-<p>然而这章将会避免偏向于任何风格。我们不会花费很大精力学完一个函数式编程风格再学另一个， 总的目标是展示写代码更好的方式，而不是被动接受唯一一个正确的选择。 如果你先人一步感觉到了什么是好的写代码的方法而什么不是，你就可以作任何想做的事情了。 当你像个孩子那样仅凭喜好放纵地写代码时，当你不关心如何去循规蹈矩的做事时，无限的可能就出现了。</p>
-<h2 id="部分函数应用和珂理化"><a href="#部分函数应用和珂理化" class="headerlink" title="部分函数应用和珂理化"></a>部分函数应用和珂理化</h2><blockquote>
-<p>许多语言支持可选参数，但是javascript不支持。javascript采用一种完全不同的模式，它允许任意数量的参数传给函数。这就是一些有趣且非同寻常的设计模式留下了门路。函数可以全部或部分应用。</p>
-</blockquote>
-<p>部分应用在javascript中的处理方式是：给函数一个或多个参数绑定上值，然后返回另一个函数接受剩余的未绑定参数。同样，珂理化的处理方式是把一个有多个参数的函数转换为一个只接受一个参数的函数，它返回的函数接受剩余的参数。</p>
-<p>这两者的差异现在看起来不是很明显，但最后会清楚的。</p>
-<h2 id="函数操作"><a href="#函数操作" class="headerlink" title="函数操作"></a>函数操作</h2><p>在我们进一步解释如何实现部分应用和珂理化之前，我们需要进行一些回顾。如果我们想要扒掉javascript厚重的C风格语法外衣，暴露器函数是本质的话，我们需要理解原始函数、原型在javascript是如何工作的；而如果我们只是想设置一些cookie或验证一些表单的话则永远不用考虑这些。</p>
-<h2 id="apply、call和this关键词"><a href="#apply、call和this关键词" class="headerlink" title="apply、call和this关键词"></a>apply、call和this关键词</h2><p>在纯函数式语言中，函数不会被唤起(invoke)，他们是被应用(apply)。javascript以同样的方式工作，甚至提供了手动调用(call)和应用(apply)函数的工具。这些都是与this关键词有关的，当然this指的是函数所属的那个对象。</p>
-<p>call()函数把第一个参数作为this关键字。它是这样工作的：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log([<span class="string">'Hello'</span>,<span class="string">'world'</span>].join(<span class="string">' '</span>)); <span class="comment">//正常方式</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Array</span>.prototype.join.call([<span class="string">'Hello'</span>,<span class="string">'world'</span>],<span class="string">' '</span>)); <span class="comment">//使用call</span></div></pre></td></tr></table></figure>
-<p>call()函数可以唤起匿名函数：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log((<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="keyword">this</span>.length)&#125;).call([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]));</div></pre></td></tr></table></figure>
-<p>apply()函数和call()函数很像，但是更有用一些：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Math</span>.max(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>)); <span class="comment">// 返回3</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Math</span>.max([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])); <span class="comment">// 无法应用于数组</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Math</span>.max.apply(<span class="literal">null</span>, [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])); <span class="comment">// 这样就可以了</span></div></pre></td></tr></table></figure>
-<p>基本的区别是：call()函数接受一列参数，apply函数接受一个数组作为参数。</p>
-<p>call()和apply()让你可以只写一次函数，其它对象可以继承它而无需再写一遍函数。 并且他俩都是Function对象的成员。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//当你对call()自己调用call()的时候，会发生有趣的事情。</span></div><div class="line"><span class="comment">//这两行代码是等价的</span></div><div class="line">func.call(thisValue);</div><div class="line"><span class="built_in">Function</span>.prototype.call.call(func,thisValue);</div></pre></td></tr></table></figure></p>
-<h2 id="绑定函数"><a href="#绑定函数" class="headerlink" title="绑定函数"></a>绑定函数</h2><p>bind()函数让你能够调用一个对象的函数时this指向另一个对象。这跟call()函数差不多，不过他可以让方法链式调用，返回一个新的函数。</p>
-<p>这对于回调非常有用，就像下面的代码那样：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Drum</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">this</span>.noise = <span class="string">'boom'</span>;</div><div class="line">  <span class="keyword">this</span>.duration = <span class="number">1000</span>;</div><div class="line">  <span class="keyword">this</span>.goBoom = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.noise)</div><div class="line">  &#125;;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> drum = <span class="keyword">new</span> Drum();</div><div class="line">setInterval(drum.goBoom.bind(drum), drum.duration);</div></pre></td></tr></table></figure>
-<p>这解决了许多面向对象框架中的问题，比如Dojo，特别是对于那些有自己的handler函数的类处理状态维持的问题。 不过我们也可以用bind()来进行函数式编程。</p>
-<p><code>bind()函数实际上自己实现了部分应用，尽管是通过一种很有限的方式。</code></p>
-<h2 id="函数工厂"><a href="#函数工厂" class="headerlink" title="函数工厂"></a>函数工厂</h2><blockquote>
-<p>还记得第二章《函数式编程基础》中关于闭包的那节吗？闭包使建立函数工厂这种Javascript编程模式成为可能。 它们使你能够手动绑定函数的参数。</p>
-</blockquote>
-<p>首先我们需要一个为另一个函数绑定参数的函数：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">bindFirstArg</span>(<span class="params">func,a</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">b</span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> func(a,b);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>现在我们可以用它来创建更多的泛型函数(generic function)</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> powersOfTwo = bindFirstArg(<span class="built_in">Math</span>.pow, <span class="number">2</span>);</div><div class="line"><span class="built_in">console</span>.log(powersOfTwo(<span class="number">3</span>)); <span class="comment">// 8</span></div><div class="line"><span class="built_in">console</span>.log(powersOfTwo(<span class="number">5</span>)); <span class="comment">// 32</span></div></pre></td></tr></table></figure>
-<p>也可以针对于其它参数：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">bindSecondArg</span>(<span class="params">func, b</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">a</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> func(a, b);</div><div class="line">  &#125;;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> squareOf = bindSecondArg(<span class="built_in">Math</span>.pow, <span class="number">2</span>);</div><div class="line"><span class="keyword">var</span> cubeOf = bindSecondArg(<span class="built_in">Math</span>.pow, <span class="number">3</span>);</div><div class="line"><span class="built_in">console</span>.log(squareOf(<span class="number">3</span>)); <span class="comment">// 9</span></div><div class="line"><span class="built_in">console</span>.log(squareOf(<span class="number">4</span>)); <span class="comment">// 16</span></div><div class="line"><span class="built_in">console</span>.log(cubeOf(<span class="number">3</span>)); <span class="comment">// 27</span></div><div class="line"><span class="built_in">console</span>.log(cubeOf(<span class="number">4</span>)); <span class="comment">// 64</span></div></pre></td></tr></table></figure>
-<p>在函数式编程中，创建泛型函数的能力十分重要。然而还有更巧妙的方式可以更加一般化的完成这一过程。bindFirstArg()函数接受两个参数，第一个参数是这个函数。如果我们把bindFirstArg本身作为第一个参数的函数传给它自己，我们就可以创建绑定函数。最好用下面的例子来描述：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> makePowersOf = bindFirstArg(bindFirstArg, <span class="built_in">Math</span>.pow);</div><div class="line"><span class="keyword">var</span> powersOfThree = makePowersOf(<span class="number">3</span>);</div><div class="line"><span class="built_in">console</span>.log(powersOfThree(<span class="number">2</span>)); <span class="comment">// 9</span></div><div class="line"><span class="built_in">console</span>.log(powersOfThree(<span class="number">3</span>)); <span class="comment">// 27</span></div></pre></td></tr></table></figure>
-<p>这就是为什么它被叫做函数工厂。</p>
-<h2 id="部分应用"><a href="#部分应用" class="headerlink" title="部分应用"></a>部分应用</h2><p>注意我们函数工厂的例子里bindFirstArg()和bindSecondArg()函数只能有两个参数。我们可以写新的不同数量参数的函数，但是这就违背我们一般化的模型了。</p>
-<p>我们需要部分应用</p>
-<p>部分应用是这样一个过程：它给函数的一个或多个参数绑定上值，返回一个已经部分应用过的函数，这个函数仍然需要接收未绑定的参数。</p>
-<p>与bind()函数等Function对象內建的方法不同，我们需要创建自己的函数来实现部分调用和柯里化。主要有两种方式：</p>
-<ul>
-<li>作为一个单独的函数，也就是，var partial = function(func){…}</li>
-<li>作为补充，也就是，Function.prototype.partial = function(func){…}</li>
-</ul>
-<p>补充的方式视为原型增加新的函数，这会允许我们在为想要部分应用的函数调用我们的新函数的时候作为它的一个方法。就像这样：myfunction.partial(arg1,arg2,…)；</p>
-<h3 id="左端部分应用"><a href="#左端部分应用" class="headerlink" title="左端部分应用"></a>左端部分应用</h3><p>这里Javascript的call()和apply()函数将对我们很有用。我们看看补充Function对象的方式：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Function</span>.prototype.partialApply = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> func = <span class="keyword">this</span>;</div><div class="line">  args = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>);</div><div class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    func.apply(<span class="keyword">this</span>,args.concat(</div><div class="line">      <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>)</div><div class="line">    ))</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>如你所见，它的工作方式是对arguments这个特殊的值调用slice</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">每个函数又有一个特殊的内部变量叫做arguments,它是一个类似于数组的对象，包含传入函数的全部参数。从技术层面说，她不是数组，因此他没有slice和forEach这些数组的方法。这儿就是为什么我们需要使用Array的slice.call方法。</div></pre></td></tr></table></figure>
-<p>现在我们通过一个例子看看如何使用它。这次我们不做数学题，来搞点有用的东西。 我们来建立一个把数字转换为16进制的小应用。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">nums2hex</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">componentToHex</span>(<span class="params">component</span>)</span>&#123;</div><div class="line">      <span class="keyword">var</span> hex = component.toString(<span class="number">16</span>);</div><div class="line">      <span class="comment">//确保返回的数值是两位数字，比如0c或12</span></div><div class="line">      <span class="keyword">if</span>(hex.length == <span class="number">1</span>)&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"0"</span> + hex;</div><div class="line">      &#125;<span class="keyword">else</span>&#123;</div><div class="line">        <span class="keyword">return</span> hex;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="built_in">Array</span>.prototype.map.call(<span class="built_in">arguments</span>,componentToHex).join(<span class="string">''</span>);</div><div class="line">  &#125;</div><div class="line">  <span class="comment">//这个函数对多少个数字有效</span></div><div class="line">  <span class="built_in">console</span>.log(nums2hex()); <span class="comment">// ''</span></div><div class="line"><span class="built_in">console</span>.log(nums2hex(<span class="number">100</span>, <span class="number">200</span>)); <span class="comment">// '64c8'</span></div><div class="line"><span class="built_in">console</span>.log(nums2hex(<span class="number">100</span>, <span class="number">200</span>, <span class="number">255</span>, <span class="number">0</span>, <span class="number">123</span>)); <span class="comment">// '64c8ff007b'</span></div><div class="line"><span class="comment">// 不过我们可以用部分函数来对部分参数进行应用，比如mac地址的OUI</span></div><div class="line"><span class="comment">// ( OUI，“组织唯一标识符”，即网卡制造商的唯一标识符。)</span></div><div class="line"><span class="keyword">var</span> myOUI = <span class="number">123</span>;</div><div class="line"><span class="keyword">var</span> getMacAddress = nums2hex.partialApply(myOUI);</div><div class="line"><span class="built_in">console</span>.log(getMacAddress()); <span class="comment">// '7b'</span></div><div class="line"><span class="built_in">console</span>.log(getMacAddress(<span class="number">100</span>, <span class="number">200</span>, <span class="number">2</span>, <span class="number">123</span>, <span class="number">66</span>, <span class="number">0</span>, <span class="number">1</span>));</div><div class="line"><span class="comment">// '7b64c8027b420001'</span></div><div class="line"><span class="comment">// 我们还可以转换全红基础上的颜色rgb十六进制值</span></div><div class="line"><span class="keyword">var</span> shadesOfRed = nums2hex.partialApply(<span class="number">255</span>);</div><div class="line"><span class="built_in">console</span>.log(shadesOfRed(<span class="number">123</span>, <span class="number">0</span>)); <span class="comment">// 'ff7b00'</span></div><div class="line"><span class="built_in">console</span>.log(shadesOfRed(<span class="number">100</span>, <span class="number">200</span>)); <span class="comment">// 'ff64c8'</span></div></pre></td></tr></table></figure>
-<p>这个例子展示出了我们可以应用部分参数而生成一个新的函数。它是左-右的，意思是我们只能部分应用从左边开始的若干参数。</p>
-<h3 id="右部分应用"><a href="#右部分应用" class="headerlink" title="右部分应用"></a>右部分应用</h3><p>为了从右边开始应用参数，我们可以再定义一个补充函数。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Function</span>.prototype.partialApplyRight = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line"><span class="keyword">var</span> func = <span class="keyword">this</span>;</div><div class="line">args = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>);</div><div class="line"><span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> func.apply(</div><div class="line">    <span class="keyword">this</span>, [].slice.call(<span class="built_in">arguments</span>, <span class="number">0</span>)</div><div class="line">    .concat(args));</div><div class="line">&#125;;</div><div class="line">&#125;;</div><div class="line"><span class="keyword">var</span> shadesOfBlue = nums2hex.partialApplyRight(<span class="number">255</span>);</div><div class="line"><span class="built_in">console</span>.log(shadesOfBlue(<span class="number">123</span>, <span class="number">0</span>));   <span class="comment">// '7b00ff'</span></div><div class="line"><span class="built_in">console</span>.log(shadesOfBlue(<span class="number">100</span>, <span class="number">200</span>)); <span class="comment">// '64c8ff'</span></div><div class="line"><span class="keyword">var</span> someShadesOfGreen = nums2hex.partialApplyRight(<span class="number">255</span>, <span class="number">0</span>);</div><div class="line"><span class="built_in">console</span>.log(shadesOfGreen(<span class="number">123</span>));   <span class="comment">// '7bff00'</span></div><div class="line"><span class="built_in">console</span>.log(shadesOfGreen(<span class="number">100</span>));   <span class="comment">// '64ff00'</span></div></pre></td></tr></table></figure>
-<p>部分应用使我们能够创建非常一般化的函数，并从它提取出更多特殊化的函数。 但是这个方法最大的缺点在于参数传入的方式，也就是参数有多少个，是什么样的顺序，这些不太明确。 不明确性在编程中永远不是个好事儿。还有个更好的方式：珂理化。</p>
-<h2 id="柯里化-currying"><a href="#柯里化-currying" class="headerlink" title="柯里化(currying)"></a>柯里化(currying)</h2><p>柯里化是这样一个过程：他把一个具有多个参数的函数转换为一个只有一个参数的函数并返回另一个函数，这个被返回的函数需要原函数剩余的参数。这是的说法是：一个具有N个参数的函数可以被转换为具有N个函数的函数链，其中每个函数只有一个参数。</p>
-<p>一个普遍的问题是：部分应用和柯里化的区别是什么？实际就是部分应用立刻返回一个值，而柯里化只返回另一个柯里化的函数来获取下一个参数，本质的区别是柯里化可以更好的控制参数传入的方式。</p>
-<p>这里我们再为Function的原型补充一个柯里化的方法：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Function</span>.prototype.curry = <span class="function"><span class="keyword">function</span>(<span class="params">numArgs</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> func = <span class="keyword">this</span>;</div><div class="line">  numArgs = numArgs || func.length; <span class="comment">//func.length是调用此方法的函数的形参个数</span></div><div class="line">  <span class="comment">//递归地获取参数</span></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">subCurry</span>(<span class="params">prev</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">arg</span>)</span>&#123;</div><div class="line">      <span class="keyword">if</span>(args.length &lt; numArgs)&#123;</div><div class="line">        <span class="comment">//递归情形：仍需要更多的参数</span></div><div class="line">        <span class="keyword">return</span> subCurry(args);</div><div class="line">      &#125;<span class="keyword">else</span>&#123;</div><div class="line">        <span class="comment">//基准情形：执行函数</span></div><div class="line">        <span class="keyword">return</span> func.apply(<span class="keyword">this</span>,args);</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> subCurry([]);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>numArgs参数让我们可以在被珂理化的函数没有给出确切参数的时候指定参数的个数。</p>
-<p>来看看用它如何处理我们的十六进制应用。我们先写个函数，它会把RGB值转化为适合HTML的16进制字符串。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">rgb2hex</span>(<span class="params">r,g,b</span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="string">'#'</span> + nums2hex(r) + nums2hex(g) + nums2hex(b);</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> hexColors = rgb2hex.curry();</div><div class="line"><span class="built_in">console</span>.log(hexColors(<span class="number">11</span>)) <span class="comment">// 返回一个珂理化的函数</span></div><div class="line"><span class="built_in">console</span>.log(hexColors(<span class="number">11</span>, <span class="number">12</span>, <span class="number">123</span>)) <span class="comment">// 返回一个珂理化的函数</span></div><div class="line"><span class="built_in">console</span>.log(hexColors(<span class="number">11</span>)(<span class="number">12</span>)(<span class="number">123</span>)) <span class="comment">// 返回 #0b0c7b</span></div><div class="line"><span class="built_in">console</span>.log(hexColors(<span class="number">210</span>)(<span class="number">12</span>)(<span class="number">0</span>)) <span class="comment">// 返回 #d20c00</span></div></pre></td></tr></table></figure></p>
-<blockquote>
-<p>注意，curry方法返回的函数只接受一个参数，所以上例倒数第三行传入的三个参数的后两个是没用的。</p>
-</blockquote>
-<p>这样使用柯里化不错。但是如果我们相对nums2hex()这个函数进行柯里化就会有点问题，因为这个函数没有指定参数，你可以传入任意数量的参数。所以我们需要定义参数的个数。我们curry函数的那个可选的参数来设置被柯里化函数的参数个数。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> hexs = nums2hex.curry(<span class="number">2</span>);</div><div class="line"><span class="built_in">console</span>.log(hexs(<span class="number">11</span>)(<span class="number">12</span>));     <span class="comment">// 返回 0b0c</span></div><div class="line"><span class="built_in">console</span>.log(hexs(<span class="number">11</span>));         <span class="comment">// 返回一个函数</span></div><div class="line"><span class="built_in">console</span>.log(hexs(<span class="number">110</span>)(<span class="number">12</span>)(<span class="number">0</span>)); <span class="comment">// 不正确</span></div></pre></td></tr></table></figure></p>
-<p>所以柯里化不太适合可变参数的函数，对于这种情况，建议使用部分应用函数。<br>所有这些不只是利用函数工厂和代码重用，柯里化和部分应用在函数组合中扮演着更重要的角色。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
                 <a class="post-title-link" href="/2016/05/19/Javascript的函数式库/" itemprop="url">
                   Javascript的函数式库
                 </a>
@@ -1227,6 +1036,203 @@
 
 
     
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/05/17/流程控制与错误处理/" itemprop="url">
+                  流程控制与错误处理
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-17T18:36:49+08:00" content="2016-05-17">
+              2016-05-17
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/17/流程控制与错误处理/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/17/流程控制与错误处理/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>Energy and persistence conquer all things.</p>
+</blockquote>
+<p>在JavaScript中，任何表达式(expression)都可以看作一条语句(statement)，每条语句可以使用分号( ; )来分隔。你可以在每行书写一条语句；也可以在一行书写多条语句。但是我们推荐在书写代码的时候采用第一种方式，以便于后期的代码维护。</p>
+<h2 id="语句块-Block-Statement"><a href="#语句块-Block-Statement" class="headerlink" title="语句块(Block Statement)"></a>语句块(Block Statement)</h2><p>大多数程序都使用语句块来给语句分组，这样可以使语句的结构清晰明了。我们使用一对花括号（ {} ）来分组语句块，如下所示：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">   statement_1;   statement_2;</div><div class="line">   statement_3;</div><div class="line">   ...</div><div class="line">   statement_n;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>示例<br>语句块通常大多数用于流程控制，如 if, for, while等等。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">while</span> (x &lt; <span class="number">10</span>)&#123;</div><div class="line">  x++;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里{ x++; } 就是语句块。</p>
+<h2 id="条件判断语句-Conditional-Statements"><a href="#条件判断语句-Conditional-Statements" class="headerlink" title="条件判断语句(Conditional Statements)"></a>条件判断语句(Conditional Statements)</h2><p>条件判断语句指的是根据指定的条件所返回的结果（真或假或其它预定义的），来执行特定的语句。JavaScript提供了两种条件判断语句：if…else 和 switch。</p>
+<h3 id="if…else语句"><a href="#if…else语句" class="headerlink" title="if…else语句"></a>if…else语句</h3><p>当一个逻辑条件为真，用if语句执行一个语句。当这个条件为假，使用可选择的else从句来执行这个语句。</p>
+<p>在条件表达式中最好不要使用“=”来判断条件是否相等，因为这会产生非预期结果。不要使用下面的代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (x = y) &#123;</div><div class="line">  <span class="comment">/* do the right thing */</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>如果你需要在条件表达式中使用赋值，一个共同的习惯是在赋值语句前后额外的添加一对括号。例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> ((x = y)) &#123;</div><div class="line">  <span class="comment">/* do the right thing */</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>下面这些值将被计算出 false:</p>
+<ul>
+<li>false</li>
+<li>undefined</li>
+<li>null</li>
+<li>0</li>
+<li>NaN</li>
+<li>空字符串(“”)<br>当传递给条件语句时，所有其他值，包括所有对象会被计算为 true。</li>
+</ul>
+<p><strong>请不要混淆原始的布尔值true和false与布尔对象的值true和false。</strong>例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> b = <span class="keyword">new</span> <span class="built_in">Boolean</span>(<span class="literal">false</span>);</div><div class="line"><span class="keyword">if</span>(b) <span class="comment">//this condition evaluates to true</span></div><div class="line"><span class="keyword">if</span>(b == <span class="literal">true</span>) <span class="comment">//this condition evaluates to false</span></div></pre></td></tr></table></figure></p>
+<p>例如<br>在下面的例子中，如果一个文本对象中的字符串长度是3，函数checkData返回true；否则，函数显示一个alert的弹出框消息并返回false。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkData</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (<span class="built_in">document</span>.form1.threeChar.value.length == <span class="number">3</span>) &#123;</div><div class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line">    alert(<span class="string">"Enter exactly three characters. "</span> +</div><div class="line">      <span class="built_in">document</span>.form1.threeChar.value + <span class="string">" is not valid."</span>);</div><div class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="switch语句-Switch-Statement"><a href="#switch语句-Switch-Statement" class="headerlink" title="switch语句(Switch Statement)"></a>switch语句(Switch Statement)</h3><p>开关语句允许一个程序求一个表达式的值并且尝试去匹配表达式的值到一个case label。如果匹配成功，这个程序执行相关的语句。开关语句如下所示：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">switch</span> (expression) &#123;</div><div class="line">   <span class="keyword">case</span> label_1:</div><div class="line">      statements_1</div><div class="line">      [<span class="keyword">break</span>;]</div><div class="line">   <span class="keyword">case</span> label_2:</div><div class="line">      statements_2</div><div class="line">      [<span class="keyword">break</span>;]</div><div class="line">   ...</div><div class="line">   default:</div><div class="line">      statements_def</div><div class="line">      [<span class="keyword">break</span>;]</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="循环语句-Loop-Statement"><a href="#循环语句-Loop-Statement" class="headerlink" title="循环语句(Loop Statement)"></a>循环语句(Loop Statement)</h2><p>循环语句是一系列反复执行直到符合特定条件的命令。JavaScript 支持 for, do while, while这些循环语句，还有Label (label 本身不是一个循环语句，但是经常和这些语句一起使用)。另外，你可以在循环语句中使用break和continue 语句。另一个语句：for…in也反复执行语句，但它是用来操作对象的。</p>
+<h3 id="标签语句-label-Statement"><a href="#标签语句-label-Statement" class="headerlink" title="标签语句(label Statement)"></a>标签语句(label Statement)</h3><p>标签语句提供一种使你同一程序的另一处找到它的标识。例如，你可以用一个标签来识别一个循环，并用break或continue语句来说明一个程序是否要中断这个循环或是继续执行。如下所示：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">label:</div><div class="line">    statement</div></pre></td></tr></table></figure></p>
+<p>label的值可以是js的任何非保留字符标识符。用label标识的语句可以是任何语句。</p>
+<p>例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">markLoop:</div><div class="line"><span class="keyword">while</span>(theMark == <span class="literal">true</span>)&#123;</div><div class="line">    doSomething();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="中断语句-break-Statement"><a href="#中断语句-break-Statement" class="headerlink" title="中断语句(break Statement)"></a>中断语句(break Statement)</h2><p>使用中断语句终止循环、开关或与标签语句连接。</p>
+<ul>
+<li>当你使用没有带标签语句的中断语句（break）时，while,do-while,for或switch封闭的内部语句将立即终止，并转移到后面的语句执行。</li>
+<li><p>当你使用带有标签语句的中断语句(break)时，将终止在特定的标签语句。</p>
+<p>中断语句的语法如下：<br>1.break;<br>2.break label;</p>
+<p>第一种语法形式用于终止在循环体或者switch的封闭内部；第二种语法形式用于在特定的封闭标签语句。</p>
+<p>示例1：<br>下面的例子中，对一个数组里的元素进行循环处理，直到数组元素下标等于theValue的值：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;a.length;i++)&#123;</div><div class="line">    <span class="keyword">if</span>(a[i] == theValue)&#123;</div><div class="line">        <span class="keyword">break</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>示例2：中断跳到标签语句<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> x = <span class="number">0</span>;</div><div class="line"><span class="keyword">var</span> z = <span class="number">0</span>;</div><div class="line">labelCancelLoops: <span class="keyword">while</span>(<span class="literal">true</span>)&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"Outer loops:"</span> + x);</div><div class="line">    x += <span class="number">1</span>;</div><div class="line">    z = <span class="number">1</span>;</div><div class="line">    <span class="keyword">while</span>(<span class="literal">true</span>)&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"Inner loops: "</span>+z);</div><div class="line">        z+=<span class="number">1</span>;</div><div class="line">        <span class="keyword">if</span>(z === <span class="number">10</span> &amp;&amp; x === <span class="number">10</span>)&#123;</div><div class="line">            <span class="keyword">break</span> labelCancelLoops;</div><div class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(z === <span class="number">10</span>)&#123;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="连续语句-continue-Statement"><a href="#连续语句-continue-Statement" class="headerlink" title="连续语句(continue Statement)"></a>连续语句(continue Statement)</h2><p>连续语句用于重新开始while,do-while,for语句，或者标签语句(label statement).</p>
+<ul>
+<li>当你使用没有带标签语句的连续语句(continue Statement)时，将在当前的while,do-while或者for循环体封闭的内部语句中止执行，然后进入下一次循环继续执行。与中断语句(break Statement)相比，连续语句不会把整个循环终止。在while循环里，将跳回条件判断(continue)；<br>在for循环里，则调回累计表达式(increment-expression).</li>
+<li><p>当你使用带有标签语句的连续语句时，用于识别循环体中的标签语句。</p>
+<p>连续语句的语法如下：</p>
+<p>1.continue<br>2.continue label</p>
+</li>
+</ul>
+<p>示例1<br>下面的例子实现了一个带有连续语句的while循环，当i的值为3时，该连续语句执行。因此，n的值分别为1、3、7和12。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">i = <span class="number">0</span>;</div><div class="line">n = <span class="number">0</span>;</div><div class="line"><span class="keyword">while</span> (i &lt; <span class="number">5</span>) &#123;</div><div class="line">   i++;</div><div class="line">   <span class="keyword">if</span> (i == <span class="number">3</span>)</div><div class="line">      <span class="keyword">continue</span>;</div><div class="line">   n += i;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>示例2<br>一个标签语句checkiandj包含了一个标签语句checkj。如果连续语句被触发，程序会中止在当前循环中的checkj然后开始下一轮循环。每次连续语句被触发，checkj会重复直到该条件判断返回false值。当返回false值时，会完成剩下的checkiandj语句，然后checkiandj会重复直到其条件判断返回false值。当返回false值时，程序会继续执行在checkiandj后面的语句。</p>
+<p>如果连续语句包含的是checkiandj标签，那么程序会在checkiandj语句的顶层继续执行。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">checkiandj :</div><div class="line">   <span class="keyword">while</span> (i &lt; <span class="number">4</span>) &#123;</div><div class="line">      <span class="built_in">document</span>.write(i + <span class="string">"&lt;br/&gt;"</span>);</div><div class="line">      i += <span class="number">1</span>;</div><div class="line">      checkj :</div><div class="line">         <span class="keyword">while</span> (j &gt; <span class="number">4</span>) &#123;</div><div class="line">            <span class="built_in">document</span>.write(j + <span class="string">"&lt;br/&gt;"</span>);</div><div class="line">            j -= <span class="number">1</span>;</div><div class="line">            <span class="keyword">if</span> ((j % <span class="number">2</span>) == <span class="number">0</span>)</div><div class="line">               <span class="keyword">continue</span> checkj;</div><div class="line">            <span class="built_in">document</span>.write(j + <span class="string">" is odd.&lt;br/&gt;"</span>);</div><div class="line">         &#125;</div><div class="line">      <span class="built_in">document</span>.write(<span class="string">"i = "</span> + i + <span class="string">"&lt;br/&gt;"</span>);</div><div class="line">      <span class="built_in">document</span>.write(<span class="string">"j = "</span> + j + <span class="string">"&lt;br/&gt;"</span>);</div><div class="line">   &#125;</div></pre></td></tr></table></figure></p>
+<h2 id="对象操作语句-Object-Manipulation-Statements"><a href="#对象操作语句-Object-Manipulation-Statements" class="headerlink" title="对象操作语句(Object Manipulation Statements)"></a>对象操作语句(Object Manipulation Statements)</h2><p>JavaScript用for…in,for each…in和with语句来操作对象。</p>
+<h2 id="异常处理语句-Exception-Handling-Statements"><a href="#异常处理语句-Exception-Handling-Statements" class="headerlink" title="异常处理语句(Exception Handling Statements)"></a>异常处理语句(Exception Handling Statements)</h2><p>你可以用throw语句抛出一个异常并且用try…catch语句捕获处理它。</p>
+<h3 id="异常类型-Exception-Types"><a href="#异常类型-Exception-Types" class="headerlink" title="异常类型(Exception Types)"></a>异常类型(Exception Types)</h3><p>JavaScript可以抛出任意对象。然而，不是所有对象能产生相同的结果。尽管抛出数值或者字母串作为错误信息十分常见，但是通常用下列其中一种异常类型来创建目标更为高效：</p>
+<ul>
+<li>ECMAScript exceptions</li>
+<li>DOMException</li>
+<li>nsIXPCException</li>
+</ul>
+<h3 id="抛出错误-throw-Statement"><a href="#抛出错误-throw-Statement" class="headerlink" title="抛出错误(throw Statement)"></a>抛出错误(throw Statement)</h3><p>使用throw语句抛出一个异常。当你抛出异常，你规定一个含有值的表达式要被抛出。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">throw</span> expression</div></pre></td></tr></table></figure></p>
+<p>你可以抛出任意表达式而不是特定一种类型的表达式。下面的代码抛出了几个不同类型的表达式：</p>
+<ul>
+<li>throw “Error”; //string type</li>
+<li>throw 42;</li>
+<li>throw true;</li>
+<li>throw {toString:function(){return “I’m an object!”}};</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//create an object type UserException</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">UserException</span> (<span class="params">message</span>)</span>&#123;</div><div class="line">    <span class="keyword">this</span>.message = message;</div><div class="line">    <span class="keyword">this</span>.name = <span class="string">"UserException"</span>;</div><div class="line">&#125;</div><div class="line"><span class="comment">//Make the exception convert to a pretty string when used as a string (e.g. by the error console)</span></div><div class="line">UserException.prototype.toString = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.name + <span class="string">': "'</span> + <span class="keyword">this</span>.message+ <span class="string">'"'</span>;</div><div class="line">&#125;</div><div class="line"><span class="comment">//create an instance of the object type and throw it</span></div><div class="line"><span class="keyword">throw</span> <span class="keyword">new</span> UserException(<span class="string">"Value too high"</span>);</div></pre></td></tr></table></figure>
+<h3 id="try…catch语句"><a href="#try…catch语句" class="headerlink" title="try…catch语句"></a>try…catch语句</h3><p>try…catch语句标记一块待尝试的语句，并规定一个以上的响应应该有一个异常抛出。如果我们抛出一个异常，try…catch语句就捕获它。</p>
+<p>try…catch语句有一个包含一条或者多条语句的try代码块，0个或多个的catch代码块，catch代码块中的语句会在try代码块中抛出异常时执行。 换句话说，如果你在try代码块中的代码如果没有执行成功，那么你希望将执行流程转入catch代码块。如果try代码块中的语句（或者try 代码块中调用的方法）一旦抛出了异常，那么执行流程会立即进入catch 代码块。如果try代码块没有抛出异常，catch代码块就会被跳过。finally 代码块总会紧跟在try和catch代码块之后执行，但会在try和catch代码块之后的其他代码之前执行。</p>
+<p>下面的例子使用了try…catch语句。示例调用了一个函数用于从一个数组中根据传递值来获取一个月份名称。如果该值与月份数值不相符，会抛出一个带有”InvalidMonthNo”值的异常，然后在捕捉块语句中设monthName变量为unknown。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getMonthName</span>(<span class="params">mo</span>) </span>&#123;</div><div class="line">  mo = mo - <span class="number">1</span>; <span class="comment">// Adjust month number for array index (1 = Jan, 12 = Dec)</span></div><div class="line">  <span class="keyword">var</span> months = [<span class="string">"Jan"</span>,<span class="string">"Feb"</span>,<span class="string">"Mar"</span>,<span class="string">"Apr"</span>,<span class="string">"May"</span>,<span class="string">"Jun"</span>,<span class="string">"Jul"</span>,<span class="string">"Aug"</span>,<span class="string">"Sep"</span>,<span class="string">"Oct"</span>,<span class="string">"Nov"</span>,<span class="string">"Dec"</span>];</div><div class="line">  <span class="keyword">if</span> (months[mo]) &#123;</div><div class="line">    <span class="keyword">return</span> months[mo];</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="keyword">throw</span> <span class="string">"InvalidMonthNo"</span>; <span class="comment">//throw keyword is used here</span></div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">try</span> &#123; <span class="comment">// statements to try</span></div><div class="line">  monthName = getMonthName(myMonth); <span class="comment">// function could throw exception</span></div><div class="line">&#125;</div><div class="line"><span class="keyword">catch</span> (e) &#123;</div><div class="line">  monthName = <span class="string">"unknown"</span>;</div><div class="line">  logMyErrors(e); <span class="comment">// pass exception object to error handler -&gt; your own function</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="捕捉块-The-catch-block"><a href="#捕捉块-The-catch-block" class="headerlink" title="捕捉块(The catch block)"></a>捕捉块(The catch block)</h3><p>你可以使用捕捉块来处理所有可能在try代码块中产生的异常。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">    <span class="keyword">catch</span>(catchID)&#123;</div><div class="line">        statements</div><div class="line">    &#125;</div><div class="line"></div><div class="line">捕捉块指定了一个标识符 (上述语句中的catchID）来存放抛出语句指定的值；你可以用这个标识符来获取抛出的异常信息。在插入捕捉块时JavaScript创建这个标识符；标识符只存在于捕捉块的存续期间里；当捕捉块执行完成时，标识符不再可用。</div><div class="line"></div><div class="line">举个例子，下面代码抛出了一个异常。当异常出现时跳到捕捉块（the <span class="keyword">catch</span> block）。</div><div class="line"></div><div class="line"><span class="string">``</span><span class="string">`javascript</span></div><div class="line">   try &#123;</div><div class="line">      throw "myException" // generates an exception</div><div class="line">   &#125;</div><div class="line">   catch (e) &#123;</div><div class="line">   // statements to handle any exceptions</div><div class="line">      logMyErrors(e) // pass exception object to error handler</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<h3 id="终结块-The-finally-Block"><a href="#终结块-The-finally-Block" class="headerlink" title="终结块(The finally Block)"></a>终结块(The finally Block)</h3><p>终结块包含了在try和catch块完成后、下面接着的try…catch语句之前执行的语句。终结块无论是否抛出异常都会执行。如果抛出了一个异常，就算没有异常处理，终结块里的语句也会执行。</p>
+<p>你可以用终结块来令你的脚本在异常发生时优雅地退出；举个例子，你可能需要在绑定的脚本中释放资源。接下来的例子用文件处理语句打开了一个文件（服务端的JavaScript允许你进入文件）。如果在文件打开时一个异常抛出，终结块会在脚本错误之前关闭文件。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">openMyFile();</div><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">    writeMyFile(theData); <span class="comment">//This may throw a error</span></div><div class="line">&#125;<span class="keyword">catch</span>(e)&#123;</div><div class="line">    handleError(e); <span class="comment">// If we got a error we handle it</span></div><div class="line">&#125;<span class="keyword">finally</span> &#123;</div><div class="line">    closeMyFile(); <span class="comment">// always close the resource</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果终结块返回一个值，该值会是整个try-catch-finally流程的返回值，不管在try和catch块中语句返回了什么：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">try</span> &#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="number">0</span>);</div><div class="line">    <span class="keyword">throw</span> <span class="string">"bogus"</span>;</div><div class="line">  &#125; <span class="keyword">catch</span>(e) &#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="number">1</span>);</div><div class="line">    <span class="keyword">return</span> <span class="literal">true</span>; <span class="comment">// this return statement is suspended</span></div><div class="line">                 <span class="comment">// until finally block has completed</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="number">2</span>); <span class="comment">// not reachable</span></div><div class="line">  &#125; <span class="keyword">finally</span> &#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="number">3</span>);</div><div class="line">    <span class="keyword">return</span> <span class="literal">false</span>; <span class="comment">// overwrites the previous "return"</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="number">4</span>); <span class="comment">// not reachable</span></div><div class="line">  &#125;</div><div class="line">  <span class="comment">// "return false" is executed now  </span></div><div class="line">  <span class="built_in">console</span>.log(<span class="number">5</span>); <span class="comment">// not reachable</span></div><div class="line">&#125;</div><div class="line">f(); <span class="comment">// console 0, 1, 3; returns false</span></div></pre></td></tr></table></figure>
+<p>嵌套try…catch语句</p>
+<p>你可以嵌套一个或多个try…catch语句。如果一个内部的try…catch语句没有捕捉块（catch block），将会启动匹配外部的try…catch语句的捕捉块（catch block）。</p>
+<h2 id="错误匹配对象-Utilizing-Error-objects"><a href="#错误匹配对象-Utilizing-Error-objects" class="headerlink" title="错误匹配对象(Utilizing Error objects)"></a>错误匹配对象(Utilizing Error objects)</h2><p>根据错误类型，你也许可以用’name’和’message’获取更精炼的信息。’name’提供了常规的错误类(e.g., ‘DOMException’ or ‘Error’)，而’message’通常提供了一条从错误对象转换成字符串的简明信息。</p>
+<p>在抛出你个人所为的异常时，为了充分利用那些属性（比如你的catch块不能分辨是你个人所为的异常还是系统的异常时），你可以使用错误构造函数（the Error constructor）。比如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">doSomethingErrorProne</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (ourCodeMakesAMistake()) &#123;</div><div class="line">    <span class="keyword">throw</span> (<span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'The message'</span>));</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line">    doSomethingToGetAJavascriptError();</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">....</div><div class="line">try &#123;</div><div class="line">  doSomethingErrorProne();</div><div class="line">&#125;</div><div class="line"><span class="keyword">catch</span> (e) &#123;</div><div class="line">  <span class="built_in">console</span>.log(e.name); <span class="comment">// logs 'Error'</span></div><div class="line">  <span class="built_in">console</span>.log(e.message); <span class="comment">// logs 'The message' or a JavaScript error message)</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
   </section>
 
   
@@ -1272,7 +1278,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">40</span>
+              <span class="site-state-item-count">39</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

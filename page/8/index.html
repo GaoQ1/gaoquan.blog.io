@@ -216,137 +216,6 @@
             
               
                 
-                <a class="post-title-link" href="/2016/04/04/animation-详解/" itemprop="url">
-                  animation-详解
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-04T16:22:51+08:00" content="2016-04-04">
-              2016-04-04
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/教程/" itemprop="url" rel="index">
-                    <span itemprop="name">教程</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/04/04/animation-详解/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/04/animation-详解/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<p>A glamorous life is quite different to a life of luxury.</p>
-</blockquote>
-<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>animation属性是动画属性的简写，其中包括：</p>
-<ul>
-<li>animation-name</li>
-<li>animation-duration</li>
-<li>animation-timing-function</li>
-<li>animation-delay</li>
-<li>animation-iteration-count</li>
-<li>animation-direction</li>
-<li>animation-fill-mode</li>
-</ul>
-<h2 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h2><p>animation可以定义多个动画属性，需要用逗号分隔。比如：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">/*一个animation定义的时候*/</div><div class="line">animation: [animation-name] [animation-duration] [animation-timing-function] [animation-delay] [animation-iteration-count] [animation-fill-mode];</div><div class="line">/*多个animation定义的时候*/</div><div class="line">animation: [animation-name] [animation-duration] [animation-timing-function] [animation-delay] [animation-iteration-count] [animation-fill-mode],</div><div class="line">[animation-name] [animation-duration] [animation-timing-function] [animation-delay] [animation-iteration-count] [animation-fill-mode];</div></pre></td></tr></table></figure></p>
-<p>其中简写的animation属性用空格分隔，而且他们之间的排序没什么影响，除了animation-duration和animation-delay，他们需要顺序。也就是说当你使用两个time参数的时候，第一个时间指的是animation-duration第二个时间指的是animation-delay。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">animation: bounce <span class="number">0.3</span>s ease-<span class="keyword">in</span>-out <span class="number">1</span>s infinite;</div><div class="line"><span class="comment">/*equivalent to*/</span></div><div class="line">animation-name: bounce;</div><div class="line">animation-duration: <span class="number">0.3</span>s;</div><div class="line">animation-timing-<span class="function"><span class="keyword">function</span>: <span class="title">ease</span>-<span class="title">in</span>-<span class="title">out</span>;</span></div><div class="line"><span class="title">animation</span>-<span class="title">delay</span>: 1<span class="title">s</span>;</div><div class="line"><span class="title">animation</span>-<span class="title">iteration</span>-<span class="title">count</span>: <span class="title">infinite</span>;</div></pre></td></tr></table></figure>
-<h2 id="animation-play-state"><a href="#animation-play-state" class="headerlink" title="animation-play-state"></a>animation-play-state</h2><p>animation-play-state属性决定CSS animation是运行还是暂停。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">animation-play-state: running | paused</div></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
                 <a class="post-title-link" href="/2016/03/24/使用Flexible实现H5页面终端适配/" itemprop="url">
                   使用Flexible实现H5页面终端适配
                 </a>
@@ -1068,7 +937,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">40</span>
+              <span class="site-state-item-count">39</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
